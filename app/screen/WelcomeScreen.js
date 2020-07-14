@@ -53,7 +53,7 @@ function WelcomeScreen(props) {
         <Text style={styles.label}>¿No tienes una cuenta?</Text>
         <Text style={[styles.label, styles.labelRegister]}>Registrate</Text>
       </View>
-      <StatusBar style={"auto"} />
+      <StatusBar style={"inverted"} />
     </View>
   );
 }
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.primary,
   },
   logoContainer: {
     position: "absolute",
-    top: 30,
     alignItems: "center",
+    width: "100%",
+    top: 0,
   },
   logo: {
     width: 200,
@@ -80,6 +80,11 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "70%",
     fontSize: 18,
+    shadowColor: Colors.gray,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 1,
   },
   passwordInput: {
     marginTop: 10,
