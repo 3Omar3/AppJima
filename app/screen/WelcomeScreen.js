@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 
 import Colors from "../config/colors.js";
@@ -17,7 +18,7 @@ function WelcomeScreen(props) {
   const [password, onChangeTextPassword] = React.useState();
 
   return (
-    <View style={styles.background}>
+    <SafeAreaView style={styles.background}>
       <View style={styles.logoContainer}>
         <Image
           resizeMode="contain"
@@ -54,21 +55,19 @@ function WelcomeScreen(props) {
         <Text style={[styles.label, styles.labelRegister]}>Registrate</Text>
       </View>
       <StatusBar style={"inverted"} />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   logoContainer: {
-    position: "absolute",
-    alignItems: "center",
-    width: "100%",
-    top: 0,
+    // backgroundColor: Colors.black,
+    top: 22,
   },
   logo: {
     width: 200,

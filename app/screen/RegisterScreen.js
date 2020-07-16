@@ -8,6 +8,9 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  SafeAreaView,
+  TouchableHighlight,
+  Modal,
 } from "react-native";
 
 import Colors from "../config/colors.js";
@@ -23,10 +26,52 @@ function WelcomeScreen(props) {
   // checkbox
   const [isSelected, setSelection] = React.useState(false);
 
+  // modal
+  const [modalVisible, setModalVisible] = React.useState(false);
+
+  // functions
+  const showTerms = () => {
+    return (
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Hello World!</Text>
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
+
+        <TouchableHighlight
+          style={styles.openButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
+          <Text style={styles.textStyle}>Show Modal</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  };
+
   return (
-    <View style={styles.background}>
-      <Text style={styles.labelTitle}>Registro</Text>
+    <SafeAreaView style={styles.background}>
       <View style={styles.ContainerForm}>
+        <Text style={styles.labelTitle}>Registro</Text>
         <TextInput
           style={styles.inputs}
           placeholderTextColor={Colors.placeholder}
@@ -74,7 +119,11 @@ function WelcomeScreen(props) {
         <View style={styles.terms}>
           <CheckBox value={isSelected} onValueChange={setSelection} />
           <Text style={styles.label}>Aceptar </Text>
-          <Text style={styles.labelTerms}>términos y condiciones</Text>
+          <TouchableOpacity>
+            <Text style={styles.labelTerms} onPress={showTerms}>
+              términos y condiciones
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           style={styles.loginButton}
@@ -83,20 +132,60 @@ function WelcomeScreen(props) {
           <Text style={styles.textLogin}>Registrar</Text>
         </TouchableOpacity>
       </View>
-      <StatusBar style={"dark"} />
-    </View>
+      <StatusBar style={"inverted"} />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  // modal
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  // main
   background: {
+    flex: 1,
+    justifyContent: "flex-start",
     top: 30,
   },
   labelTitle: {
     fontSize: 50,
     fontWeight: "bold",
     color: Colors.text,
-    left: 25,
     paddingBottom: 30,
   },
   ContainerForm: {

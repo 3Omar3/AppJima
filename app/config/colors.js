@@ -4,9 +4,9 @@ export default {
   white: "white",
   black: "black",
   gray: "gray",
-  input: "#F7F7F7",
+  input: "#F0F2F5",
   button: "#1877F2",
   text: "#3A4854",
-  placeholder: "#74789C",
+  placeholder: "#65676B",
   link: "#1877F2",
 };
