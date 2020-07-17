@@ -1,5 +1,7 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { Checkbox } from "react-native-paper";
 import {
   View,
   StyleSheet,
@@ -10,7 +12,9 @@ import {
   Alert,
   SafeAreaView,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   Modal,
+  Keyboard,
 } from "react-native";
 
 import Colors from "../config/colors.js";
@@ -70,68 +74,72 @@ function WelcomeScreen(props) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.ContainerForm}>
-        <Text style={styles.labelTitle}>Registro</Text>
-        <TextInput
-          style={styles.inputs}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Nombre"
-          onChangeText={(text) => onChangeTextUser(text)}
-          value={name}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Primer apellido"
-          onChangeText={(text) => onChangeTextFirst(text)}
-          value={firstLastname}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Segundo apellido"
-          onChangeText={(text) => onChangeTextSecond(text)}
-          value={SecondLastname}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Correo electrónico"
-          onChangeText={(text) => onChangeTextEmail(text)}
-          value={email}
-        />
-        <TextInput
-          style={[styles.inputs, styles.passwordInput]}
-          secureTextEntry={true}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Contraseña"
-          onChangeText={(text) => onChangeTextPassword(text)}
-          value={password}
-        />
-        <TextInput
-          style={[styles.inputs, styles.passwordInput]}
-          secureTextEntry={true}
-          placeholderTextColor={Colors.placeholder}
-          placeholder="Confirmar Contraseña"
-          onChangeText={(text) => onChangeTextConfirm(text)}
-          value={confirmPassword}
-        />
-        <View style={styles.terms}>
-          <CheckBox value={isSelected} onValueChange={setSelection} />
-          <Text style={styles.label}>Aceptar </Text>
-          <TouchableOpacity>
-            <Text style={styles.labelTerms} onPress={showTerms}>
-              términos y condiciones
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => Alert.alert("Sin implementar")}
-        >
-          <Text style={styles.textLogin}>Registrar</Text>
-        </TouchableOpacity>
-      </View>
+      <KeyboardAwareScrollView style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.ContainerForm}>
+            <Text style={styles.labelTitle}>Registro</Text>
+            <TextInput
+              style={styles.inputs}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Nombre"
+              onChangeText={(text) => onChangeTextUser(text)}
+              value={name}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Primer apellido"
+              onChangeText={(text) => onChangeTextFirst(text)}
+              value={firstLastname}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Segundo apellido"
+              onChangeText={(text) => onChangeTextSecond(text)}
+              value={SecondLastname}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Correo electrónico"
+              onChangeText={(text) => onChangeTextEmail(text)}
+              value={email}
+            />
+            <TextInput
+              style={[styles.inputs, styles.passwordInput]}
+              secureTextEntry={true}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Contraseña"
+              onChangeText={(text) => onChangeTextPassword(text)}
+              value={password}
+            />
+            <TextInput
+              style={[styles.inputs, styles.passwordInput]}
+              secureTextEntry={true}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Confirmar Contraseña"
+              onChangeText={(text) => onChangeTextConfirm(text)}
+              value={confirmPassword}
+            />
+            <View style={styles.terms}>
+              <CheckBox value={isSelected} onValueChange={setSelection} />
+              <Text style={styles.label}>Aceptar </Text>
+              <TouchableOpacity>
+                <Text style={styles.labelTerms} onPress={showTerms}>
+                  términos y condiciones
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => Alert.alert("Sin implementar")}
+            >
+              <Text style={styles.textLogin}>Registrar</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
       <StatusBar style={"inverted"} />
     </SafeAreaView>
   );
@@ -224,6 +232,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    marginBottom: 50,
   },
   textLogin: {
     color: Colors.white,
