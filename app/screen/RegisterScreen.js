@@ -1,5 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Checkbox, Title } from "react-native-paper";
 import {
@@ -13,12 +14,22 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
-  ScrollView,
   Platform,
 } from "react-native";
 
 import Colors from "../config/colors.js";
 import Languaje from "../config/languaje.js";
+
+// carga los terminos y condiciones
+function loadTerms() {
+  var html =
+    "<style> h3{text-align:center; font-size: 20} h4{text-align:center;} p{text-align:justify;}</style>";
+
+  // for in itera atravez del nombre del los elementos
+  for (var doc in Languaje.Terms) html += Languaje.Terms[doc]; // y obtenemos los datos dependiendo del nombre del elemento
+
+  return html;
+}
 
 function WelcomeScreen(props) {
   // inputs
@@ -93,101 +104,26 @@ function WelcomeScreen(props) {
                   setModalVisible(!modalVisible);
                 }}
               >
-                <ScrollView>
-                  <View style={styles.modalView}>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t}</Title>
-                    {/* <Title style={styles.modalTitle}>{Languaje.Terms.t}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t1}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p1}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t2}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p2}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t3}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p3}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t4}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p4}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t5}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p5}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t6}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p6}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t7}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p7}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t8}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p8}</Text>
-                    <Title style={styles.modalTitle}>{Languaje.Terms.t9}</Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p9}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t10}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p10}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t11}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p11}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t12}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p12}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t13}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p13}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t14}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p14}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t15}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p15}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t16}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p16}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t17}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p17}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t18}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p18}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t19}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p19}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t20}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p20}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t21}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p21}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t22}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p22}</Text>
-                    <Title style={styles.modalTitle}>
-                      {Languaje.Terms.t23}
-                    </Title>
-                    <Text style={styles.modaltext}>{Languaje.Terms.p23}</Text>
-                    <Title style={styles.contact}>
-                      {Languaje.Terms.contact}
-                    </Title> */}
-                    <TouchableOpacity
-                      style={{
-                        ...styles.openButton,
-                        backgroundColor: "#2196F3",
-                      }}
-                      onPress={() => {
-                        setModalVisible(!modalVisible);
-                      }}
-                    >
-                      <Text style={styles.textStyle}>Cerrar</Text>
-                    </TouchableOpacity>
-                  </View>
-                </ScrollView>
+                <View style={styles.modalView}>
+                  <WebView
+                    scalesPageToFit={false}
+                    bounces={false}
+                    scrollEnabled={false}
+                    style={{ flex: 1 }}
+                    source={{ html: loadTerms() }}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      ...styles.openButton,
+                      backgroundColor: "#2196F3",
+                    }}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Cerrar</Text>
+                  </TouchableOpacity>
+                </View>
               </Modal>
 
               <Checkbox
@@ -279,6 +215,7 @@ const styles = StyleSheet.create({
 
   // modal
   modalView: {
+    flex: 1,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -305,16 +242,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-  },
-  modalTitle: {
-    textAlign: "center",
-  },
-  contact: {
-    textAlign: "center",
-    fontSize: 15,
-  },
-  modaltext: {
-    textAlign: "justify",
   },
 });
 
