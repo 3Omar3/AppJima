@@ -1,23 +1,24 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import { Checkbox } from "react-native-paper";
+import { Checkbox, Title } from "react-native-paper";
 import {
   View,
   StyleSheet,
   Text,
-  CheckBox,
   TextInput,
   TouchableOpacity,
   Alert,
   SafeAreaView,
-  TouchableHighlight,
   TouchableWithoutFeedback,
-  Modal,
   Keyboard,
+  Modal,
+  ScrollView,
+  Platform,
 } from "react-native";
 
 import Colors from "../config/colors.js";
+import Languaje from "../config/languaje.js";
 
 function WelcomeScreen(props) {
   // inputs
@@ -28,49 +29,10 @@ function WelcomeScreen(props) {
   const [password, onChangeTextPassword] = React.useState();
   const [confirmPassword, onChangeTextConfirm] = React.useState();
   // checkbox
-  const [isSelected, setSelection] = React.useState(false);
+  const [checked, setChecked] = React.useState(false);
 
   // modal
   const [modalVisible, setModalVisible] = React.useState(false);
-
-  // functions
-  const showTerms = () => {
-    return (
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
-
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        >
-          <Text style={styles.textStyle}>Show Modal</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  };
 
   return (
     <SafeAreaView style={styles.background}>
@@ -123,12 +85,126 @@ function WelcomeScreen(props) {
               value={confirmPassword}
             />
             <View style={styles.terms}>
-              <CheckBox value={isSelected} onValueChange={setSelection} />
+              <Modal
+                animationType="fade"
+                transparent={Platform.Version < 26 ? false : true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <ScrollView>
+                  <View style={styles.modalView}>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t}</Title>
+                    {/* <Title style={styles.modalTitle}>{Languaje.Terms.t}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t1}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p1}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t2}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p2}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t3}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p3}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t4}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p4}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t5}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p5}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t6}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p6}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t7}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p7}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t8}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p8}</Text>
+                    <Title style={styles.modalTitle}>{Languaje.Terms.t9}</Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p9}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t10}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p10}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t11}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p11}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t12}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p12}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t13}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p13}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t14}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p14}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t15}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p15}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t16}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p16}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t17}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p17}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t18}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p18}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t19}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p19}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t20}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p20}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t21}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p21}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t22}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p22}</Text>
+                    <Title style={styles.modalTitle}>
+                      {Languaje.Terms.t23}
+                    </Title>
+                    <Text style={styles.modaltext}>{Languaje.Terms.p23}</Text>
+                    <Title style={styles.contact}>
+                      {Languaje.Terms.contact}
+                    </Title> */}
+                    <TouchableOpacity
+                      style={{
+                        ...styles.openButton,
+                        backgroundColor: "#2196F3",
+                      }}
+                      onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Cerrar</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ScrollView>
+              </Modal>
+
+              <Checkbox
+                color={Colors.checkbox}
+                status={checked ? "checked" : "unchecked"}
+                onPress={() => {
+                  setChecked(!checked);
+                }}
+              />
               <Text style={styles.label}>Aceptar </Text>
-              <TouchableOpacity>
-                <Text style={styles.labelTerms} onPress={showTerms}>
-                  términos y condiciones
-                </Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              >
+                <Text style={styles.labelTerms}>términos y condiciones</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -140,50 +216,12 @@ function WelcomeScreen(props) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      <StatusBar style={"inverted"} />
+      {Platform.Version < 25 ? false : <StatusBar style={"auto"} />}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  // modal
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-
   // main
   background: {
     flex: 1,
@@ -237,6 +275,46 @@ const styles = StyleSheet.create({
   textLogin: {
     color: Colors.white,
     fontWeight: "bold",
+  },
+
+  // modal
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    textAlign: "center",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: "100%",
+    marginTop: 15,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalTitle: {
+    textAlign: "center",
+  },
+  contact: {
+    textAlign: "center",
+    fontSize: 15,
+  },
+  modaltext: {
+    textAlign: "justify",
   },
 });
 
