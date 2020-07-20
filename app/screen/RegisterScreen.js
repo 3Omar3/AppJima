@@ -1,8 +1,7 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Checkbox, Title } from "react-native-paper";
+import { Checkbox } from "react-native-paper";
 import {
   View,
   StyleSheet,
@@ -18,7 +17,7 @@ import {
 } from "react-native";
 
 import Colors from "../config/colors.js";
-import Languaje from "../config/languaje.js";
+import Languaje from "../config/language.js";
 
 // carga los terminos y condiciones
 function loadTerms() {
@@ -31,23 +30,28 @@ function loadTerms() {
   return html;
 }
 
-function WelcomeScreen(props) {
+function RegisterScreen(props) {
   // inputs
-  const [name, onChangeTextUser] = React.useState();
-  const [firstLastname, onChangeTextFirst] = React.useState();
-  const [SecondLastname, onChangeTextSecond] = React.useState();
-  const [email, onChangeTextEmail] = React.useState();
-  const [password, onChangeTextPassword] = React.useState();
-  const [confirmPassword, onChangeTextConfirm] = React.useState();
+  const [name, onChangeTextUser] = useState();
+  const [firstLastname, onChangeTextFirst] = useState();
+  const [SecondLastname, onChangeTextSecond] = useState();
+  const [email, onChangeTextEmail] = useState();
+  const [password, onChangeTextPassword] = useState();
+  const [confirmPassword, onChangeTextConfirm] = useState();
   // checkbox
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = useState(false);
 
   // modal
   const [modalVisible, setModalVisible] = React.useState(false);
 
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAwareScrollView style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+        extraScrollHeight={50}
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled"
+        style={{ flex: 1 }}
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.ContainerForm}>
             <Text style={styles.labelTitle}>Registro</Text>
@@ -152,7 +156,6 @@ function WelcomeScreen(props) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      {Platform.Version < 25 ? false : <StatusBar style={"auto"} />}
     </SafeAreaView>
   );
 }
@@ -206,7 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    marginBottom: 50,
   },
   textLogin: {
     color: Colors.white,

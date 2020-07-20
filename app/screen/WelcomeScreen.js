@@ -1,5 +1,5 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
   View,
@@ -8,53 +8,65 @@ import {
   TextInput,
   Alert,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   SafeAreaView,
+  Keyboard,
 } from "react-native";
 
 import Colors from "../config/colors.js";
 
 function WelcomeScreen(props) {
-  const [user, onChangeTextUser] = React.useState();
-  const [password, onChangeTextPassword] = React.useState();
+  const [user, onChangeTextUser] = useState();
+  const [password, onChangeTextPassword] = useState();
 
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.logoContainer}>
-        <Image
-          resizeMode="contain"
-          style={styles.logo}
-          source={require("../assets/logo-green.png")}
-        />
-      </View>
-      <TextInput
-        style={styles.inputs}
-        placeholderTextColor={Colors.placeholder}
-        placeholder="Usuario"
-        onChangeText={(text) => onChangeTextUser(text)}
-        value={user}
-      />
-      <TextInput
-        style={[styles.inputs, styles.passwordInput]}
-        secureTextEntry={true}
-        placeholderTextColor={Colors.placeholder}
-        placeholder="Contraseña"
-        onChangeText={(text) => onChangeTextPassword(text)}
-        value={password}
-      />
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => Alert.alert("Sin implementar")}
+      <KeyboardAwareScrollView
+        extraScrollHeight={20}
+        enableOnAndroid={true}
+        keyboardShouldPersistTaps="handled"
+        style={{ flex: 1 }}
       >
-        <Text style={styles.textLogin}>Iniciar sesión</Text>
-      </TouchableOpacity>
-      <Text style={[styles.label, styles.labelForget]}>
-        ¿Olvido su contraseña?
-      </Text>
-      <View style={styles.register}>
-        <Text style={styles.label}>¿No tienes una cuenta?</Text>
-        <Text style={[styles.label, styles.labelRegister]}>Registrate</Text>
-      </View>
-      <StatusBar style={"inverted"} />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.ContainerForm}>
+            <Image
+              style={styles.logo}
+              resizeMode="contain"
+              source={require("../assets/logo-liteGreen.jpg")}
+            ></Image>
+            <TextInput
+              style={styles.inputs}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Usuario"
+              onChangeText={(text) => onChangeTextUser(text)}
+              value={user}
+            />
+            <TextInput
+              style={[styles.inputs, styles.passwordInput]}
+              secureTextEntry={true}
+              placeholderTextColor={Colors.placeholder}
+              placeholder="Contraseña"
+              onChangeText={(text) => onChangeTextPassword(text)}
+              value={password}
+            />
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => Alert.alert("Sin implementar")}
+            >
+              <Text style={styles.textLogin}>Registrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.labelForget}>¿Olvido su contraseña?</Text>
+            </TouchableOpacity>
+            <View style={styles.label}>
+              <Text style={styles.labelText}>¿No tienes una cuenta aun? </Text>
+              <TouchableOpacity>
+                <Text style={styles.labelRegister}>Registrate</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
@@ -63,15 +75,13 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "flex-start",
+  },
+  ContainerForm: {
     alignItems: "center",
   },
-  logoContainer: {
-    // backgroundColor: Colors.black,
-    top: 22,
-  },
   logo: {
-    width: 200,
-    height: 200,
+    width: 240,
+    height: 150,
   },
   inputs: {
     backgroundColor: Colors.input,
@@ -84,10 +94,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 1,
-  },
-  passwordInput: {
-    marginTop: 10,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   loginButton: {
     width: "70%",
@@ -96,26 +103,28 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.button,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 5,
+    marginBottom: 20,
   },
   textLogin: {
     color: Colors.white,
     fontWeight: "bold",
   },
-  label: {
-    color: Colors.text,
-    fontWeight: "bold",
-    marginTop: 15,
-  },
   labelForget: {
     color: Colors.link,
+    fontWeight: "bold",
+  },
+  label: {
+    marginTop: 10,
+    flexDirection: "row",
+  },
+  labelText: {
+    color: Colors.text,
+    fontWeight: "bold",
   },
   labelRegister: {
-    marginLeft: 5,
-    textDecorationLine: "underline",
     color: Colors.link,
-  },
-  register: {
-    flexDirection: "row",
+    fontWeight: "bold",
   },
 });
 
