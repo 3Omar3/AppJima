@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Checkbox } from "react-native-paper";
+import { Button } from "react-native-paper";
 import {
   View,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
   Platform,
+  StatusBar,
+  Image,
 } from "react-native";
 
 import Colors from "../config/colors.js";
@@ -42,7 +44,7 @@ function RegisterScreen(props) {
   const [checked, setChecked] = useState(false);
 
   // modal
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.background}>
@@ -54,7 +56,14 @@ function RegisterScreen(props) {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.ContainerForm}>
-            <Text style={styles.labelTitle}>Registro</Text>
+            <Image
+              style={styles.logo}
+              resizeMode="contain"
+              source={require("../assets/logo-liteGreenWhite.jpg")}
+            ></Image>
+            <View style={styles.viewTitle}>
+              <Text style={styles.labelTitle}>Registro</Text>
+            </View>
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
@@ -117,10 +126,7 @@ function RegisterScreen(props) {
                     source={{ html: loadTerms() }}
                   />
                   <TouchableOpacity
-                    style={{
-                      ...styles.openButton,
-                      backgroundColor: "#2196F3",
-                    }}
+                    style={styles.openButton}
                     onPress={() => {
                       setModalVisible(!modalVisible);
                     }}
@@ -147,15 +153,18 @@ function RegisterScreen(props) {
                 <Text style={styles.labelTerms}>términos y condiciones</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
+            <Button
+              uppercase={false}
+              mode="contained"
+              onPress={() => console.log("Pressed")}
               style={styles.loginButton}
-              onPress={() => Alert.alert("Sin implementar")}
             >
-              <Text style={styles.textLogin}>Registrar</Text>
-            </TouchableOpacity>
+              Registrate
+            </Button>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
+      <StatusBar hidden={true} />
     </SafeAreaView>
   );
 }
@@ -165,13 +174,21 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "flex-start",
-    top: 30,
+    top: 15,
+  },
+  logo: {
+    width: 180,
+    height: 60,
+  },
+  viewTitle: {
+    alignItems: "flex-start",
+    width: "70%",
   },
   labelTitle: {
-    fontSize: 50,
-    fontWeight: "bold",
+    fontSize: 25,
+    marginTop: 10,
     color: Colors.text,
-    paddingBottom: 30,
+    paddingBottom: 20,
   },
   ContainerForm: {
     alignItems: "center",
@@ -207,11 +224,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.button,
     justifyContent: "center",
-    alignItems: "center",
     marginTop: 20,
   },
   textLogin: {
-    color: Colors.white,
+    color: Colors.textButton,
     fontWeight: "bold",
   },
 
@@ -232,7 +248,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: "#F194FF",
+    backgroundColor: Colors.button,
     textAlign: "center",
     borderRadius: 20,
     padding: 10,
@@ -241,10 +257,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   textStyle: {
-    color: "white",
+    color: Colors.white,
     fontWeight: "bold",
     textAlign: "center",
   },
 });
 
-export default WelcomeScreen;
+export default RegisterScreen;
