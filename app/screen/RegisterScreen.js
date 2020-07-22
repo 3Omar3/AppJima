@@ -19,7 +19,7 @@ import {
 } from "react-native";
 
 import Colors from "../config/colors.js";
-import Languaje from "../config/language.js";
+import Languaje from "../config/language-es.js";
 
 // carga los terminos y condiciones
 function loadTerms() {
@@ -67,44 +67,44 @@ function RegisterScreen(props) {
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Nombre"
+              placeholder={Languaje.name}
               onChangeText={(text) => onChangeTextUser(text)}
               value={name}
             />
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Primer apellido"
+              placeholder={Languaje.firstLastname}
               onChangeText={(text) => onChangeTextFirst(text)}
               value={firstLastname}
             />
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Segundo apellido"
+              placeholder={Languaje.secondLastname}
               onChangeText={(text) => onChangeTextSecond(text)}
               value={SecondLastname}
             />
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Correo electrónico"
+              placeholder={Languaje.email}
               onChangeText={(text) => onChangeTextEmail(text)}
               value={email}
             />
             <TextInput
-              style={[styles.inputs, styles.passwordInput]}
+              style={styles.inputs}
               secureTextEntry={true}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Contraseña"
+              placeholder={Languaje.password}
               onChangeText={(text) => onChangeTextPassword(text)}
               value={password}
             />
             <TextInput
-              style={[styles.inputs, styles.passwordInput]}
+              style={styles.inputs}
               secureTextEntry={true}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Confirmar Contraseña"
+              placeholder={Languaje.confirmPassword}
               onChangeText={(text) => onChangeTextConfirm(text)}
               value={confirmPassword}
             />
@@ -143,14 +143,14 @@ function RegisterScreen(props) {
                   setChecked(!checked);
                 }}
               />
-              <Text style={styles.label}>Aceptar </Text>
+              <Text style={styles.label}>{Languaje.acept}</Text>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
                   setModalVisible(true);
                 }}
               >
-                <Text style={styles.labelTerms}>términos y condiciones</Text>
+                <Text style={styles.labelTerms}>{Languaje.terms}</Text>
               </TouchableOpacity>
             </View>
             <Button
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 180,
-    height: 60,
+    height: 70,
   },
   viewTitle: {
     alignItems: "flex-start",
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginTop: 10,
     color: Colors.text,
-    paddingBottom: 20,
+    paddingBottom: 15,
   },
   ContainerForm: {
     alignItems: "center",
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.button,
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 15,
   },
   textLogin: {
     color: Colors.textButton,

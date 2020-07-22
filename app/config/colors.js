@@ -5,9 +5,10 @@ export default {
   black: "black",
   gray: "gray",
   input: "#F0F2F5",
-  button: "#2196F3",
+  button: "#27C0AC",
+  textButton: "white",
   text: "#3A4854",
   placeholder: "#65676B",
-  link: "#1877F2",
-  checkbox: "#2196F3",
+  link: "#27C0AC",
+  checkbox: "#27C0AC",
 };

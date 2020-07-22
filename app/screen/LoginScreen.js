@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Button } from "react-native-paper";
 import {
   StyleSheet,
   View,
   Image,
   Text,
   TextInput,
-  Alert,
   TouchableOpacity,
   TouchableWithoutFeedback,
   SafeAreaView,
   Keyboard,
+  StatusBar,
 } from "react-native";
 
 import Colors from "../config/colors.js";
+import Language from "../config/language-es.js";
 
-function WelcomeScreen(props) {
+function LoginScreen(props) {
   const [user, onChangeTextUser] = useState();
   const [password, onChangeTextPassword] = useState();
 
@@ -37,7 +39,7 @@ function WelcomeScreen(props) {
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Usuario"
+              placeholder={Language.name}
               onChangeText={(text) => onChangeTextUser(text)}
               value={user}
             />
@@ -45,28 +47,52 @@ function WelcomeScreen(props) {
               style={[styles.inputs, styles.passwordInput]}
               secureTextEntry={true}
               placeholderTextColor={Colors.placeholder}
-              placeholder="Contraseña"
+              placeholder={Language.password}
               onChangeText={(text) => onChangeTextPassword(text)}
               value={password}
             />
-            <TouchableOpacity
+            <Button
+              uppercase={false}
+              mode="contained"
+              onPress={() => console.log("Pressed")}
               style={styles.loginButton}
-              onPress={() => Alert.alert("Sin implementar")}
             >
-              <Text style={styles.textLogin}>Registrar</Text>
-            </TouchableOpacity>
+              {Language.logIn}
+            </Button>
             <TouchableOpacity>
-              <Text style={styles.labelForget}>¿Olvido su contraseña?</Text>
+              <Text style={styles.labelForget}>{Language.forgetPassword}</Text>
             </TouchableOpacity>
+            <View>
+              <Button
+                uppercase={false}
+                mode="contained"
+                onPress={() => console.log("Pressed")}
+                style={styles.loginFacebook}
+                icon="facebook"
+              >
+                Facebook
+              </Button>
+              <Button
+                uppercase={false}
+                mode="contained"
+                onPress={() => console.log("Pressed")}
+                style={styles.loginGoogle}
+                icon="google"
+                color={Colors.gray}
+              >
+                Google
+              </Button>
+            </View>
             <View style={styles.label}>
-              <Text style={styles.labelText}>¿No tienes una cuenta aun? </Text>
+              <Text style={styles.labelText}>{Language.dontHaveAccount}</Text>
               <TouchableOpacity>
-                <Text style={styles.labelRegister}>Registrate</Text>
+                <Text style={styles.labelRegister}>{Language.register}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
+      <StatusBar hidden={true} />
     </SafeAreaView>
   );
 }
@@ -82,6 +108,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 240,
     height: 150,
+    marginTop: 5,
+    marginBottom: 10,
   },
   inputs: {
     backgroundColor: Colors.input,
@@ -99,15 +127,16 @@ const styles = StyleSheet.create({
   loginButton: {
     width: "70%",
     height: 40,
-    borderRadius: 5,
     backgroundColor: Colors.button,
     justifyContent: "center",
-    alignItems: "center",
     marginTop: 5,
     marginBottom: 20,
   },
+  loginFacebook: {
+    backgroundColor: "#3C9FE8",
+  },
   textLogin: {
-    color: Colors.white,
+    color: Colors.textButton,
     fontWeight: "bold",
   },
   labelForget: {
@@ -126,6 +155,10 @@ const styles = StyleSheet.create({
     color: Colors.link,
     fontWeight: "bold",
   },
+  loginGoogle: {
+    backgroundColor: Colors.white,
+    color: "black",
+  },
 });
 
-export default WelcomeScreen;
+export default LoginScreen;

@@ -1,6 +1,17 @@
 export default {
   // Español
   name: "Nombre",
+  firstLastname: "Primer apellido",
+  secondLastname: "Segundo apellido",
+  email: "Correo electrónico",
+  password: "Contraseña",
+  passwordConfirm: "Confirmar Contraseña",
+  acept: "Aceptar",
+  terms: "Terminos y Condiciones",
+  register: "Registrate",
+  logIn: "Iniciar sesión",
+  forgetPassword: "¿Olvido su contraseña?",
+  dontHaveAccount: "¿No tienes una cuenta aun? ",
 
   // Terminos y Condiciones
   Terms: {
