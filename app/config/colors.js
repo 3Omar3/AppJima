@@ -1,9 +1,12 @@
 export default {
-  primary: "#0C1016",
-  secondary: "#0090AA",
+  // genericos
   white: "white",
   black: "black",
   gray: "gray",
+
+  // diseño
+  primary: "#0D778A",
+  secondary: "#2EF7B1",
   input: "#F0F2F5",
   button: "#27C0AC",
   textButton: "white",

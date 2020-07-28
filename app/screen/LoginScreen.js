@@ -1,97 +1,143 @@
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Button } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import {
   StyleSheet,
   View,
   Image,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   SafeAreaView,
   Keyboard,
   StatusBar,
+  ImageBackground,
 } from "react-native";
 
-import Colors from "../config/colors.js";
 import Language from "../config/language-es.js";
+import Colors from "../config/colors.js";
 
-function LoginScreen(props) {
+// Images
+const background = require("../assets/png/background.png");
+const logo = require("../assets/png/jimablanco.png");
+const inputLogin = require("../assets/png/inputDegradado.png");
+const inputRegister = require("../assets/png/inputLogin.png");
+const iconGoogle = require("../assets/png/google.png");
+const iconFacebook = require("../assets/png/facebook.png");
+
+function LoginScreen({ navigation }) {
+  // variables
   const [user, onChangeTextUser] = useState();
   const [password, onChangeTextPassword] = useState();
 
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAwareScrollView
-        extraScrollHeight={20}
-        enableOnAndroid={true}
-        keyboardShouldPersistTaps="handled"
-        style={{ flex: 1 }}
+      <ImageBackground
+        source={background}
+        style={{
+          flex: 1,
+          resizeMode: "cover",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.ContainerForm}>
-            <Image
-              style={styles.logo}
-              resizeMode="contain"
-              source={require("../assets/logo-liteGreen.jpg")}
-            ></Image>
-            <TextInput
-              style={styles.inputs}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Language.name}
-              onChangeText={(text) => onChangeTextUser(text)}
-              value={user}
-            />
-            <TextInput
-              style={[styles.inputs, styles.passwordInput]}
-              secureTextEntry={true}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Language.password}
-              onChangeText={(text) => onChangeTextPassword(text)}
-              value={password}
-            />
-            <Button
-              uppercase={false}
-              mode="contained"
-              onPress={() => console.log("Pressed")}
-              style={styles.loginButton}
+        <Image
+          style={{ height: 110, width: 250, marginTop: 20, marginBottom: 8 }}
+          resizeMode="contain"
+          source={logo}
+        />
+        <View
+          style={{
+            backgroundColor: "white",
+            width: 270,
+            height: 390,
+            padding: 30,
+            borderRadius: 16,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }}
+        >
+          <TextInput
+            placeholder="Usuario"
+            dense={true}
+            style={{ backgroundColor: "white", marginBottom: 15 }}
+            theme={{
+              colors: {
+                // placeholder: "#313131",
+                text: "#313131",
+                primary: Colors.primary,
+                underlineColor: "transparent",
+                background: Colors.white,
+              },
+            }}
+          />
+          <TextInput
+            placeholder="Contraseña"
+            dense={true}
+            secureTextEntry={true}
+            style={{ backgroundColor: "white", marginBottom: 10 }}
+            theme={{
+              colors: {
+                // placeholder: "#313131",
+                text: "#313131",
+                primary: Colors.primary,
+                underlineColor: "transparent",
+                background: Colors.white,
+              },
+            }}
+          />
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.primary,
+                textAlign: "right",
+                padding: 5,
+              }}
             >
-              {Language.logIn}
-            </Button>
-            <TouchableOpacity>
-              <Text style={styles.labelForget}>{Language.forgetPassword}</Text>
-            </TouchableOpacity>
-            <View>
-              <Button
-                uppercase={false}
-                mode="contained"
-                onPress={() => console.log("Pressed")}
-                style={styles.loginFacebook}
-                icon="facebook"
-              >
-                Facebook
-              </Button>
-              <Button
-                uppercase={false}
-                mode="contained"
-                onPress={() => console.log("Pressed")}
-                style={styles.loginGoogle}
-                icon="google"
-                color={Colors.gray}
-              >
-                Google
-              </Button>
-            </View>
-            <View style={styles.label}>
-              <Text style={styles.labelText}>{Language.dontHaveAccount}</Text>
-              <TouchableOpacity>
-                <Text style={styles.labelRegister}>{Language.register}</Text>
-              </TouchableOpacity>
-            </View>
+              {Language.forgetPassword}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnTouch}>
+            <Image
+              style={styles.button}
+              resizeMode="contain"
+              source={inputLogin}
+            />
+            <Text style={styles.textLogin}>{Language.logIn}</Text>
+          </TouchableOpacity>
+          <Text
+            style={{ color: Colors.gray, textAlign: "center", marginTop: 10 }}
+          >
+            {Language.dontHaveAccount}
+          </Text>
+          <TouchableOpacity style={styles.btnTouch}>
+            <Image
+              style={styles.button}
+              resizeMode="contain"
+              source={inputRegister}
+            />
+            <Text style={styles.textRegister}>{Language.register}</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: "row", marginTop: 3 }}>
+            <Image
+              style={styles.icon}
+              resizeMode="contain"
+              source={iconGoogle}
+            />
+            <Image
+              style={styles.icon}
+              resizeMode="contain"
+              source={iconFacebook}
+            />
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
+        </View>
+      </ImageBackground>
       <StatusBar hidden={true} />
     </SafeAreaView>
   );
@@ -100,64 +146,29 @@ function LoginScreen(props) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "flex-start",
   },
-  ContainerForm: {
+  btnTouch: {
     alignItems: "center",
-  },
-  logo: {
-    width: 240,
-    height: 150,
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  inputs: {
-    backgroundColor: Colors.input,
-    borderRadius: 5,
-    padding: 10,
-    width: "70%",
-    fontSize: 18,
-    shadowColor: Colors.gray,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 1,
-    marginBottom: 10,
-  },
-  loginButton: {
-    width: "70%",
-    height: 40,
-    backgroundColor: Colors.button,
     justifyContent: "center",
-    marginTop: 5,
-    marginBottom: 20,
   },
-  loginFacebook: {
-    backgroundColor: "#3C9FE8",
+  button: {
+    height: 65,
+    width: "100%",
   },
   textLogin: {
-    color: Colors.textButton,
-    fontWeight: "bold",
+    letterSpacing: 0.6,
+    color: "white",
+    position: "absolute",
   },
-  labelForget: {
-    color: Colors.link,
-    fontWeight: "bold",
+  textRegister: {
+    color: "#313131",
+    letterSpacing: 0.6,
+    position: "absolute",
   },
-  label: {
-    marginTop: 10,
-    flexDirection: "row",
-  },
-  labelText: {
-    color: Colors.text,
-    fontWeight: "bold",
-  },
-  labelRegister: {
-    color: Colors.link,
-    fontWeight: "bold",
-  },
-  loginGoogle: {
-    backgroundColor: Colors.white,
-    color: "black",
+  icon: {
+    width: 40,
+    height: 40,
+    marginLeft: 44,
   },
 });
 

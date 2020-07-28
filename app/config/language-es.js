@@ -1,17 +1,26 @@
 export default {
   // Español
+
+  // Login
+  welcome: "Bienvenido",
+  welcomeMessage:
+    "No te preocupes, solo invierte y ve como tu dinero aumenta, Jima se hará cargo de todas las operaciones que requiera la plantación, cultivo y venta de tus plantas de agave.",
+  IreadyHaveAccount: "Ya tengo una Cuenta",
+  logIn: "Iniciar sesión",
+  registerMe: "Registrarme",
+
+  // Register
   name: "Nombre",
   firstLastname: "Primer apellido",
   secondLastname: "Segundo apellido",
   email: "Correo electrónico",
   password: "Contraseña",
-  passwordConfirm: "Confirmar Contraseña",
+  confirmPassword: "Confirmar Contraseña",
   acept: "Aceptar",
   terms: "Terminos y Condiciones",
   register: "Registrate",
-  logIn: "Iniciar sesión",
   forgetPassword: "¿Olvido su contraseña?",
-  dontHaveAccount: "¿No tienes una cuenta aun? ",
+  dontHaveAccount: "¿No tienes una cuenta aun?",
 
   // Terminos y Condiciones
   Terms: {

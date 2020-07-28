@@ -53,14 +53,18 @@ function RegisterScreen(props) {
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
         style={{ flex: 1 }}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.ContainerForm}>
             <Image
               style={styles.logo}
               resizeMode="contain"
-              source={require("../assets/logo-liteGreenWhite.jpg")}
-            ></Image>
+              source={require("../assets/png/jimablanco.png")}
+            />
             <View style={styles.viewTitle}>
               <Text style={styles.labelTitle}>Registro</Text>
             </View>
@@ -70,6 +74,7 @@ function RegisterScreen(props) {
               placeholder={Languaje.name}
               onChangeText={(text) => onChangeTextUser(text)}
               value={name}
+              autoCorrect={false}
             />
             <TextInput
               style={styles.inputs}
@@ -77,6 +82,7 @@ function RegisterScreen(props) {
               placeholder={Languaje.firstLastname}
               onChangeText={(text) => onChangeTextFirst(text)}
               value={firstLastname}
+              autoCorrect={false}
             />
             <TextInput
               style={styles.inputs}
@@ -84,13 +90,16 @@ function RegisterScreen(props) {
               placeholder={Languaje.secondLastname}
               onChangeText={(text) => onChangeTextSecond(text)}
               value={SecondLastname}
+              autoCorrect={false}
             />
             <TextInput
               style={styles.inputs}
               placeholderTextColor={Colors.placeholder}
               placeholder={Languaje.email}
               onChangeText={(text) => onChangeTextEmail(text)}
+              autoCompleteType={"email"}
               value={email}
+              autoCorrect={false}
             />
             <TextInput
               style={styles.inputs}
@@ -174,11 +183,11 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "flex-start",
-    top: 15,
+    // backgroundColor: Colors.white,
   },
   logo: {
-    width: 180,
-    height: 70,
+    width: 160,
+    height: 90,
   },
   viewTitle: {
     alignItems: "flex-start",
@@ -186,7 +195,6 @@ const styles = StyleSheet.create({
   },
   labelTitle: {
     fontSize: 25,
-    marginTop: 10,
     color: Colors.text,
     paddingBottom: 15,
   },
@@ -217,6 +225,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontWeight: "bold",
     textDecorationLine: "underline",
+    marginLeft: 5,
   },
   loginButton: {
     width: "70%",
