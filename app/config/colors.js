@@ -3,14 +3,15 @@ export default {
   white: "white",
   black: "black",
   gray: "gray",
+  liteGray: "#ECECEC",
 
   // diseño
-  primary: "#0D778A",
-  secondary: "#2EF7B1",
+  primary: "#10828D",
+  secondary: "#16CAC9",
   input: "#F0F2F5",
   button: "#27C0AC",
   textButton: "white",
-  text: "#3A4854",
+  text: "#313131",
   placeholder: "#65676B",
   link: "#27C0AC",
   checkbox: "#27C0AC",

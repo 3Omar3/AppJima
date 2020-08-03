@@ -1,25 +1,29 @@
 import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Checkbox } from "react-native-paper";
-import { Button } from "react-native-paper";
+import { Checkbox, TextInput } from "react-native-paper";
 import {
-  View,
   StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
+  View,
   SafeAreaView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
-  Platform,
   StatusBar,
+  Keyboard,
   Image,
+  TouchableWithoutFeedback,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
 
+// resource
 import Colors from "../config/colors.js";
 import Languaje from "../config/language-es.js";
+
+// images
+const background = require("../assets/png/background.png");
+const logo = require("../assets/png/jimablanco.png");
+const btnRegister = require("../assets/png/btnDegradado.png");
 
 // carga los terminos y condiciones
 function loadTerms() {
@@ -27,12 +31,12 @@ function loadTerms() {
     "<style> h3{text-align:center; font-size: 20} h4{text-align:center;} p{text-align:justify;}</style>";
 
   // for in itera atravez del nombre del los elementos
-  for (var doc in Languaje.Terms) html += Languaje.Terms[doc]; // y obtenemos los datos dependiendo del nombre del elemento
+  for (var doc in Languaje.Terms) html += Languaje.Terms[doc]; // obteniene los datos dependiendo del nombre del elemento
 
   return html;
 }
 
-function RegisterScreen(props) {
+function RegisterScreen({ navigation }) {
   // inputs
   const [name, onChangeTextUser] = useState();
   const [firstLastname, onChangeTextFirst] = useState();
@@ -48,196 +52,187 @@ function RegisterScreen(props) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAwareScrollView
-        extraScrollHeight={50}
-        enableOnAndroid={true}
-        keyboardShouldPersistTaps="handled"
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.ContainerForm}>
-            <Image
-              style={styles.logo}
-              resizeMode="contain"
-              source={require("../assets/png/jimablanco.png")}
-            />
-            <View style={styles.viewTitle}>
-              <Text style={styles.labelTitle}>Registro</Text>
-            </View>
-            <TextInput
-              style={styles.inputs}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.name}
-              onChangeText={(text) => onChangeTextUser(text)}
-              value={name}
-              autoCorrect={false}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.firstLastname}
-              onChangeText={(text) => onChangeTextFirst(text)}
-              value={firstLastname}
-              autoCorrect={false}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.secondLastname}
-              onChangeText={(text) => onChangeTextSecond(text)}
-              value={SecondLastname}
-              autoCorrect={false}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.email}
-              onChangeText={(text) => onChangeTextEmail(text)}
-              autoCompleteType={"email"}
-              value={email}
-              autoCorrect={false}
-            />
-            <TextInput
-              style={styles.inputs}
-              secureTextEntry={true}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.password}
-              onChangeText={(text) => onChangeTextPassword(text)}
-              value={password}
-            />
-            <TextInput
-              style={styles.inputs}
-              secureTextEntry={true}
-              placeholderTextColor={Colors.placeholder}
-              placeholder={Languaje.confirmPassword}
-              onChangeText={(text) => onChangeTextConfirm(text)}
-              value={confirmPassword}
-            />
-            <View style={styles.terms}>
-              <Modal
-                animationType="fade"
-                transparent={Platform.Version < 26 ? false : true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.modalView}>
-                  <WebView
-                    scalesPageToFit={false}
-                    bounces={false}
-                    scrollEnabled={false}
-                    style={{ flex: 1 }}
-                    source={{ html: loadTerms() }}
+      <ImageBackground source={background} style={styles.imgBackground}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={50}
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ alignItems: "center" }}>
+              <Image style={styles.logo} resizeMode="contain" source={logo} />
+              <View style={styles.card}>
+                <TextInput
+                  placeholder={Languaje.name}
+                  dense={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Languaje.firstLastname}
+                  dense={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Languaje.secondLastname}
+                  dense={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Languaje.email}
+                  dense={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Languaje.password}
+                  dense={true}
+                  secureTextEntry={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Languaje.confirmPassword}
+                  dense={true}
+                  secureTextEntry={true}
+                  style={styles.input}
+                  theme={inputTheme}
+                />
+                <View style={styles.containerTerms}>
+                  {/* Modal muestra los terminos y condiciones */}
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <View style={styles.modalView}>
+                      <WebView
+                        scalesPageToFit={false}
+                        bounces={false}
+                        scrollEnabled={false}
+                        style={{ flex: 1 }}
+                        source={{ html: loadTerms() }}
+                      />
+                      <TouchableOpacity
+                        style={styles.openButton}
+                        onPress={() => {
+                          setModalVisible(!modalVisible);
+                        }}
+                      >
+                        <Text style={styles.textStyle}>{Languaje.close}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </Modal>
+                  <Checkbox
+                    color={Colors.primary}
+                    status={checked ? "checked" : "unchecked"}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
                   />
+                  <Text style={styles.textAccept}>{Languaje.accept}</Text>
                   <TouchableOpacity
-                    style={styles.openButton}
                     onPress={() => {
                       setModalVisible(!modalVisible);
                     }}
                   >
-                    <Text style={styles.textStyle}>Cerrar</Text>
+                    <Text style={styles.textTerms}>{Languaje.terms}</Text>
                   </TouchableOpacity>
                 </View>
-              </Modal>
-
-              <Checkbox
-                color={Colors.checkbox}
-                status={checked ? "checked" : "unchecked"}
-                onPress={() => {
-                  setChecked(!checked);
-                }}
-              />
-              <Text style={styles.label}>{Languaje.acept}</Text>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  setModalVisible(true);
-                }}
-              >
-                <Text style={styles.labelTerms}>{Languaje.terms}</Text>
-              </TouchableOpacity>
+                {/* button register */}
+                <TouchableOpacity style={styles.btnTouch}>
+                  <Image
+                    style={styles.button}
+                    resizeMode="contain"
+                    source={btnRegister}
+                  />
+                  <Text style={styles.textRegister}>{Languaje.register}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Button
-              uppercase={false}
-              mode="contained"
-              onPress={() => console.log("Pressed")}
-              style={styles.loginButton}
-            >
-              Registrate
-            </Button>
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
+      </ImageBackground>
       <StatusBar hidden={true} />
     </SafeAreaView>
   );
 }
 
+// paper theme
+const inputTheme = {
+  text: Colors.text,
+  primary: Colors.primary,
+  underlineColor: "transparent",
+  background: Colors.white,
+};
+
 const styles = StyleSheet.create({
   // main
   background: {
     flex: 1,
+  },
+  imgBackground: {
+    flex: 1,
+    resizeMode: "cover",
     justifyContent: "flex-start",
-    // backgroundColor: Colors.white,
   },
   logo: {
-    width: 160,
-    height: 90,
+    height: 110,
+    width: 250,
+    marginTop: 20,
+    marginBottom: 8,
   },
-  viewTitle: {
-    alignItems: "flex-start",
-    width: "70%",
+  card: {
+    backgroundColor: "white",
+    width: 270,
+    height: 460,
+    padding: 30,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  labelTitle: {
-    fontSize: 25,
-    color: Colors.text,
-    paddingBottom: 15,
-  },
-  ContainerForm: {
-    alignItems: "center",
-  },
-  inputs: {
-    backgroundColor: Colors.input,
-    borderRadius: 5,
-    padding: 10,
-    width: "70%",
-    fontSize: 18,
-    shadowColor: Colors.gray,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 1,
+  input: {
+    backgroundColor: "white",
     marginBottom: 15,
   },
-  terms: {
+  containerTerms: {
     flexDirection: "row",
     alignItems: "center",
   },
-  label: {
+  textAccept: {
+    fontSize: 12,
     color: Colors.gray,
   },
-  labelTerms: {
+  textTerms: {
+    fontSize: 12,
     color: Colors.text,
     fontWeight: "bold",
     textDecorationLine: "underline",
     marginLeft: 5,
   },
-  loginButton: {
-    width: "70%",
-    height: 40,
-    borderRadius: 5,
-    backgroundColor: Colors.button,
+  btnTouch: {
+    alignItems: "center",
     justifyContent: "center",
-    marginTop: 15,
   },
-  textLogin: {
-    color: Colors.textButton,
-    fontWeight: "bold",
+  button: {
+    height: 65,
+    width: "100%",
+  },
+  textRegister: {
+    letterSpacing: 0.6,
+    color: "white",
+    position: "absolute",
   },
 
   // modal
@@ -257,7 +252,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: Colors.button,
+    backgroundColor: Colors.primary,
     textAlign: "center",
     borderRadius: 20,
     padding: 10,
@@ -267,8 +262,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: Colors.white,
-    fontWeight: "bold",
     textAlign: "center",
+    letterSpacing: 0.6,
   },
 });
 

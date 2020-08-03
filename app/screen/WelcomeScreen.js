@@ -1,59 +1,51 @@
 import React from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
   Image,
+  ScrollView,
   View,
   Text,
 } from "react-native";
 
-import Language from "../config/language-es.js";
+// source
+import Language from "../config/language-es";
+import Colors from "../config/colors";
+import Routes from "../navigation/routes";
+
+// images
+const logo = require("../assets/png/Logo.png");
 
 function WelcomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.background}>
-      <KeyboardAwareScrollView
+      <ScrollView
         enableOnAndroid={true}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        contentContainerStyle={styles.scroll}
       >
-        <Image
-          style={styles.logo}
-          resizeMode="contain"
-          source={require("../assets/png/LogoShadow.png")}
-        />
-        <Text style={styles.title}>{Language.welcome}</Text>
-        <Text style={styles.text}>{Language.welcomeMessage}</Text>
+        <Image style={styles.logo} resizeMode="contain" source={logo} />
+        <View style={styles.containerWelcome}>
+          <Text style={styles.title}>{Language.welcome}</Text>
+          <Text style={styles.text}>{Language.welcomeMessage}</Text>
+        </View>
+        {/* button login */}
         <TouchableOpacity
-          style={styles.touchBoutton}
-          onPress={() => navigation.navigate("Login")}
+          style={styles.btnLogIn}
+          onPress={() => navigation.navigate(Routes.LOGIN)}
         >
-          <Image
-            style={styles.button}
-            resizeMode="contain"
-            source={require("../assets/png/inputLogin.png")}
-          ></Image>
           <Text style={styles.textLogin}>{Language.logIn}</Text>
         </TouchableOpacity>
+        {/* button Register */}
         <TouchableOpacity
           style={styles.btnRegister}
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate(Routes.REGISTER)}
         >
-          <Image
-            style={styles.button}
-            resizeMode="contain"
-            source={require("../assets/png/inputRegister.png")}
-            onProgress={() => navigation.navigate("Register")}
-          ></Image>
           <Text style={styles.textRegister}>{Language.registerMe}</Text>
         </TouchableOpacity>
-      </KeyboardAwareScrollView>
+      </ScrollView>
       <StatusBar hidden={true} />
     </SafeAreaView>
   );
@@ -62,17 +54,29 @@ function WelcomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "center",
+  },
+  scroll: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
-    height: 200,
-    width: 295,
+    height: 170,
+    width: 265,
+    position: "absolute",
+    top: 5,
+  },
+  containerWelcome: {
+    position: "absolute",
+    top: "35%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 23,
     letterSpacing: 2, // 2.6
     marginBottom: 20,
+    fontWeight: "bold",
   },
   text: {
     fontSize: 19, // 18
@@ -84,30 +88,29 @@ const styles = StyleSheet.create({
     marginLeft: "10%",
     marginRight: "10%",
   },
-  touchBoutton: {
-    alignItems: "center",
+  btnLogIn: {
+    backgroundColor: Colors.primary,
+    width: "100%",
+    height: 50,
     justifyContent: "center",
-  },
-  btnRegister: {
     alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    height: 65,
-    width: 270,
   },
   textLogin: {
-    fontSize: 17,
+    color: Colors.white,
     letterSpacing: 0.6,
-    color: "#313131",
-    position: "absolute",
+    fontSize: 17,
+  },
+  btnRegister: {
+    backgroundColor: Colors.liteGray,
+    width: "100%",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
   textRegister: {
-    fontSize: 17,
+    color: Colors.text,
     letterSpacing: 0.6,
-    color: "white",
-    position: "absolute",
-    marginBottom: 20,
+    fontSize: 17,
   },
 });
 

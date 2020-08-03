@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import {
   StyleSheet,
   View,
@@ -14,14 +14,16 @@ import {
   ImageBackground,
 } from "react-native";
 
-import Language from "../config/language-es.js";
-import Colors from "../config/colors.js";
+// resource
+import Language from "../config/language-es";
+import Colors from "../config/colors";
+import Routes from "../navigation/routes";
 
 // Images
 const background = require("../assets/png/background.png");
 const logo = require("../assets/png/jimablanco.png");
-const inputLogin = require("../assets/png/inputDegradado.png");
-const inputRegister = require("../assets/png/inputLogin.png");
+const btnLogin = require("../assets/png/btnDegradado.png");
+const btnRegister = require("../assets/png/btnLogin.png");
 const iconGoogle = require("../assets/png/google.png");
 const iconFacebook = require("../assets/png/facebook.png");
 
@@ -32,120 +34,141 @@ function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <ImageBackground
-        source={background}
-        style={{
-          flex: 1,
-          resizeMode: "cover",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={{ height: 110, width: 250, marginTop: 20, marginBottom: 8 }}
-          resizeMode="contain"
-          source={logo}
-        />
-        <View
-          style={{
-            backgroundColor: "white",
-            width: 270,
-            height: 390,
-            padding: 30,
-            borderRadius: 16,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-          }}
+      <ImageBackground source={background} style={styles.imgBackground}>
+        <KeyboardAwareScrollView
+          extraScrollHeight={50}
+          enableOnAndroid={true}
+          keyboardShouldPersistTaps="handled"
         >
-          <TextInput
-            placeholder="Usuario"
-            dense={true}
-            style={{ backgroundColor: "white", marginBottom: 15 }}
-            theme={{
-              colors: {
-                // placeholder: "#313131",
-                text: "#313131",
-                primary: Colors.primary,
-                underlineColor: "transparent",
-                background: Colors.white,
-              },
-            }}
-          />
-          <TextInput
-            placeholder="Contraseña"
-            dense={true}
-            secureTextEntry={true}
-            style={{ backgroundColor: "white", marginBottom: 10 }}
-            theme={{
-              colors: {
-                // placeholder: "#313131",
-                text: "#313131",
-                primary: Colors.primary,
-                underlineColor: "transparent",
-                background: Colors.white,
-              },
-            }}
-          />
-          <TouchableOpacity>
-            <Text
-              style={{
-                color: Colors.primary,
-                textAlign: "right",
-                padding: 5,
-              }}
-            >
-              {Language.forgetPassword}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnTouch}>
-            <Image
-              style={styles.button}
-              resizeMode="contain"
-              source={inputLogin}
-            />
-            <Text style={styles.textLogin}>{Language.logIn}</Text>
-          </TouchableOpacity>
-          <Text
-            style={{ color: Colors.gray, textAlign: "center", marginTop: 10 }}
-          >
-            {Language.dontHaveAccount}
-          </Text>
-          <TouchableOpacity style={styles.btnTouch}>
-            <Image
-              style={styles.button}
-              resizeMode="contain"
-              source={inputRegister}
-            />
-            <Text style={styles.textRegister}>{Language.register}</Text>
-          </TouchableOpacity>
-          <View style={{ flexDirection: "row", marginTop: 3 }}>
-            <Image
-              style={styles.icon}
-              resizeMode="contain"
-              source={iconGoogle}
-            />
-            <Image
-              style={styles.icon}
-              resizeMode="contain"
-              source={iconFacebook}
-            />
-          </View>
-        </View>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={{ alignItems: "center" }}>
+              <Image style={styles.logo} resizeMode="contain" source={logo} />
+              <View style={styles.card}>
+                <TextInput
+                  placeholder={Language.user}
+                  dense={true}
+                  style={styles.inputUser}
+                  theme={inputTheme}
+                />
+                <TextInput
+                  placeholder={Language.password}
+                  dense={true}
+                  secureTextEntry={true}
+                  style={styles.inputRegister}
+                  theme={inputTheme}
+                />
+                <TouchableOpacity>
+                  <Text style={styles.textForget}>
+                    {Language.forgetPassword}
+                  </Text>
+                </TouchableOpacity>
+                {/* button login */}
+                <TouchableOpacity style={styles.btnTouch}>
+                  <Image
+                    style={styles.button}
+                    resizeMode="contain"
+                    source={btnLogin}
+                  />
+                  <Text style={styles.textLogin}>{Language.logIn}</Text>
+                </TouchableOpacity>
+                <Text style={styles.textAccount}>
+                  {Language.dontHaveAccount}
+                </Text>
+                {/* button register */}
+                <TouchableOpacity
+                  style={styles.btnTouch}
+                  onPress={() => navigation.navigate(Routes.REGISTER)}
+                >
+                  <Image
+                    style={styles.button}
+                    resizeMode="contain"
+                    source={btnRegister}
+                  />
+                  <Text style={styles.textRegister}>{Language.register}</Text>
+                </TouchableOpacity>
+                {/* button icons */}
+                <View style={styles.containerIcons}>
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.icon}
+                      resizeMode="contain"
+                      source={iconGoogle}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.icon}
+                      resizeMode="contain"
+                      source={iconFacebook}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </ImageBackground>
       <StatusBar hidden={true} />
     </SafeAreaView>
   );
 }
 
+// paper theme
+const inputTheme = {
+  text: Colors.text,
+  primary: Colors.primary,
+  underlineColor: "transparent",
+  background: Colors.white,
+};
+
+// default styles
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+  },
+  imgBackground: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-start",
+  },
+  logo: {
+    height: 110,
+    width: 250,
+    marginTop: 20,
+    marginBottom: 8,
+  },
+  card: {
+    backgroundColor: "white",
+    width: 270,
+    height: 390,
+    padding: 30,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  inputUser: {
+    backgroundColor: "white",
+    marginBottom: 15,
+  },
+  inputRegister: {
+    backgroundColor: "white",
+    marginBottom: 10,
+  },
+  textForget: {
+    color: Colors.primary,
+    textAlign: "right",
+    padding: 5,
+  },
+  textAccount: {
+    color: Colors.gray,
+    textAlign: "center",
+    marginTop: 10,
   },
   btnTouch: {
     alignItems: "center",
@@ -161,9 +184,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   textRegister: {
-    color: "#313131",
+    color: Colors.text,
     letterSpacing: 0.6,
     position: "absolute",
+  },
+  containerIcons: {
+    flexDirection: "row",
+    marginTop: 3,
   },
   icon: {
     width: 40,
