@@ -11,6 +11,11 @@ export default {
 
   // Login
   user: "Usuario",
+  // dialog recovery
+  messageDialogRecovery:
+    "Enviaremos un email para que puedas recuperar tu contraseña",
+  cancel: "Cancelar",
+  submit: "Enviar",
 
   // Register
   name: "Nombre",

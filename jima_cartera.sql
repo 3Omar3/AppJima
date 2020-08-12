@@ -2,7 +2,7 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
+-- Servidor: 127.0.0.1pagos
 -- Tiempo de generación: 16-07-2020 a las 16:22:20
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.3.3
@@ -48,7 +48,7 @@ CREATE TABLE `clientes` (
   `Tipo` varchar(30) NOT NULL,
   `Idioma` varchar(30) NOT NULL,
   `Moneda` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=;
 
 --
 -- Volcado de datos para la tabla `clientes`
@@ -8084,3 +8084,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+clientes

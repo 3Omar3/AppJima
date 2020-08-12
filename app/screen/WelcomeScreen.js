@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  View,
-  Text,
-} from "react-native";
+import { StyleSheet, StatusBar, Image, View, Text } from "react-native";
 
 // source
+import Button from "../components/Button";
+import ScreenScroll from "../components/ScreenScroll";
 import Language from "../config/language-es";
-import Colors from "../config/colors";
 import Routes from "../navigation/routes";
 
 // images
@@ -20,46 +12,28 @@ const logo = require("../assets/png/Logo.png");
 
 function WelcomeScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.background}>
-      <ScrollView
-        enableOnAndroid={true}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.scroll}
-      >
-        <Image style={styles.logo} resizeMode="contain" source={logo} />
-        <View style={styles.containerWelcome}>
-          <Text style={styles.title}>{Language.welcome}</Text>
-          <Text style={styles.text}>{Language.welcomeMessage}</Text>
-        </View>
-        {/* button login */}
-        <TouchableOpacity
-          style={styles.btnLogIn}
-          onPress={() => navigation.navigate(Routes.LOGIN)}
-        >
-          <Text style={styles.textLogin}>{Language.logIn}</Text>
-        </TouchableOpacity>
-        {/* button Register */}
-        <TouchableOpacity
-          style={styles.btnRegister}
-          onPress={() => navigation.navigate(Routes.REGISTER)}
-        >
-          <Text style={styles.textRegister}>{Language.registerMe}</Text>
-        </TouchableOpacity>
-      </ScrollView>
+    <ScreenScroll justify={"flex-end"}>
+      <Image style={styles.logo} resizeMode="contain" source={logo} />
+      <View style={styles.containerWelcome}>
+        <Text style={styles.title}>{Language.welcome}</Text>
+        <Text style={styles.text}>{Language.welcomeMessage}</Text>
+      </View>
+      <Button
+        title={Language.logIn}
+        onPress={() => navigation.navigate(Routes.LOGIN)}
+      />
+      <Button
+        title={Language.registerMe}
+        color="liteGray"
+        textColor="text"
+        onPress={() => navigation.navigate(Routes.REGISTER)}
+      />
       <StatusBar hidden={true} />
-    </SafeAreaView>
+    </ScreenScroll>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
-  scroll: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
   logo: {
     height: 170,
     width: 265,
@@ -87,30 +61,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginLeft: "10%",
     marginRight: "10%",
-  },
-  btnLogIn: {
-    backgroundColor: Colors.primary,
-    width: "100%",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textLogin: {
-    color: Colors.white,
-    letterSpacing: 0.6,
-    fontSize: 17,
-  },
-  btnRegister: {
-    backgroundColor: Colors.liteGray,
-    width: "100%",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textRegister: {
-    color: Colors.text,
-    letterSpacing: 0.6,
-    fontSize: 17,
   },
 });
 

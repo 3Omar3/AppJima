@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Checkbox, TextInput } from "react-native-paper";
+import { Checkbox } from "react-native-paper";
 import {
   StyleSheet,
   View,
@@ -17,6 +17,8 @@ import {
 } from "react-native";
 
 // resource
+import ButtonImage from "../components/ButtonImage";
+import TextInput from "../components/TextInput";
 import Colors from "../config/colors.js";
 import Languaje from "../config/language-es.js";
 
@@ -24,6 +26,9 @@ import Languaje from "../config/language-es.js";
 const background = require("../assets/png/background.png");
 const logo = require("../assets/png/jimablanco.png");
 const btnRegister = require("../assets/png/btnDegradado.png");
+
+// api
+import api from "../api/client";
 
 // carga los terminos y condiciones
 function loadTerms() {
@@ -44,11 +49,31 @@ function RegisterScreen({ navigation }) {
   const [email, onChangeTextEmail] = useState();
   const [password, onChangeTextPassword] = useState();
   const [confirmPassword, onChangeTextConfirm] = useState();
+
   // checkbox
   const [checked, setChecked] = useState(false);
 
   // modal
   const [modalVisible, setModalVisible] = useState(false);
+
+  // api
+  registerUser = async () => {
+    try {
+      const response = await api.post("/usuarios", {
+        correo: "omarnuel123@gmail.com",
+        contrasenia: "admin123",
+        foto: "",
+        tipo_login: "1",
+        fk_referido: "0",
+        puesto: "",
+      });
+
+      const { message } = response.data;
+      console.log(response.data);
+    } catch (res) {
+      setState({ errorMessage: res.data.error });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.background}>
@@ -62,44 +87,12 @@ function RegisterScreen({ navigation }) {
             <View style={{ alignItems: "center" }}>
               <Image style={styles.logo} resizeMode="contain" source={logo} />
               <View style={styles.card}>
-                <TextInput
-                  placeholder={Languaje.name}
-                  dense={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
-                <TextInput
-                  placeholder={Languaje.firstLastname}
-                  dense={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
-                <TextInput
-                  placeholder={Languaje.secondLastname}
-                  dense={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
-                <TextInput
-                  placeholder={Languaje.email}
-                  dense={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
-                <TextInput
-                  placeholder={Languaje.password}
-                  dense={true}
-                  secureTextEntry={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
-                <TextInput
-                  placeholder={Languaje.confirmPassword}
-                  dense={true}
-                  secureTextEntry={true}
-                  style={styles.input}
-                  theme={inputTheme}
-                />
+                <TextInput placeholder={Languaje.name} />
+                <TextInput placeholder={Languaje.firstLastname} />
+                <TextInput placeholder={Languaje.secondLastname} />
+                <TextInput placeholder={Languaje.email} />
+                <TextInput placeholder={Languaje.password} />
+                <TextInput placeholder={Languaje.confirmPassword} />
                 <View style={styles.containerTerms}>
                   {/* Modal muestra los terminos y condiciones */}
                   <Modal
@@ -145,14 +138,11 @@ function RegisterScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
                 {/* button register */}
-                <TouchableOpacity style={styles.btnTouch}>
-                  <Image
-                    style={styles.button}
-                    resizeMode="contain"
-                    source={btnRegister}
-                  />
-                  <Text style={styles.textRegister}>{Languaje.register}</Text>
-                </TouchableOpacity>
+                <ButtonImage
+                  title={Languaje.register}
+                  source={btnRegister}
+                  onPress={registerUser}
+                />
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -162,14 +152,6 @@ function RegisterScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-// paper theme
-const inputTheme = {
-  text: Colors.text,
-  primary: Colors.primary,
-  underlineColor: "transparent",
-  background: Colors.white,
-};
 
 const styles = StyleSheet.create({
   // main
@@ -201,10 +183,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  input: {
-    backgroundColor: "white",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   containerTerms: {
     flexDirection: "row",
@@ -220,19 +199,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textDecorationLine: "underline",
     marginLeft: 5,
-  },
-  btnTouch: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    height: 65,
-    width: "100%",
-  },
-  textRegister: {
-    letterSpacing: 0.6,
-    color: "white",
-    position: "absolute",
   },
 
   // modal
@@ -252,18 +218,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: Colors.primary,
     textAlign: "center",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
     width: "100%",
-    marginTop: 15,
+    top: 10,
+    marginTop: 10,
   },
   textStyle: {
-    color: Colors.white,
+    color: "dodgerblue",
     textAlign: "center",
     letterSpacing: 0.6,
+    fontSize: 18,
   },
 });
 
