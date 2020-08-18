@@ -4,20 +4,21 @@ import { TextInput } from "react-native-paper";
 
 import Colors from "../config/colors";
 
-function AppTextInput({ placeholder }) {
+function AppTextInput({ width = "100%", ...otherProps }) {
   return (
     <TextInput
-      placeholder={placeholder}
       dense={true}
-      style={styles.input}
-      theme={inputTheme.input}
+      style={[styles.input, { width: width }]}
+      theme={inputTheme}
+      {...otherProps}
     />
   );
 }
 
 // paper theme
 const inputTheme = {
-  input: {
+  // colors is defined by default
+  colors: {
     primary: Colors.primary,
     underlineColor: "transparent",
     background: Colors.white,
