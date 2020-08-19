@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import { WebView } from "react-native-webview";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Checkbox } from "react-native-paper";
+import * as Yup from "yup"; // validacion
 import {
   StyleSheet,
   View,
   SafeAreaView,
   StatusBar,
-  Keyboard,
   Image,
-  TouchableWithoutFeedback,
   ImageBackground,
   Text,
-  TouchableOpacity,
   Modal,
 } from "react-native";
 
 // resource
-import ButtonImage from "../components/ButtonImage";
-import TextInput from "../components/TextInput";
 import Colors from "../config/colors.js";
-import Languaje from "../config/language-es.js";
+import Language from "../config/Language-es.js";
+
+// components
+import KeyScroll from "../components/KeyScroll";
+import Card from "../components/Card";
+import TouchableText from "../components/TouchableText";
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 
 // images
 const background = require("../assets/png/background.png");
@@ -30,26 +31,23 @@ const btnRegister = require("../assets/png/btnDegradado.png");
 // api
 import api from "../api/client";
 
-// carga los terminos y condiciones
-function loadTerms() {
-  var html =
-    "<style> h3{text-align:center; font-size: 20} h4{text-align:center;} p{text-align:justify;}</style>";
-
-  // for in itera atravez del nombre del los elementos
-  for (var doc in Languaje.Terms) html += Languaje.Terms[doc]; // obteniene los datos dependiendo del nombre del elemento
-
-  return html;
-}
+// validation
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required(Language.require).label(),
+  firstLastname: Yup.string().required(Language.require).label(),
+  secondLastname: Yup.string().label(),
+  email: Yup.string()
+    .required(Language.require)
+    .email(Language.invalidEmail)
+    .label(),
+  password: Yup.string().required(Language.require).label(),
+  passwordConfirm: Yup.string()
+    .required(Language.require)
+    .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden")
+    .label(),
+});
 
 function RegisterScreen({ navigation }) {
-  // inputs
-  const [name, onChangeTextUser] = useState();
-  const [firstLastname, onChangeTextFirst] = useState();
-  const [SecondLastname, onChangeTextSecond] = useState();
-  const [email, onChangeTextEmail] = useState();
-  const [password, onChangeTextPassword] = useState();
-  const [confirmPassword, onChangeTextConfirm] = useState();
-
   // checkbox
   const [checked, setChecked] = useState(false);
 
@@ -74,25 +72,90 @@ function RegisterScreen({ navigation }) {
       setState({ errorMessage: res.data.error });
     }
   };
-
+  async function logIn() {
+    try {
+      await Facebook.initializeAsync("<APP_ID>");
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ["public_profile"],
+      });
+      if (type === "success") {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}`
+        );
+        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
   return (
     <SafeAreaView style={styles.background}>
       <ImageBackground source={background} style={styles.imgBackground}>
-        <KeyboardAwareScrollView
-          extraScrollHeight={50}
-          enableOnAndroid={true}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{ alignItems: "center" }}>
-              <Image style={styles.logo} resizeMode="contain" source={logo} />
-              <View style={styles.card}>
-                <TextInput placeholder={Languaje.name} />
-                <TextInput placeholder={Languaje.firstLastname} />
-                <TextInput placeholder={Languaje.secondLastname} />
-                <TextInput placeholder={Languaje.email} />
-                <TextInput placeholder={Languaje.password} />
-                <TextInput placeholder={Languaje.confirmPassword} />
+        <KeyScroll>
+          <View style={{ alignItems: "center" }}>
+            <Image style={styles.logo} resizeMode="contain" source={logo} />
+            <Card>
+              <AppForm
+                initialValues={{
+                  name: "",
+                  firstLastname: "",
+                  secondLastname: "",
+                  email: "",
+                  password: "",
+                  passwordConfirm: "",
+                }}
+                onSubmit={(values) => console.log(values)}
+                validationSchema={validationSchema}
+              >
+                <AppFormField
+                  name="name"
+                  placeholder={Language.name}
+                  autoCorrect={false}
+                />
+                <AppFormField
+                  name="firstLastname"
+                  placeholder={Language.firstLastname}
+                  autoCorrect={false}
+                />
+                <AppFormField
+                  name="secondLastname"
+                  placeholder={Language.secondLastname}
+                  autoCorrect={false}
+                />
+                <AppFormField
+                  name="email"
+                  placeholder={Language.email}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoCompleteType="email"
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
+                />
+                <AppFormField
+                  name="password"
+                  placeholder={Language.password}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                  textContentType="password"
+                />
+                <AppFormField
+                  name="passwordConfirm"
+                  placeholder={Language.passwordConfirm}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                  textContentType="password"
+                />
                 <View style={styles.containerTerms}>
                   {/* Modal muestra los terminos y condiciones */}
                   <Modal
@@ -109,16 +172,15 @@ function RegisterScreen({ navigation }) {
                         bounces={false}
                         scrollEnabled={false}
                         style={{ flex: 1 }}
-                        source={{ html: loadTerms() }}
+                        source={{ html: Language.document }}
                       />
-                      <TouchableOpacity
-                        style={styles.openButton}
+                      <TouchableText
+                        title={Language.close}
+                        style={styles.closeButton}
                         onPress={() => {
                           setModalVisible(!modalVisible);
                         }}
-                      >
-                        <Text style={styles.textStyle}>{Languaje.close}</Text>
-                      </TouchableOpacity>
+                      />
                     </View>
                   </Modal>
                   <Checkbox
@@ -128,25 +190,26 @@ function RegisterScreen({ navigation }) {
                       setChecked(!checked);
                     }}
                   />
-                  <Text style={styles.textAccept}>{Languaje.accept}</Text>
-                  <TouchableOpacity
+                  <Text style={styles.textAccept}>{Language.accept}</Text>
+                  <TouchableText
+                    title={Language.terms}
+                    textColor={"text"}
+                    style={styles.textTerms}
                     onPress={() => {
                       setModalVisible(!modalVisible);
                     }}
-                  >
-                    <Text style={styles.textTerms}>{Languaje.terms}</Text>
-                  </TouchableOpacity>
+                  />
                 </View>
                 {/* button register */}
-                <ButtonImage
-                  title={Languaje.register}
+                <SubmitButton
+                  title={Language.register}
                   source={btnRegister}
                   onPress={registerUser}
                 />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+              </AppForm>
+            </Card>
+          </View>
+        </KeyScroll>
       </ImageBackground>
       <StatusBar hidden={true} />
     </SafeAreaView>
@@ -169,6 +232,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 8,
   },
+  containerTerms: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  textAccept: {
+    fontSize: 12,
+    color: Colors.gray,
+  },
+  textTerms: {
+    fontSize: 12,
+    color: Colors.text,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    marginLeft: 5,
+  },
   card: {
     backgroundColor: "white",
     width: 270,
@@ -185,21 +263,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 10,
   },
-  containerTerms: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textAccept: {
-    fontSize: 12,
-    color: Colors.gray,
-  },
-  textTerms: {
-    fontSize: 12,
-    color: Colors.text,
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    marginLeft: 5,
-  },
 
   // modal
   modalView: {
@@ -207,7 +270,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 25,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -217,17 +280,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  openButton: {
+  closeButton: {
     textAlign: "center",
-    width: "100%",
-    top: 10,
-    marginTop: 10,
-  },
-  textStyle: {
-    color: "dodgerblue",
-    textAlign: "center",
-    letterSpacing: 0.6,
     fontSize: 18,
+    letterSpacing: 0.6,
+    color: "dodgerblue",
+    top: 10,
   },
 });
 

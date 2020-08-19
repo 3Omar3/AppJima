@@ -4,7 +4,7 @@ import { StyleSheet, StatusBar, Image, View, Text } from "react-native";
 // source
 import Button from "../components/Button";
 import ScreenScroll from "../components/ScreenScroll";
-import Language from "../config/language-es";
+import Language from "../config/Language-es";
 import Routes from "../navigation/routes";
 
 // images

@@ -1,27 +1,30 @@
 import React, { useState } from "react";
 import DialogInput from "react-native-dialog-input";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { TextInput as Input } from "react-native-paper";
+import * as Yup from "yup"; // validacion
+import * as Facebook from "expo-facebook";
 import {
   StyleSheet,
   View,
   Image,
   Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   SafeAreaView,
-  Keyboard,
+  Alert,
   StatusBar,
   ImageBackground,
 } from "react-native";
 
 // resource
-import ButtonImage from "../components/ButtonImage";
-import IconImage from "../components/IconImage";
-import Language from "../config/language-es";
+import Language from "../config/Language-es";
 import Colors from "../config/colors";
 import Routes from "../navigation/routes";
-import { TextInput } from "react-native-gesture-handler";
+
+// components
+import KeyScroll from "../components/KeyScroll";
+import Card from "../components/Card";
+import ButtonImage from "../components/ButtonImage";
+import IconImage from "../components/IconImage";
+import TouchableText from "../components/TouchableText";
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 
 // Images
 const background = require("../assets/png/background.png");
@@ -31,13 +34,47 @@ const btnRegister = require("../assets/png/btnLogin.png");
 const iconGoogle = require("../assets/png/google.png");
 const iconFacebook = require("../assets/png/facebook.png");
 
-function LoginScreen({ navigation }) {
-  // variables
-  const [user, onChangeTextUser] = useState("");
-  const [password, onChangeTextPassword] = useState("");
+// validation
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .required(Language.require)
+    .email(Language.invalidUser)
+    .label(),
+  password: Yup.string().required(Language.require).label(),
+});
 
+// login Facebook
+async function logInFacebook() {
+  try {
+    await Facebook.initializeAsync("380315140060022");
+    const {
+      type,
+      token,
+      expires,
+      permissions,
+      declinedPermissions,
+    } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ["public_profile"],
+    });
+    if (type === "success") {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`
+      );
+      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+    } else {
+      // type === 'cancel'
+      console.log("Cancel");
+    }
+  } catch ({ message }) {
+    alert(`Facebook Login Error: ${message}`);
+    console.log(message);
+  }
+}
+
+function LoginScreen({ navigation }) {
   // dialog
-  const [recover, onChangeRecover] = useState("");
+  const [recover, setRecover] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
 
   return (
@@ -49,9 +86,14 @@ function LoginScreen({ navigation }) {
           title={Language.forgetPassword}
           message={Language.messageDialogRecovery}
           hintInput={Language.email}
+          textInputProps={{
+            autoCapitalize: "none",
+            autoCorrect: false,
+            keyboardType: "email-address",
+          }}
           submitText={Language.submit}
           submitInput={(text) => {
-            onChangeRecover(text), setDialogVisible(!dialogVisible);
+            setRecover(text), setDialogVisible(!dialogVisible);
           }}
           cancelText={Language.cancel}
           closeDialog={() => {
@@ -59,78 +101,66 @@ function LoginScreen({ navigation }) {
           }}
         />
         {/* end Dialog */}
-        <KeyboardAwareScrollView
-          extraScrollHeight={50}
-          enableOnAndroid={true}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{ alignItems: "center" }}>
-              <Image style={styles.logo} resizeMode="contain" source={logo} />
-              <View style={styles.card}>
-                <Input
+        <KeyScroll>
+          <View style={{ alignItems: "center" }}>
+            <Image style={styles.logo} resizeMode="contain" source={logo} />
+            <Card paddingBottom={19}>
+              <AppForm
+                initialValues={{ email: "", password: "" }}
+                onSubmit={(values) => console.log(values)}
+                validationSchema={validationSchema}
+              >
+                <AppFormField
+                  name="email"
                   placeholder={Language.user}
-                  dense={true}
-                  style={styles.inputUser}
-                  theme={inputTheme}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoCompleteType="email"
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
                 />
-                <Input
+                <AppFormField
+                  name="password"
                   placeholder={Language.password}
-                  dense={true}
-                  secureTextEntry={true}
-                  style={styles.inputRegister}
-                  theme={inputTheme}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                  textContentType="password"
                 />
-                <TextInput placeholder="Nombre" />
-                {/* show dialog */}
-                <TouchableOpacity
+                <TouchableText
+                  title={Language.forgetPassword}
+                  style={styles.textForget}
                   onPress={() => {
                     setDialogVisible(!dialogVisible);
                   }}
-                >
-                  <Text style={styles.textForget}>
-                    {Language.forgetPassword}
-                  </Text>
-                </TouchableOpacity>
-                {/* button login */}
-                <ButtonImage
-                  title={Language.logIn}
-                  source={btnLogin}
-                  onPress={() => navigation.navigate(Routes.REGISTER)}
                 />
-                <Text style={styles.textAccount}>
-                  {Language.dontHaveAccount}
-                </Text>
-                {/* button register */}
-                <ButtonImage
-                  title={Language.register}
-                  source={btnRegister}
-                  textColor="text"
-                  onPress={() => navigation.navigate(Routes.REGISTER)}
+                <SubmitButton title={Language.logIn} source={btnLogin} />
+              </AppForm>
+              {/* Label */}
+              <Text style={styles.textAccount}>{Language.dontHaveAccount}</Text>
+              {/* button register */}
+              <ButtonImage
+                title={Language.register}
+                source={btnRegister}
+                textColor="text"
+                onPress={() => navigation.navigate(Routes.REGISTER)}
+              />
+              {/* button icons */}
+              <View style={styles.containerIcons}>
+                <IconImage source={iconGoogle} />
+                <IconImage
+                  source={iconFacebook}
+                  onPress={() => logInFacebook()}
                 />
-                {/* button icons */}
-                <View style={styles.containerIcons}>
-                  <IconImage source={iconGoogle} />
-                  <IconImage source={iconFacebook} />
-                </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+            </Card>
+          </View>
+        </KeyScroll>
       </ImageBackground>
       <StatusBar hidden={true} />
     </SafeAreaView>
   );
 }
-
-// paper theme
-const inputTheme = {
-  colors: {
-    primary: Colors.primary,
-    underlineColor: "transparent",
-    background: Colors.white,
-  },
-};
 
 // default styles
 const styles = StyleSheet.create({
@@ -148,47 +178,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 8,
   },
-  card: {
-    backgroundColor: "white",
-    width: 270,
-    height: 390,
-    padding: 30,
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginBottom: 10,
-  },
-  inputUser: {
-    backgroundColor: "white",
-    marginBottom: 15,
-  },
-  inputRegister: {
-    backgroundColor: "white",
-    marginBottom: 10,
-  },
   textForget: {
     color: Colors.primary,
-    textAlign: "right",
-    padding: 5,
+    textAlign: "center",
+    marginTop: 10,
   },
   textAccount: {
     color: Colors.gray,
     textAlign: "center",
     marginTop: 10,
-  },
-  btnTouch: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    height: 65,
-    width: "100%",
   },
   textLogin: {
     letterSpacing: 0.6,
@@ -203,11 +201,6 @@ const styles = StyleSheet.create({
   containerIcons: {
     flexDirection: "row",
     marginTop: 3,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    marginLeft: 44,
   },
 });
 

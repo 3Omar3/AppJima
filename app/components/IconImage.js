@@ -4,7 +4,12 @@ import { StyleSheet, TouchableOpacity, Image } from "react-native";
 function AppIconImage({ source, onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Image style={styles.icon} resizeMode="contain" source={source} />
+      <Image
+        style={styles.icon}
+        resizeMode="contain"
+        source={source}
+        onPress={onPress}
+      />
     </TouchableOpacity>
   );
 }
