@@ -8,6 +8,7 @@ export default {
   // diseño
   primary: "#10828D",
   secondary: "#16CAC9",
+  menu: "#181824",
   input: "#F0F2F5",
   button: "#27C0AC",
   textButton: "white",

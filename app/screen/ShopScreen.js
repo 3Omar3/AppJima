@@ -12,14 +12,14 @@ import ScreenScroll from "../components/ScreenScroll";
 // API
 import userApi from "../api/users";
 
-function HomeScreen({ navigation }) {
+function ShopScreen({ navigation }) {
   return (
     <ScreenScroll justify="flex-start">
-      <Text>HOME SCREEN</Text>
+      <Text>SHOP SCREEN</Text>
     </ScreenScroll>
   );
 }
 
 const styles = StyleSheet.create({});
 
-export default HomeScreen;
+export default ShopScreen;

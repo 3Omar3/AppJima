@@ -4,8 +4,8 @@
     "slug": "Jima",
     "version": "1.0.0",
     "orientation": "portrait",
-    "facebookScheme": "fb380315140060022",
-    "facebookAppId": "380315140060022",
+    "facebookScheme": "fb3278020435573594",
+    "facebookAppId": "3278020435573594",
     "facebookDisplayName": "JIMA",
     "icon": "./app/assets/icon.png",
     "splash": {
@@ -16,9 +16,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.omarnuel.Jima"
     },

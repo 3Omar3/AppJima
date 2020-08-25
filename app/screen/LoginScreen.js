@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import DialogInput from "react-native-dialog-input";
 import * as Yup from "yup"; // validacion
-import * as Facebook from "expo-facebook";
+import * as Facebook from "expo-facebook"; // faceboock login
+import * as Google from "expo-google-app-auth"; // google login
 import {
   StyleSheet,
   View,
@@ -46,7 +47,7 @@ const validationSchema = Yup.object().shape({
 // login Facebook
 async function logInFacebook() {
   try {
-    await Facebook.initializeAsync("380315140060022");
+    await Facebook.initializeAsync("3278020435573594"); // must be erase the key when upload the app, because its already declared in app.json
     const {
       type,
       token,
@@ -68,7 +69,25 @@ async function logInFacebook() {
     }
   } catch ({ message }) {
     alert(`Facebook Login Error: ${message}`);
-    console.log(message);
+  }
+}
+
+// login google
+async function signInWithGoogleAsync() {
+  try {
+    const result = await Google.logInAsync({
+      androidClientId: `1075446536311-06urtss5gefhhgnbnleehjavg09l13qc.apps.googleusercontent.com`,
+      iosClientId: `1075446536311-io47p6jucamsqbl8o82admjlh5nmvtkm.apps.googleusercontent.com`,
+      scopes: ["profile", "email"],
+    });
+
+    if (result.type === "success") {
+      return result.accessToken;
+    } else {
+      return { cancelled: true };
+    }
+  } catch (e) {
+    return { error: true };
   }
 }
 
@@ -147,7 +166,10 @@ function LoginScreen({ navigation }) {
               />
               {/* button icons */}
               <View style={styles.containerIcons}>
-                <IconImage source={iconGoogle} />
+                <IconImage
+                  source={iconGoogle}
+                  onPress={() => signInWithGoogleAsync()}
+                />
                 <IconImage
                   source={iconFacebook}
                   onPress={() => logInFacebook()}

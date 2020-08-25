@@ -23,13 +23,13 @@ import Card from "../components/Card";
 import TouchableText from "../components/TouchableText";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 
+// api
+import api from "../api/client";
+
 // images
 const background = require("../assets/png/background.png");
 const logo = require("../assets/png/jimablanco.png");
 const btnRegister = require("../assets/png/btnDegradado.png");
-
-// api
-import api from "../api/client";
 
 // validation
 const validationSchema = Yup.object().shape({
@@ -72,31 +72,7 @@ function RegisterScreen({ navigation }) {
       setState({ errorMessage: res.data.error });
     }
   };
-  async function logIn() {
-    try {
-      await Facebook.initializeAsync("<APP_ID>");
-      const {
-        type,
-        token,
-        expires,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile"],
-      });
-      if (type === "success") {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        );
-        Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
-    }
-  }
+
   return (
     <SafeAreaView style={styles.background}>
       <ImageBackground source={background} style={styles.imgBackground}>

@@ -37,6 +37,14 @@ export default {
   dontHaveAccount: "¿No tienes una cuenta aun?",
   close: "Cerrar",
 
+  // Screens
+  home: "inicio",
+  purchase: "comprar",
+  sale: "ventas",
+  simulation: "simulacion",
+  report: "reportes",
+  news: "noticias",
+
   // Terminos y Condiciones
   document:
     "<style> h3{text-align:center; font-size: 20} h4{text-align:center;} p{text-align:justify;}</style>" +
