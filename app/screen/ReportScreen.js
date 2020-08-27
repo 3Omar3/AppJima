@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 
 // source
-import Language from "../config/Language-es";
+import { t } from "../config/locales";
 import Colors from "../config/colors";
 import Routes from "../navigation/routes";
 

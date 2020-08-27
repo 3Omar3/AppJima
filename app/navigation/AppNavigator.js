@@ -1,13 +1,6 @@
 import React from "react";
 import { StatusBar, Text, View, Image } from "react-native";
-import {
-  MaterialCommunityIcons,
-  Entypo,
-  MaterialIcons,
-  Feather,
-  FontAwesome,
-  AntDesign,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 // Screens
@@ -20,7 +13,7 @@ import NewsScreen from "../screen/NewsScreen";
 
 // resource
 import Colors from "../config/colors";
-import Language from "../config/Language-es";
+import { t } from "../config/locales";
 
 // images
 const logo = require("../assets/png/jimablanco2.png");
@@ -64,16 +57,10 @@ const AppNavigator = () => (
       </View>
     </View>
     <Tab.Navigator
-      initialRouteName={Language.home}
+      initialRouteName={t("home")}
       tabBarOptions={{
         showIcon: true,
         showLabel: false,
-        // labelStyle: {
-        //   fontSize: 10,
-        //   color: Colors.white,
-        //   textTransform: "uppercase",
-        //   fontWeight: "bold",
-        // },
         iconStyle: { alignItems: "center" },
         activeTintColor: Colors.white,
         inactiveTintColor: Colors.gray,
@@ -82,7 +69,7 @@ const AppNavigator = () => (
       }}
     >
       <Tab.Screen
-        name={Language.home}
+        name={t("home")}
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -91,7 +78,7 @@ const AppNavigator = () => (
         }}
       />
       <Tab.Screen
-        name={Language.purchase}
+        name={t("purchase")}
         component={PurchaseScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -100,7 +87,7 @@ const AppNavigator = () => (
         }}
       />
       <Tab.Screen
-        name={Language.sale}
+        name={t("sale")}
         component={SaleScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -113,7 +100,7 @@ const AppNavigator = () => (
         }}
       />
       <Tab.Screen
-        name={Language.simulation}
+        name={t("simulation")}
         component={SimulationScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -122,7 +109,7 @@ const AppNavigator = () => (
         }}
       />
       <Tab.Screen
-        name={Language.report}
+        name={t("report")}
         component={ReportScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -131,7 +118,7 @@ const AppNavigator = () => (
         }}
       />
       <Tab.Screen
-        name={Language.news}
+        name={t("news")}
         component={NewsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (

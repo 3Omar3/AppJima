@@ -2,9 +2,11 @@ import React from "react";
 import { StyleSheet, StatusBar, Image, View, Text } from "react-native";
 
 // source
+import { t } from "../config/locales";
+
+// components
 import Button from "../components/Button";
 import ScreenScroll from "../components/ScreenScroll";
-import Language from "../config/Language-es";
 import Routes from "../navigation/routes";
 
 // images
@@ -15,15 +17,15 @@ function WelcomeScreen({ navigation }) {
     <ScreenScroll justify={"flex-end"}>
       <Image style={styles.logo} resizeMode="contain" source={logo} />
       <View style={styles.containerWelcome}>
-        <Text style={styles.title}>{Language.welcome}</Text>
-        <Text style={styles.text}>{Language.welcomeMessage}</Text>
+        <Text style={styles.title}>{t("welcome")}</Text>
+        <Text style={styles.text}>{t("welcomeMessage")}</Text>
       </View>
       <Button
-        title={Language.logIn}
+        title={t("logIn")}
         onPress={() => navigation.navigate(Routes.LOGIN)}
       />
       <Button
-        title={Language.registerMe}
+        title={t("registerMe")}
         color="liteGray"
         textColor="text"
         onPress={() => navigation.navigate(Routes.REGISTER)}

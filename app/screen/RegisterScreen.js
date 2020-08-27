@@ -15,7 +15,7 @@ import {
 
 // resource
 import Colors from "../config/colors.js";
-import Language from "../config/Language-es.js";
+import { t } from "../config/locales";
 
 // components
 import KeyScroll from "../components/KeyScroll";
@@ -33,16 +33,13 @@ const btnRegister = require("../assets/png/btnDegradado.png");
 
 // validation
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required(Language.require).label(),
-  firstLastname: Yup.string().required(Language.require).label(),
+  name: Yup.string().required(t("require")).label(),
+  firstLastname: Yup.string().required(t("require")).label(),
   secondLastname: Yup.string().label(),
-  email: Yup.string()
-    .required(Language.require)
-    .email(Language.invalidEmail)
-    .label(),
-  password: Yup.string().required(Language.require).label(),
+  email: Yup.string().required(t("require")).email(t("invalidEmail")).label(),
+  password: Yup.string().required(t("require")).label(),
   passwordConfirm: Yup.string()
-    .required(Language.require)
+    .required(t("require"))
     .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden")
     .label(),
 });
@@ -94,22 +91,22 @@ function RegisterScreen({ navigation }) {
               >
                 <AppFormField
                   name="name"
-                  placeholder={Language.name}
+                  placeholder={t("name")}
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="firstLastname"
-                  placeholder={Language.firstLastname}
+                  placeholder={t("firstLastname")}
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="secondLastname"
-                  placeholder={Language.secondLastname}
+                  placeholder={t("secondLastname")}
                   autoCorrect={false}
                 />
                 <AppFormField
                   name="email"
-                  placeholder={Language.email}
+                  placeholder={t("emailAddress")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   autoCompleteType="email"
@@ -118,7 +115,7 @@ function RegisterScreen({ navigation }) {
                 />
                 <AppFormField
                   name="password"
-                  placeholder={Language.password}
+                  placeholder={t("password")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   secureTextEntry
@@ -126,7 +123,7 @@ function RegisterScreen({ navigation }) {
                 />
                 <AppFormField
                   name="passwordConfirm"
-                  placeholder={Language.passwordConfirm}
+                  placeholder={t("passwordConfirm")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   secureTextEntry
@@ -148,10 +145,10 @@ function RegisterScreen({ navigation }) {
                         bounces={false}
                         scrollEnabled={false}
                         style={{ flex: 1 }}
-                        source={{ html: Language.document }}
+                        source={{ html: t("document") }}
                       />
                       <TouchableText
-                        title={Language.close}
+                        title={t("close")}
                         style={styles.closeButton}
                         onPress={() => {
                           setModalVisible(!modalVisible);
@@ -166,9 +163,9 @@ function RegisterScreen({ navigation }) {
                       setChecked(!checked);
                     }}
                   />
-                  <Text style={styles.textAccept}>{Language.accept}</Text>
+                  <Text style={styles.textAccept}>{t("accept")}</Text>
                   <TouchableText
-                    title={Language.terms}
+                    title={t("terms")}
                     textColor={"text"}
                     style={styles.textTerms}
                     onPress={() => {
@@ -178,7 +175,7 @@ function RegisterScreen({ navigation }) {
                 </View>
                 {/* button register */}
                 <SubmitButton
-                  title={Language.register}
+                  title={t("register")}
                   source={btnRegister}
                   onPress={registerUser}
                 />

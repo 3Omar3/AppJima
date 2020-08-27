@@ -15,7 +15,7 @@ import {
 } from "react-native";
 
 // resource
-import Language from "../config/Language-es";
+import { t } from "../config/locales";
 import Colors from "../config/colors";
 import Routes from "../navigation/routes";
 
@@ -37,11 +37,8 @@ const iconFacebook = require("../assets/png/facebook.png");
 
 // validation
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .required(Language.require)
-    .email(Language.invalidUser)
-    .label(),
-  password: Yup.string().required(Language.require).label(),
+  email: Yup.string().required(t("require")).email(t("invalidUser")).label(),
+  password: Yup.string().required(t("require")).label(),
 });
 
 // login Facebook
@@ -64,8 +61,7 @@ async function logInFacebook() {
       );
       Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
     } else {
-      // type === 'cancel'
-      console.log("Cancel");
+      return { cancelled: true };
     }
   } catch ({ message }) {
     alert(`Facebook Login Error: ${message}`);
@@ -76,8 +72,8 @@ async function logInFacebook() {
 async function signInWithGoogleAsync() {
   try {
     const result = await Google.logInAsync({
-      androidClientId: `1075446536311-06urtss5gefhhgnbnleehjavg09l13qc.apps.googleusercontent.com`,
-      iosClientId: `1075446536311-io47p6jucamsqbl8o82admjlh5nmvtkm.apps.googleusercontent.com`,
+      androidClientId: `900903839512-slau4q9aeqte0bbs00qihn6757dr4qb4.apps.googleusercontent.com`,
+      iosClientId: `900903839512-ml04hdcj09fetddm8f7h3l56u4s41du8.apps.googleusercontent.com`,
       scopes: ["profile", "email"],
     });
 
@@ -102,19 +98,19 @@ function LoginScreen({ navigation }) {
         {/* Dialog */}
         <DialogInput
           isDialogVisible={dialogVisible}
-          title={Language.forgetPassword}
-          message={Language.messageDialogRecovery}
-          hintInput={Language.email}
+          title={t("forgetPassword")}
+          message={t("messageDialogRecovery")}
+          hintInput={t("email")}
           textInputProps={{
             autoCapitalize: "none",
             autoCorrect: false,
             keyboardType: "email-address",
           }}
-          submitText={Language.submit}
+          submitText={t("submit")}
           submitInput={(text) => {
             setRecover(text), setDialogVisible(!dialogVisible);
           }}
-          cancelText={Language.cancel}
+          cancelText={t("cancel")}
           closeDialog={() => {
             setDialogVisible(!dialogVisible);
           }}
@@ -131,7 +127,7 @@ function LoginScreen({ navigation }) {
               >
                 <AppFormField
                   name="email"
-                  placeholder={Language.user}
+                  placeholder={t("user")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   autoCompleteType="email"
@@ -140,26 +136,26 @@ function LoginScreen({ navigation }) {
                 />
                 <AppFormField
                   name="password"
-                  placeholder={Language.password}
+                  placeholder={t("password")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   secureTextEntry
                   textContentType="password"
                 />
                 <TouchableText
-                  title={Language.forgetPassword}
+                  title={t("forgetPassword")}
                   style={styles.textForget}
                   onPress={() => {
                     setDialogVisible(!dialogVisible);
                   }}
                 />
-                <SubmitButton title={Language.logIn} source={btnLogin} />
+                <SubmitButton title={t("logIn")} source={btnLogin} />
               </AppForm>
               {/* Label */}
-              <Text style={styles.textAccount}>{Language.dontHaveAccount}</Text>
+              <Text style={styles.textAccount}>{t("dontHaveAccount")}</Text>
               {/* button register */}
               <ButtonImage
-                title={Language.register}
+                title={t("register")}
                 source={btnRegister}
                 textColor="text"
                 onPress={() => navigation.navigate(Routes.REGISTER)}
