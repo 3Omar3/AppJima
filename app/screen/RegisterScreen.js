@@ -21,7 +21,7 @@ import { t } from "../config/locales";
 import KeyScroll from "../components/KeyScroll";
 import Card from "../components/Card";
 import TouchableText from "../components/TouchableText";
-import { AppForm, AppFormField, SubmitButton } from "../components/forms";
+import { Form, FormField, SubmitButton } from "../components/forms";
 
 // api
 import api from "../api/client";
@@ -77,7 +77,7 @@ function RegisterScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Image style={styles.logo} resizeMode="contain" source={logo} />
             <Card>
-              <AppForm
+              <Form
                 initialValues={{
                   name: "",
                   firstLastname: "",
@@ -89,22 +89,22 @@ function RegisterScreen({ navigation }) {
                 onSubmit={(values) => console.log(values)}
                 validationSchema={validationSchema}
               >
-                <AppFormField
+                <FormField
                   name="name"
                   placeholder={t("name")}
                   autoCorrect={false}
                 />
-                <AppFormField
+                <FormField
                   name="firstLastname"
                   placeholder={t("firstLastname")}
                   autoCorrect={false}
                 />
-                <AppFormField
+                <FormField
                   name="secondLastname"
                   placeholder={t("secondLastname")}
                   autoCorrect={false}
                 />
-                <AppFormField
+                <FormField
                   name="email"
                   placeholder={t("emailAddress")}
                   autoCapitalize="none"
@@ -113,7 +113,7 @@ function RegisterScreen({ navigation }) {
                   keyboardType="email-address"
                   textContentType="emailAddress"
                 />
-                <AppFormField
+                <FormField
                   name="password"
                   placeholder={t("password")}
                   autoCapitalize="none"
@@ -121,7 +121,7 @@ function RegisterScreen({ navigation }) {
                   secureTextEntry
                   textContentType="password"
                 />
-                <AppFormField
+                <FormField
                   name="passwordConfirm"
                   placeholder={t("passwordConfirm")}
                   autoCapitalize="none"
@@ -179,7 +179,7 @@ function RegisterScreen({ navigation }) {
                   source={btnRegister}
                   onPress={registerUser}
                 />
-              </AppForm>
+              </Form>
             </Card>
           </View>
         </KeyScroll>

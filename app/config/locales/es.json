@@ -5,6 +5,7 @@
   "require": "Este campo es requerido",
   "invalidUser": "Usuario debe ser un email valido",
   "invalidEmail": "Correo debe ser un email valido",
+  "invalidLogin": "Usuario o contraseña incorrectos",
 
   "welcome": "Bienvenido",
   "welcomeMessage": "No te preocupes, solo invierte y ve como tu dinero aumenta, Jima se hará cargo de todas las operaciones que requiera la plantación, cultivo y venta de tus plantas de agave.",

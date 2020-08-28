@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar, Text, View, Image } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 // Screens
@@ -16,7 +16,7 @@ import Colors from "../config/colors";
 import { t } from "../config/locales";
 
 // images
-const logo = require("../assets/png/jimablanco2.png");
+const logo = require("../assets/png/blanco.png");
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -82,7 +82,7 @@ const AppNavigator = () => (
         component={PurchaseScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="shopping" size={20} color={color} />
+            <Ionicons name="ios-cart" size={20} color={color} />
           ),
         }}
       />
@@ -104,7 +104,11 @@ const AppNavigator = () => (
         component={SimulationScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="test-tube" size={20} color={color} />
+            <MaterialCommunityIcons
+              name="scale-balance"
+              size={20}
+              color={color}
+            />
           ),
         }}
       />

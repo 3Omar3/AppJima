@@ -1,7 +1,5 @@
 import client from "./client";
-import endpoint from "./routes";
 
-const login = (email, password) =>
-  client.post(endpoint.REGISTER, { email, password });
+const login = (email, password) => client.post("/login", { email, password });
 
 export default { login };

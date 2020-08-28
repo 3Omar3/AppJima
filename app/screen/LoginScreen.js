@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import DialogInput from "react-native-dialog-input";
 import * as Yup from "yup"; // validacion
 import * as Facebook from "expo-facebook"; // faceboock login
@@ -25,7 +25,16 @@ import Card from "../components/Card";
 import ButtonImage from "../components/ButtonImage";
 import IconImage from "../components/IconImage";
 import TouchableText from "../components/TouchableText";
-import { AppForm, AppFormField, SubmitButton } from "../components/forms";
+import {
+  ErrorMessage,
+  Form,
+  FormField,
+  SubmitButton,
+} from "../components/forms";
+
+// api
+import authApi from "../api/auth";
+import AuthContext from "../auth/context";
 
 // Images
 const background = require("../assets/png/background.png");
@@ -88,6 +97,19 @@ async function signInWithGoogleAsync() {
 }
 
 function LoginScreen({ navigation }) {
+  // login
+  const authContext = useContext(AuthContext);
+  const [loginFailed, setLoginFailed] = useState(false);
+
+  const handleSubmit = async ({ email, password }) => {
+    const result = await authApi.login(email, password);
+
+    if (!result.ok) return setLoginFailed(true);
+    setLoginFailed(false);
+    const token = result.data.token;
+    authContext.setUser(token);
+  };
+
   // dialog
   const [recover, setRecover] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
@@ -120,12 +142,13 @@ function LoginScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Image style={styles.logo} resizeMode="contain" source={logo} />
             <Card paddingBottom={19}>
-              <AppForm
+              <Form
                 initialValues={{ email: "", password: "" }}
-                onSubmit={(values) => console.log(values)}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
               >
-                <AppFormField
+                <ErrorMessage error={t("invalidLogin")} visible={loginFailed} />
+                <FormField
                   name="email"
                   placeholder={t("user")}
                   autoCapitalize="none"
@@ -134,7 +157,7 @@ function LoginScreen({ navigation }) {
                   keyboardType="email-address"
                   textContentType="emailAddress"
                 />
-                <AppFormField
+                <FormField
                   name="password"
                   placeholder={t("password")}
                   autoCapitalize="none"
@@ -150,7 +173,7 @@ function LoginScreen({ navigation }) {
                   }}
                 />
                 <SubmitButton title={t("logIn")} source={btnLogin} />
-              </AppForm>
+              </Form>
               {/* Label */}
               <Text style={styles.textAccount}>{t("dontHaveAccount")}</Text>
               {/* button register */}

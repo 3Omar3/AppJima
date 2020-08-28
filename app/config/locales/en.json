@@ -5,6 +5,7 @@
   "require": "This field is required",
   "invalidUser": "User must be a valid email",
   "invalidEmail": "Email must be a valid email",
+  "invalidLogin": "Invalid username or password",
 
   "welcome": "Welcome",
   "welcomeMessage": "Don't worry, just invest and see how your money increases, Jima will take care of all the operations that the planting, cultivation and sale of your agave plants requires.",
