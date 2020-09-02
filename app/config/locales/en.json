@@ -6,6 +6,10 @@
   "invalidUser": "User must be a valid email",
   "invalidEmail": "Email must be a valid email",
   "invalidLogin": "Invalid username or password",
+  "emailDuplicate": "Email address already registered",
+  "errorRegister": "an unexpected error has occurred",
+  "error": "Error",
+  "warningTerms": "You must accept and agree to terms and conditions",
 
   "welcome": "Welcome",
   "welcomeMessage": "Don't worry, just invest and see how your money increases, Jima will take care of all the operations that the planting, cultivation and sale of your agave plants requires.",
@@ -17,9 +21,9 @@
   "cancel": "Cancel",
   "submit": "Send",
 
-  "name": "Name",
-  "firstLastname": "Surname",
-  "secondLastname": "Second surname",
+  "name": "First name",
+  "middlename": "Middle name",
+  "secondLastname": "Last name",
   "emailAddress": "Email address",
   "password": "Password",
   "passwordConfirm": "Confirm Password",
@@ -29,6 +33,8 @@
   "forgetPassword": "Forgot your password?",
   "dontHaveAccount": "Don´t have an account?",
   "close": "Close",
+  "registerSuccessTitle": "Your account has been created!",
+  "registerSuccessMessage": "A verification email has been sent to you, to access your JIMA account, open the email and click on the activation link. If you have any problem or question you can contact us at jima.contacto@gmail.com",
 
   "home": "Home",
   "purchase": "Purchase",

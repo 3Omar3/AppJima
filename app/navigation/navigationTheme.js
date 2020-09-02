@@ -6,6 +6,6 @@ export default myTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: colors.primary,
-    background: colors.white,
+    background: "#F0F2F5",
   },
 };

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { WebView } from "react-native-webview";
 import { Checkbox } from "react-native-paper";
+import * as Localization from "expo-localization";
 import * as Yup from "yup"; // validacion
 import {
   StyleSheet,
@@ -11,10 +12,12 @@ import {
   ImageBackground,
   Text,
   Modal,
+  Alert,
 } from "react-native";
 
 // resource
-import Colors from "../config/colors.js";
+import Colors from "../config/colors";
+import Routes from "../navigation/routes";
 import { t } from "../config/locales";
 
 // components
@@ -24,7 +27,7 @@ import TouchableText from "../components/TouchableText";
 import { Form, FormField, SubmitButton } from "../components/forms";
 
 // api
-import api from "../api/client";
+import userApi from "../api/users";
 
 // images
 const background = require("../assets/png/background.png");
@@ -34,8 +37,8 @@ const btnRegister = require("../assets/png/btnDegradado.png");
 // validation
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(t("require")).label(),
-  firstLastname: Yup.string().required(t("require")).label(),
-  secondLastname: Yup.string().label(),
+  middlename: Yup.string().required(t("require")).label(),
+  lastname: Yup.string().label(),
   email: Yup.string().required(t("require")).email(t("invalidEmail")).label(),
   password: Yup.string().required(t("require")).label(),
   passwordConfirm: Yup.string()
@@ -45,29 +48,35 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen({ navigation }) {
-  // checkbox
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false); // checkbox
+  const [modalVisible, setModalVisible] = useState(false); // modal
 
-  // modal
-  const [modalVisible, setModalVisible] = useState(false);
-
-  // api
-  registerUser = async () => {
-    try {
-      const response = await api.post("/usuarios", {
-        correo: "omarnuel123@gmail.com",
-        contrasenia: "admin123",
-        foto: "",
-        tipo_login: "1",
-        fk_referido: "0",
-        puesto: "",
-      });
-
-      const { message } = response.data;
-      console.log(response.data);
-    } catch (res) {
-      setState({ errorMessage: res.data.error });
+  // registro
+  const handleSubmit = async (info) => {
+    if (checked === false) {
+      Alert.alert(t("error"), t("warningTerms"));
+      return;
     }
+
+    // language
+    if (Localization.locale.substr(0, 2) === "en") {
+      info["language"] = "espanol";
+      info["coin"] = "mxn";
+    } else {
+      info["language"] = "ingles";
+      info["coin"] = "usd";
+    }
+
+    const result = await userApi.register({ ...info });
+
+    if (!result.ok) {
+      if (result.data.auth === false)
+        return Alert.alert(t("error"), t("emailDuplicate"));
+      else return alert(t("errorRegister"));
+    }
+
+    Alert.alert(t("registerSuccessTitle"), t("registerSuccessMessage"));
+    navigation.navigate(Routes.LOGIN);
   };
 
   return (
@@ -80,13 +89,17 @@ function RegisterScreen({ navigation }) {
               <Form
                 initialValues={{
                   name: "",
-                  firstLastname: "",
-                  secondLastname: "",
+                  middlename: "",
+                  lastname: "",
                   email: "",
                   password: "",
                   passwordConfirm: "",
+                  foto: "",
+                  fk_referido: 0,
+                  tipo_login: 1,
+                  puesto: "",
                 }}
-                onSubmit={(values) => console.log(values)}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
               >
                 <FormField
@@ -95,12 +108,12 @@ function RegisterScreen({ navigation }) {
                   autoCorrect={false}
                 />
                 <FormField
-                  name="firstLastname"
-                  placeholder={t("firstLastname")}
+                  name="middlename"
+                  placeholder={t("middlename")}
                   autoCorrect={false}
                 />
                 <FormField
-                  name="secondLastname"
+                  name="lastname"
                   placeholder={t("secondLastname")}
                   autoCorrect={false}
                 />
@@ -174,11 +187,7 @@ function RegisterScreen({ navigation }) {
                   />
                 </View>
                 {/* button register */}
-                <SubmitButton
-                  title={t("register")}
-                  source={btnRegister}
-                  onPress={registerUser}
-                />
+                <SubmitButton title={t("register")} source={btnRegister} />
               </Form>
             </Card>
           </View>
