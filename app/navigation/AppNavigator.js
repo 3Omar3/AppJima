@@ -155,8 +155,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   btnMenu: {
-    marginLeft: 15,
-    marginRight: 10,
+    marginHorizontal: 15,
     top: 2.5,
   },
 });

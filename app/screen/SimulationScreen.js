@@ -293,15 +293,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     overflow: "hidden",
-    shadowColor: Colors.liteGray,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 1,
   },
   title: {
     fontSize: 14,

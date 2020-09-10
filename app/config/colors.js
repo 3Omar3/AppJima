@@ -5,7 +5,7 @@ export default {
   gray: "gray",
   green: "#00778A",
   liteGray: "#ECECEC",
-  chi: "#2089DC",
+  chi: "#0ABB87",
 
   // diseño
   primary: "#181824",
