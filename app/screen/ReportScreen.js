@@ -7,16 +7,24 @@ import Colors from "../config/colors";
 import Routes from "../navigation/routes";
 
 // components
-import ScreenScroll from "../components/ScreenScroll";
+import { ScrollView } from "react-native-gesture-handler";
+import CardPreview from "../components/CardPreview";
 
 // API
 import userApi from "../api/users";
 
 function ReportScreen({ navigation }) {
   return (
-    <ScreenScroll justify="flex-start">
+    <ScrollView
+      enableOnAndroid={true}
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{
+        justifyContent: "flex-start",
+        alignItems: "center",
+      }}
+    >
       <Text>REPORT SCREEN</Text>
-    </ScreenScroll>
+    </ScrollView>
   );
 }
 

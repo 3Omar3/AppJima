@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, Text, View, Image } from "react-native";
+import { StatusBar, Text, View, Image, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
@@ -22,38 +22,25 @@ const Tab = createMaterialTopTabNavigator();
 
 const AppNavigator = () => (
   <>
-    <StatusBar backgroundColor={"#1F1E2E"} />
-    <View style={{ flexDirection: "row", backgroundColor: Colors.menu }}>
-      <Image
-        source={logo}
-        resizeMode="contain"
-        style={{ top: 4, height: 65, width: 100, marginLeft: 15 }}
-      />
-      <View style={{ flexDirection: "row", top: 22 }}>
-        <View style={{ marginLeft: 40, alignItems: "center" }}>
-          <Text
-            style={{ color: Colors.white, fontSize: 12, fontWeight: "bold" }}
-          >
-            $112.00 MX
-          </Text>
-          <Text
-            style={{ color: Colors.white, fontSize: 11, fontWeight: "bold" }}
-          >
-            Precio por planta
-          </Text>
+    <StatusBar backgroundColor={Colors.secondary} />
+    <View style={styles.topLayer}>
+      <Image source={logo} resizeMode="contain" style={styles.logo} />
+      <View style={styles.contentTop}>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.textTitle}>$112.00 {t("coin")}</Text>
+          <Text style={styles.textSub}>{t("pricePerPlant")}</Text>
         </View>
-        <View style={{ marginLeft: 35, alignItems: "center" }}>
-          <Text
-            style={{ color: Colors.white, fontSize: 12, fontWeight: "bold" }}
-          >
-            $27.00 MX
-          </Text>
-          <Text
-            style={{ color: Colors.white, fontSize: 11, fontWeight: "bold" }}
-          >
-            Precio por Kilo
-          </Text>
+        <View style={styles.rightPrice}>
+          <Text style={styles.textTitle}>$27.00 {t("coin")}</Text>
+          <Text style={styles.textSub}>{t("pricePerKg")}</Text>
         </View>
+        <MaterialCommunityIcons
+          style={styles.btnMenu}
+          name="dots-vertical"
+          size={25}
+          color={Colors.white}
+          onPress={() => {}}
+        />
       </View>
     </View>
     <Tab.Navigator
@@ -65,7 +52,7 @@ const AppNavigator = () => (
         activeTintColor: Colors.white,
         inactiveTintColor: Colors.gray,
         indicatorStyle: { backgroundColor: Colors.white },
-        style: { backgroundColor: Colors.menu },
+        style: { backgroundColor: Colors.primary },
       }}
     >
       <Tab.Screen
@@ -133,5 +120,45 @@ const AppNavigator = () => (
     </Tab.Navigator>
   </>
 );
+
+const styles = StyleSheet.create({
+  topLayer: {
+    paddingTop: 5,
+    flexDirection: "row",
+    backgroundColor: Colors.primary, // #1F1E2E
+    alignItems: "center",
+    height: 50, // pensar
+  },
+  contentTop: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  logo: {
+    height: 65,
+    width: 85,
+    marginLeft: 15,
+  },
+  textTitle: {
+    color: Colors.white,
+    fontSize: 11,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+  },
+  textSub: {
+    color: Colors.white,
+    fontSize: 10,
+    fontWeight: "bold",
+  },
+  rightPrice: {
+    alignItems: "center",
+    marginLeft: 20,
+  },
+  btnMenu: {
+    marginLeft: 15,
+    marginRight: 10,
+    top: 2.5,
+  },
+});
 
 export default AppNavigator;

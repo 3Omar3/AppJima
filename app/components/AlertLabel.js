@@ -22,11 +22,8 @@ function AlertLabel({ text, money, coin = "MXN" }) {
             {money} {coin}
           </Text>
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity style={{ justifyContent: "center" }}>
           <MaterialCommunityIcons
-            style={{
-              marginTop: 3.5,
-            }}
             name="close"
             size={22}
             color={Colors.gray}
@@ -50,10 +47,19 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "row",
     justifyContent: "space-between",
+    shadowColor: Colors.liteGray,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 1,
   },
   warningIcon: {
     marginRight: 2,
-    marginTop: 3.5,
+    alignSelf: "center",
   },
   warningText: {
     fontSize: 12,
@@ -63,6 +69,7 @@ const styles = StyleSheet.create({
   warningMoney: {
     fontSize: 12,
     fontWeight: "bold",
+    textTransform: "uppercase",
   },
 });
 

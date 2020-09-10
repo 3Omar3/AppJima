@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { WebView } from "react-native-webview";
 import { Checkbox } from "react-native-paper";
-import * as Localization from "expo-localization";
 import * as Yup from "yup"; // validacion
 import {
   StyleSheet,
@@ -59,13 +58,8 @@ function RegisterScreen({ navigation }) {
     }
 
     // language
-    if (Localization.locale.substr(0, 2) === "en") {
-      info["language"] = "espanol";
-      info["coin"] = "mxn";
-    } else {
-      info["language"] = "ingles";
-      info["coin"] = "usd";
-    }
+    info["language"] = t("language");
+    info["coin"] = t("coin");
 
     const result = await userApi.register({ ...info });
 
@@ -84,7 +78,12 @@ function RegisterScreen({ navigation }) {
       <ImageBackground source={background} style={styles.imgBackground}>
         <KeyScroll>
           <View style={{ alignItems: "center" }}>
-            <Image style={styles.logo} resizeMode="contain" source={logo} />
+            <Image
+              style={styles.logo}
+              resizeMode="contain"
+              source={logo}
+              fadeDuration={0}
+            />
             <Card>
               <Form
                 initialValues={{
@@ -170,7 +169,7 @@ function RegisterScreen({ navigation }) {
                     </View>
                   </Modal>
                   <Checkbox
-                    color={Colors.primary}
+                    color={Colors.green}
                     status={checked ? "checked" : "unchecked"}
                     onPress={() => {
                       setChecked(!checked);

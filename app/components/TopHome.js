@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { FontAwesome5, Entypo } from "@expo/vector-icons";
 
+// resource
+import Colors from "../config/colors";
+
 function TopHome({
   title,
   text,
@@ -15,7 +18,7 @@ function TopHome({
       <Text style={styles.text}>{text}</Text>
       <View style={styles.iconContainer}>
         {packageIcons == "FontAwesome5" ? (
-          <FontAwesome5 name={icon} size={iconSize} color="black" />
+          <FontAwesome5 name={icon} size={iconSize} color={Colors.gray} />
         ) : (
           <Entypo name={icon} size={iconSize} color="black" />
         )}
@@ -28,18 +31,20 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 5,
     marginVertical: 5,
+    alignItems: "center",
   },
   title: {
-    fontSize: 11,
-    fontWeight: "bold",
+    fontSize: 14,
+    // fontWeight: "bold",
+    color: Colors.text,
   },
   text: {
-    fontSize: 12,
-    fontWeight: "bold",
+    fontSize: 14,
+    // fontWeight: "bold",
+    color: Colors.text,
   },
   iconContainer: {
     marginVertical: 10,
-    alignItems: "center",
   },
 });
 

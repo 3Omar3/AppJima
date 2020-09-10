@@ -9,6 +9,7 @@ function AppIconImage({ source, onPress }) {
         resizeMode="contain"
         source={source}
         onPress={onPress}
+        fadeDuration={0}
       />
     </TouchableOpacity>
   );

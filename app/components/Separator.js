@@ -11,8 +11,9 @@ function Separator(props) {
 const styles = StyleSheet.create({
   separator: {
     marginVertical: 8,
-    borderBottomColor: Colors.gray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.liteGray,
+    borderBottomWidth: 2,
+    borderRadius: 50,
   },
 });
 

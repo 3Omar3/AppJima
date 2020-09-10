@@ -6,7 +6,12 @@ import Colors from "../config/colors";
 function AppButtonImage({ title, source, onPress, textColor = "white" }) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Image style={styles.image} resizeMode="contain" source={source} />
+      <Image
+        style={styles.image}
+        resizeMode="contain"
+        source={source}
+        fadeDuration={0}
+      />
       <Text style={[styles.text, { color: Colors[textColor] }]}>{title}</Text>
     </TouchableOpacity>
   );

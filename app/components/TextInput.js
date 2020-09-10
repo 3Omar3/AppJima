@@ -19,7 +19,7 @@ function AppTextInput({ width = "100%", ...otherProps }) {
 const inputTheme = {
   // colors is defined by default
   colors: {
-    primary: Colors.primary,
+    primary: Colors.green,
     underlineColor: "transparent",
     background: Colors.white,
   },

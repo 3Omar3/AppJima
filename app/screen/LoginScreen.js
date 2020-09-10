@@ -116,7 +116,11 @@ function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.background}>
-      <ImageBackground source={background} style={styles.imgBackground}>
+      <ImageBackground
+        source={background}
+        style={styles.imgBackground}
+        fadeDuration={0}
+      >
         {/* Dialog */}
         <DialogInput
           isDialogVisible={dialogVisible}
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   textForget: {
-    color: Colors.primary,
+    color: Colors.green,
     textAlign: "center",
     marginTop: 10,
   },
