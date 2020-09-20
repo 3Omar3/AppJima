@@ -12,7 +12,6 @@ import KeyScroll from "../components/KeyScroll";
 
 // API
 import userApi from "../api/users";
-import Separator from "../components/Separator";
 import TextDescribcion from "../components/TextDescribcion";
 import Spinner from "../components/Spinner";
 
@@ -232,12 +231,6 @@ function SimulationScreen({ navigation }) {
           <TextDescribcion title="Utilidad por año:" describcion="$14,895.83" />
         </View>
         <View>
-          {/* <LineChart
-            data={data}
-            width={300}
-            height={220}
-            chartConfig={chartConfig}
-          /> */}
           <LineChart
             data={{
               labels: ["Jan", "Feb", "March", "April", "May", "June"],

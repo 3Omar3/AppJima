@@ -1,11 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import {
-  FontAwesome5,
-  Entypo,
-  MaterialCommunityIcons,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // source
 import { t } from "../config/locales";
@@ -14,9 +9,15 @@ import Routes from "../navigation/routes";
 
 // components
 
-// API
-import userApi from "../api/users";
-import Separator from "../components/Separator";
+// screens
+import {
+  ReportPlant,
+  ReportPurchase,
+  ReportProjection,
+  ReportSale,
+  ReportWithDraw,
+  ReportPrice,
+} from "./Reports";
 
 function ReportScreen({ navigation }) {
   return (
@@ -28,208 +29,85 @@ function ReportScreen({ navigation }) {
       }}
     >
       <View style={{ padding: 15 }}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 10,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: "bold",
-              color: Colors.text,
-              letterSpacing: 0.8,
-              textAlign: "center",
-            }}
-          >
-            Reportes
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              letterSpacing: 0.6,
-              color: Colors.gray,
-              marginVertical: 5,
-            }}
-          >
-            Mi Planta | MXN
-          </Text>
+        <View style={styles.containerTitle}>
+          <Text style={styles.textTitle}>Reportes</Text>
+          <Text style={styles.textSubTitle}>Mi Planta | MXN</Text>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            marginVertical: 10,
-          }}
-        >
-          <View
-            style={{
-              alignItems: "center",
-              flex: 1,
-              marginRight: 10,
-              backgroundColor: Colors.white,
-              borderRadius: 10,
-              padding: 20,
-            }}
-          >
-            <View style={{ padding: 15 }}>
-              <MaterialCommunityIcons
-                name={"coins"}
-                size={60}
-                color={Colors.chi}
-              />
-            </View>
-            <Text
-              style={{
-                fontSize: 22,
-                color: Colors.text,
-                fontWeight: "bold",
-                letterSpacing: 0.6,
-              }}
-            >
-              $0.00
-            </Text>
-            <Text
-              style={{
-                color: Colors.gray,
-                fontSize: 20,
-              }}
-            >
-              Saldo
-            </Text>
-          </View>
-          <View
-            style={{
-              alignSelf: "center",
-              alignItems: "center",
-              flex: 1,
-              marginLeft: 10,
-              backgroundColor: Colors.white,
-              borderRadius: 10,
-              padding: 20,
-            }}
-          >
-            <View style={{ padding: 15 }}>
-              <MaterialCommunityIcons
-                name="bank-outline"
-                size={60}
-                color="#0ABB87"
-              />
-            </View>
-            <Text
-              style={{ fontSize: 22, color: Colors.text, fontWeight: "bold" }}
-            >
-              $0.00
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-                textAlign: "center",
-              }}
-            >
-              Total Saldo
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 20,
-          }}
-        >
-          <View style={{ padding: 15 }}>
+        <View style={{ flexDirection: "row" }}>
+          <View style={styles.containerIcon}>
             <MaterialCommunityIcons
-              name={"seed-outline"}
-              size={60}
-              color={"#0ABB87"}
+              name="chart-donut"
+              size={25}
+              color={Colors.gray}
             />
           </View>
-          <Text
-            style={{ fontSize: 22, color: Colors.text, fontWeight: "bold" }}
-          >
-            $0.00
-          </Text>
-          <View style={{ width: 200, alignItems: "center" }}>
-            <Text
-              style={{
-                color: Colors.text,
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-              }}
-            >
-              Cantidad: 0
-            </Text>
-            <Text
-              style={{
-                color: Colors.text,
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-                textAlign: "center",
-              }}
-            >
-              Saldo Plantas
-            </Text>
+          <View style={styles.containerIcon}>
+            <MaterialCommunityIcons
+              name="cart-minus"
+              size={25}
+              color={Colors.chi}
+            />
+          </View>
+          <View style={styles.containerIcon}>
+            <MaterialCommunityIcons
+              name="currency-usd"
+              size={25}
+              color={Colors.gray}
+            />
+          </View>
+          <View style={styles.containerIcon}>
+            <MaterialCommunityIcons
+              name="clock-outline"
+              size={25}
+              color={Colors.gray}
+            />
+          </View>
+          <View style={styles.containerIcon}>
+            <MaterialCommunityIcons name="coin" size={25} color={Colors.gray} />
+          </View>
+          <View style={[styles.containerIcon, { marginRight: 0 }]}>
+            <MaterialCommunityIcons
+              name="chart-bell-curve"
+              size={25}
+              color={Colors.gray}
+            />
           </View>
         </View>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 15,
-            marginVertical: 20,
-          }}
-        >
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Predio</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>0</Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Cantidad</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>
-              0 plantas
-            </Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Valor</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>0</Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Total</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>
-              $0.00
-            </Text>
-          </View>
-        </View>
+        <ReportWithDraw />
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  totalSum: {
-    fontSize: 22,
-    color: Colors.text,
-    letterSpacing: 0.6,
-    fontWeight: "bold",
+  containerTitle: {
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  tableSum: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  textTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: Colors.text,
+    letterSpacing: 0.8,
+    textAlign: "center",
+  },
+  textSubTitle: {
+    fontSize: 18,
+    letterSpacing: 0.6,
+    color: Colors.gray,
+    marginVertical: 5,
+  },
+  containerIcon: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    marginTop: 10,
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 10,
+    alignItems: "center",
   },
 });
 

@@ -262,10 +262,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   closeButton: {
+    width: 150,
     textAlign: "center",
     fontSize: 18,
     letterSpacing: 0.6,
-    color: "dodgerblue",
+    color: Colors.green,
     top: 10,
   },
 });
