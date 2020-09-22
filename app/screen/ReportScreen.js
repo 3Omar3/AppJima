@@ -1,13 +1,17 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // source
 import { t } from "../config/locales";
 import Colors from "../config/colors";
 import Routes from "../navigation/routes";
-
-// components
 
 // screens
 import {
@@ -18,6 +22,27 @@ import {
   ReportWithDraw,
   ReportPrice,
 } from "./Reports";
+import { set } from "react-native-reanimated";
+
+// estados de los botones
+const off = Colors.gray;
+const on = Colors.chi;
+
+var state = [on, off, off, off, off, off];
+
+function setState(index) {
+  // reset state
+  state = [off, off, off, off, off, off];
+  // active report
+  state[index] = on;
+
+  console.log(state);
+}
+
+// show report
+function showReport() {
+  return <ReportPrice />;
+}
 
 function ReportScreen({ navigation }) {
   return (
@@ -28,52 +53,72 @@ function ReportScreen({ navigation }) {
         justifyContent: "flex-start",
       }}
     >
-      <View style={{ padding: 15 }}>
+      {/* top */}
+      <View style={{ padding: 15, paddingTop: 10 }}>
         <View style={styles.containerTitle}>
           <Text style={styles.textTitle}>Reportes</Text>
           <Text style={styles.textSubTitle}>Mi Planta | MXN</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <View style={styles.containerIcon}>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setState(0)}
+          >
             <MaterialCommunityIcons
               name="chart-donut"
               size={25}
-              color={Colors.gray}
+              color={state[0]}
             />
-          </View>
-          <View style={styles.containerIcon}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setState(1)}
+          >
             <MaterialCommunityIcons
               name="cart-minus"
               size={25}
-              color={Colors.chi}
+              color={state[1]}
             />
-          </View>
-          <View style={styles.containerIcon}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setState(2)}
+          >
             <MaterialCommunityIcons
               name="currency-usd"
               size={25}
-              color={Colors.gray}
+              color={state[2]}
             />
-          </View>
-          <View style={styles.containerIcon}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setState(3)}
+          >
             <MaterialCommunityIcons
               name="clock-outline"
               size={25}
-              color={Colors.gray}
+              color={state[3]}
             />
-          </View>
-          <View style={styles.containerIcon}>
-            <MaterialCommunityIcons name="coin" size={25} color={Colors.gray} />
-          </View>
-          <View style={[styles.containerIcon, { marginRight: 0 }]}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setState(4)}
+          >
+            <MaterialCommunityIcons name="coin" size={25} color={state[4]} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.containerIcon, { marginRight: 0 }]}
+            onPress={() => setState(5)}
+          >
             <MaterialCommunityIcons
               name="chart-bell-curve"
               size={25}
-              color={Colors.gray}
+              color={state[5]}
             />
-          </View>
+          </TouchableOpacity>
         </View>
-        <ReportWithDraw />
+        {/* reports */}
+        {showReport()}
       </View>
     </ScrollView>
   );

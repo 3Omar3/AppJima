@@ -38,7 +38,7 @@
   "registerSuccessMessage": "Se te ha enviado un correo de verificación, para acceder a tu cuenta en JIMA abre el correo y da click en el link de activación Si tienes algún problema o pregunta puedes contactarnos en jima.contacto@gmail.com",
 
   "pricePerPlant": "Precio por planta",
-  "pricePerKg": "Precio por Kilo",
+  "pricePerKg": "Precio por kilo",
 
   "home": "inicio",
   "purchase": "comprar",
@@ -60,17 +60,18 @@
   "balancePlantInSale": "Saldo Planta en Venta",
 
   "projections": "Proyecciones",
-  "totalInvestment": "Total de inversion y utilidad",
-  "totalInvested": "Total Invertido:",
-  "totalProfit": "Utilidad Total:",
-  "lastestTransacions": "ultimas transacciones",
+  "totalInvested": "Total Invertido",
+  "totalProfit": "Utilidad Total",
+  "lastestTransacions": "Ultimas transacciones",
+  "generalTransactions": "Transacciones Generales",
+  "myTransactions": "Mis Transacciones",
 
   "warning": "El total minimo de dinero a invertir en la primera compra a la empresa es de",
   "age": "Edad:",
   "solar": "Solares:",
   "hectares": "Hectareas:",
   "totalPlant": "Total de planta:",
-  "avaiblePlants": "Planta disponible para compra:",
+  "avaiblePlants": "Plantas disponibles:",
   "price": "Precio:",
   "buy": "Comprar",
   "sell": "Vender",

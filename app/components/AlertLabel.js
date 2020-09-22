@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Colors from "../config/colors";
 
-function AlertLabel({ text, money, coin = "MXN" }) {
+function AlertLabel({ children, styleContainer }) {
   const [warningVisible, setWarningVisible] = useState(true); // warning
 
   if (warningVisible === true) {
     return (
-      <View style={styles.card}>
+      <View style={[styles.card, { styleContainer }]}>
         <MaterialCommunityIcons
           style={styles.warningIcon}
           name="alert-circle-outline"
-          size={22}
-          color="black"
+          size={24}
+          color={Colors.gray}
         />
-        <Text style={styles.warningText}>
-          {text}{" "}
-          <Text style={styles.warningMoney}>
-            {money} {coin}
-          </Text>
-        </Text>
-        <TouchableOpacity style={{ justifyContent: "center" }}>
+        <View style={styles.containerChildren}>{children}</View>
+        <TouchableOpacity
+          style={{
+            justifyContent: "center",
+          }}
+          onPress={() => {
+            setWarningVisible(!warningVisible);
+          }}
+        >
           <MaterialCommunityIcons
+            style={{ marginRight: 1 }}
             name="close"
-            size={22}
+            size={24}
             color={Colors.gray}
-            onPress={() => {
-              setWarningVisible(!warningVisible);
-            }}
           />
         </TouchableOpacity>
       </View>
@@ -39,37 +39,21 @@ function AlertLabel({ text, money, coin = "MXN" }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: "92%",
     backgroundColor: "white",
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 5,
-    overflow: "hidden",
     padding: 5,
     flexDirection: "row",
     justifyContent: "space-between",
-    shadowColor: Colors.liteGray,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 1,
   },
   warningIcon: {
-    marginRight: 2,
+    marginRight: 1,
+    marginLeft: 3,
     alignSelf: "center",
   },
-  warningText: {
-    fontSize: 12,
-    width: "85%",
-    textAlign: "center",
-  },
-  warningMoney: {
-    fontSize: 12,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+  containerChildren: {
+    flexDirection: "column",
+    width: "80%",
   },
 });
 

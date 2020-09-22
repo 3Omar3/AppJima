@@ -47,7 +47,7 @@ const AppNavigator = () => (
             name="dots-vertical"
             size={25}
             color={Colors.white}
-            onPress={() => {}}
+            onPress={console.log("dsad")}
           />
         </View>
       </View>

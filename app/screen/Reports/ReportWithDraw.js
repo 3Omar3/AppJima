@@ -228,7 +228,7 @@ function ReportWithDraw() {
 const styles = StyleSheet.create({
   // Graphic
   radioText: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.gray,
   },
   containerGraphic: {
