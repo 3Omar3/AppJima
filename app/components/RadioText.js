@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    letterSpacing: 0.6,
+    letterSpacing: 0.8,
   },
 });
 

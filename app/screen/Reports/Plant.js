@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
 import { Table, Row } from "react-native-table-component";
-import { LineChart } from "react-native-chart-kit";
 
 // resource
 import { t } from "../../config/locales";
@@ -9,43 +8,20 @@ import Colors from "../../config/colors";
 
 // components
 import StatusBalance from "../../components/StatusBalance";
+import ChartLine from "../../components/ChartLine";
 
 // API
 import userApi from "../../api/users";
 
-function ReportPlant() {
+function Plant() {
   // data lineChart
   const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["Jan", "Feb", "Mar", "April", "May", "June"],
     datasets: [
       {
         data: [20, 45, 28, 80, 99, 43],
       },
     ],
-  };
-
-  const chartConfig = {
-    backgroundColor: "#e26a00",
-    backgroundGradientFrom: Colors.white,
-    backgroundGradientTo: Colors.white,
-    decimalPlaces: 2, // optional, defaults to 2dp
-    color: (opacity = 1) => Colors.chi,
-    labelColor: (opacity = 1) => Colors.gray,
-    style: {
-      borderRadius: 16,
-    },
-    propsForLabels: {
-      fontWeight: "bold",
-    },
-    propsForBackgroundLines: {
-      stroke: Colors.white,
-    },
-    propsForDots: {
-      r: "6",
-      strokeWidth: "2",
-      stroke: Colors.chi,
-      fill: Colors.white,
-    },
   };
 
   // data table
@@ -66,37 +42,15 @@ function ReportPlant() {
           Crecimiento saldo en plantas por predio
         </Text>
         <View>
-          <LineChart
-            data={{
-              labels: ["Jan", "Feb", "March", "April", "May", "June"],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 110,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 110,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get("window").width - 30} // from react-native
-            height={220}
-            yAxisLabel="$"
-            yAxisSuffix="k"
-            yAxisInterval={1} // optional, defaults to 1
-            chartConfig={chartConfig}
-            bezier // smoth lines
-            style={{ marginBottom: 8 }}
-          />
+          <ChartLine data={data} />
         </View>
       </View>
       <View style={styles.containerTable}>
         <ScrollView horizontal={true} persistentScrollbar={true}>
           <View style={{ marginBottom: 10 }}>
-            <Table borderStyle={{ borderWidth: 0 }}>
+            <Table
+              borderStyle={{ borderWidth: 2, borderColor: Colors.liteGray }}
+            >
               <Row
                 data={state.tableHead}
                 widthArr={state.widthArr}
@@ -113,7 +67,7 @@ function ReportPlant() {
                     widthArr={state.widthArr}
                     style={[
                       styles.row,
-                      // index % 2 && { backgroundColor: Colors.background },
+                      index % 2 && { backgroundColor: Colors.white },
                     ]}
                     textStyle={styles.textTable}
                   />
@@ -134,7 +88,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   graphicTitle: {
-    paddingBottom: 20,
+    marginBottom: 10,
     padding: 10,
     fontSize: 18,
     color: Colors.text,
@@ -142,37 +96,37 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+
+  // table
   containerTable: {
     overflow: "hidden",
-    borderRadius: 10,
     backgroundColor: Colors.white,
-    marginVertical: 20,
+    marginTop: 15,
+    marginBottom: 10,
   },
   header: {
     height: 50,
-    backgroundColor: Colors.liteGray,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    backgroundColor: Colors.white,
   },
   textHeader: {
     textAlign: "center",
-    fontWeight: "bold",
     color: Colors.text,
     fontSize: 17,
-    letterSpacing: 0.6,
+    letterSpacing: 0.8,
   },
   textTable: {
     textAlign: "center",
     color: Colors.text,
     fontSize: 17,
+    letterSpacing: 0.6,
   },
   dataWrapper: {
     marginTop: -1,
   },
   row: {
     height: 40,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.liteGray,
   },
 });
 
-export default ReportPlant;
+export default Plant;

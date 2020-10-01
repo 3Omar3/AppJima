@@ -3,20 +3,28 @@ import { StyleSheet, View, Text } from "react-native";
 
 function TextDescribcion({ title, describcion, styleTitle, styleDescribcion }) {
   return (
-    <Text style={[styles.container, styleTitle]}>
-      {title} <Text style={[styles.text, styleDescribcion]}>{describcion}</Text>
-    </Text>
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 5,
+      }}
+    >
+      <Text style={[styles.title, styleTitle]}>{title} </Text>
+      <Text style={[styles.text, styleDescribcion]}>{describcion}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    fontSize: 14,
+  title: {
     fontWeight: "bold",
-    marginVertical: 5,
+    fontSize: 17,
+    letterSpacing: 0.6,
   },
   text: {
-    fontWeight: "normal",
+    fontSize: 17,
+    letterSpacing: 0.6,
   },
 });
 

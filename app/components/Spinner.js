@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import InputSpinner from "react-native-input-spinner";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // resource
 import Colors from "../config/colors";
@@ -9,66 +9,84 @@ import Colors from "../config/colors";
 function Spinner({
   text,
   config,
-  buttonSize = 13,
-  icons,
+  buttonSize = 22,
   icon,
-  iconSize = 21,
+  iconSize = 25,
   onChange,
 }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{text}</Text>
-      <InputSpinner
-        prepend={
-          <View style={styles.icon}>
-            {icons === "FontAwesome5" ? (
-              <FontAwesome5 name={icon} size={iconSize} color={Colors.chi} />
-            ) : (
-              <MaterialIcons name={icon} size={iconSize} color={Colors.chi} />
-            )}
-          </View>
-        }
-        inputStyle={styles.inputSpinner}
-        buttonFontSize={buttonSize}
-        buttonStyle={styles.buttonStyle}
-        max={config.max}
-        step={config.step}
-        precision={config.precision}
-        value={config.value}
-        type={config.type}
-        onChange={onChange}
-      />
+      <View style={{ alignItems: "flex-start" }}>
+        <Text style={styles.text}>{text}</Text>
+        <InputSpinner
+          prepend={
+            <View style={styles.icon}>
+              <MaterialCommunityIcons
+                name={icon}
+                size={iconSize}
+                color={Colors.chi}
+              />
+            </View>
+          }
+          style={styles.containerSpinner}
+          inputStyle={styles.inputSpinner}
+          buttonFontSize={buttonSize}
+          buttonStyle={styles.buttonStyle}
+          buttonTextColor={Colors.gray}
+          colorPress={Colors.chi}
+          max={config.max}
+          step={config.step}
+          precision={config.precision}
+          value={config.value}
+          type={config.type}
+          onChange={onChange}
+          rounded={false}
+          width={"85%"}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
   },
+  containerSpinner: {
+    backgroundColor: Colors.white,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 50,
+    borderRadius: 5,
+    overflow: "hidden",
+  },
   text: {
-    fontSize: 13,
-    letterSpacing: 0.6,
-    textAlign: "center",
-    fontWeight: "bold",
+    color: Colors.text,
+    fontSize: 17,
+    letterSpacing: 0.8,
+    marginBottom: 5,
   },
   icon: {
-    marginLeft: 5,
-    width: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: Colors.background,
+    paddingRight: 5,
   },
   inputSpinner: {
-    height: 28,
-    fontSize: 14,
+    height: 40,
+    fontSize: 18,
+    color: Colors.text,
+    marginRight: 25,
+    letterSpacing: 0.6,
   },
   buttonStyle: {
-    height: 28,
-    width: 28,
-    backgroundColor: Colors.chi,
+    height: 40,
+    width: 40,
+    backgroundColor: Colors.background,
+    borderRadius: 5,
   },
 });
 

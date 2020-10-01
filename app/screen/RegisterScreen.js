@@ -11,19 +11,20 @@ import {
   ImageBackground,
   Text,
   Modal,
+  TouchableOpacity,
   Alert,
 } from "react-native";
-
-// resource
-import Colors from "../config/colors";
-import Routes from "../navigation/routes";
-import { t } from "../config/locales";
 
 // components
 import KeyScroll from "../components/KeyScroll";
 import Card from "../components/Card";
 import TouchableText from "../components/TouchableText";
 import { Form, FormField, SubmitButton } from "../components/forms";
+
+// resource
+import Colors from "../config/colors";
+import Routes from "../navigation/routes";
+import { t } from "../config/locales";
 
 // api
 import userApi from "../api/users";
@@ -72,6 +73,37 @@ function RegisterScreen({ navigation }) {
     Alert.alert(t("registerSuccessTitle"), t("registerSuccessMessage"));
     navigation.navigate(Routes.LOGIN);
   };
+
+  function modalTerms() {
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalView}>
+          <WebView
+            scalesPageToFit={false}
+            bounces={false}
+            scrollEnabled={false}
+            style={{ flex: 1 }}
+            source={{ html: t("document") }}
+          />
+          <TouchableText
+            title={t("close")}
+            styleContainer={styles.containerCloseButton}
+            styleText={styles.closeButton}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          />
+        </View>
+      </Modal>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.background}>
@@ -142,32 +174,8 @@ function RegisterScreen({ navigation }) {
                   textContentType="password"
                 />
                 <View style={styles.containerTerms}>
-                  {/* Modal muestra los terminos y condiciones */}
-                  <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                      setModalVisible(!modalVisible);
-                    }}
-                  >
-                    <View style={styles.modalView}>
-                      <WebView
-                        scalesPageToFit={false}
-                        bounces={false}
-                        scrollEnabled={false}
-                        style={{ flex: 1 }}
-                        source={{ html: t("document") }}
-                      />
-                      <TouchableText
-                        title={t("close")}
-                        style={styles.closeButton}
-                        onPress={() => {
-                          setModalVisible(!modalVisible);
-                        }}
-                      />
-                    </View>
-                  </Modal>
+                  {/* terminos y condiciones */}
+                  {modalTerms()}
                   <Checkbox
                     color={Colors.green}
                     status={checked ? "checked" : "unchecked"}
@@ -179,7 +187,7 @@ function RegisterScreen({ navigation }) {
                   <TouchableText
                     title={t("terms")}
                     textColor={"text"}
-                    style={styles.textTerms}
+                    styleText={styles.textTerms}
                     onPress={() => {
                       setModalVisible(!modalVisible);
                     }}
@@ -261,13 +269,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  containerCloseButton: {
+    top: 10,
+  },
   closeButton: {
-    width: 150,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 17,
     letterSpacing: 0.6,
     color: Colors.green,
-    top: 10,
   },
 });
 

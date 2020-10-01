@@ -38,7 +38,7 @@ function StatusBalance() {
           <MaterialCommunityIcons
             name={"seed-outline"}
             size={60}
-            color={"#0ABB87"}
+            color={Colors.chi}
           />
         </View>
         <Text style={styles.statusTitle}>$0.00</Text>

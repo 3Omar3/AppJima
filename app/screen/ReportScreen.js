@@ -11,40 +11,64 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 // source
 import { t } from "../config/locales";
 import Colors from "../config/colors";
-import Routes from "../navigation/routes";
 
 // screens
-import {
-  ReportPlant,
-  ReportPurchase,
-  ReportProjection,
-  ReportSale,
-  ReportWithDraw,
-  ReportPrice,
-} from "./Reports";
-import { set } from "react-native-reanimated";
+import { Plant, Purchase, Sale, Projection, WithDraw, Price } from "./Reports";
 
-// estados de los botones
-const off = Colors.gray;
-const on = Colors.chi;
+// variables
+var button = 0; // reporte seleccionado por defecto
 
-var state = [on, off, off, off, off, off];
+function ReportScreen() {
+  // estados de los botones
+  const off = Colors.gray;
+  const on = Colors.chi;
 
-function setState(index) {
-  // reset state
-  state = [off, off, off, off, off, off];
-  // active report
-  state[index] = on;
+  // React Hooks declarations
+  var [screen, setScreen] = useState(<Plant />);
+  var [report, setReport] = useState([on, off, off, off, off, off]);
+  var [title, setTitle] = useState("Mi Planta");
 
-  console.log(state);
-}
+  function selectReport(index, name) {
+    // cambio de seleccion
+    (report[button] = off), (report[index] = on);
+    button = index;
 
-// show report
-function showReport() {
-  return <ReportPrice />;
-}
+    // titulo del report
+    setTitle((title = name));
 
-function ReportScreen({ navigation }) {
+    switch (index) {
+      case 0:
+        setScreen(<Plant />);
+        break;
+
+      case 1:
+        setScreen(<Purchase />);
+        break;
+
+      case 2:
+        setScreen(<Sale />);
+        break;
+
+      case 3:
+        setScreen(<Projection />);
+        break;
+
+      case 4:
+        setScreen(<WithDraw />);
+        break;
+
+      case 5:
+        setScreen(<Sale />);
+        break;
+
+      default:
+        console.log("error 301");
+        break;
+    }
+
+    return report;
+  }
+
   return (
     <ScrollView
       enableOnAndroid={true}
@@ -57,68 +81,71 @@ function ReportScreen({ navigation }) {
       <View style={{ padding: 15, paddingTop: 10 }}>
         <View style={styles.containerTitle}>
           <Text style={styles.textTitle}>Reportes</Text>
-          <Text style={styles.textSubTitle}>Mi Planta | MXN</Text>
+          <Text style={styles.textSubTitle}>
+            {title} |{" "}
+            <Text style={{ textTransform: "uppercase" }}>{t("coin")}</Text>
+          </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={styles.containerIcon}
-            onPress={() => setState(0)}
+            onPress={() => setReport(selectReport(0, t("myPlant")))}
           >
             <MaterialCommunityIcons
               name="chart-donut"
               size={25}
-              color={state[0]}
+              color={report[0]}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.containerIcon}
-            onPress={() => setState(1)}
+            onPress={() => setReport(selectReport(1, t("myShopping")))}
           >
             <MaterialCommunityIcons
               name="cart-minus"
               size={25}
-              color={state[1]}
+              color={report[1]}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.containerIcon}
-            onPress={() => setState(2)}
+            onPress={() => setReport(selectReport(2, t("mySales")))}
           >
             <MaterialCommunityIcons
               name="currency-usd"
               size={25}
-              color={state[2]}
+              color={report[2]}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.containerIcon}
-            onPress={() => setState(3)}
+            onPress={() => setReport(selectReport(3, t("projections")))}
           >
             <MaterialCommunityIcons
               name="clock-outline"
               size={25}
-              color={state[3]}
+              color={report[3]}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.containerIcon}
-            onPress={() => setState(4)}
+            onPress={() => setReport(selectReport(4, t("withdrawalsFunding")))}
           >
-            <MaterialCommunityIcons name="coin" size={25} color={state[4]} />
+            <MaterialCommunityIcons name="coin" size={25} color={report[4]} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.containerIcon, { marginRight: 0 }]}
-            onPress={() => setState(5)}
+            onPress={() => setReport(selectReport(5, t("prices")))}
           >
             <MaterialCommunityIcons
               name="chart-bell-curve"
               size={25}
-              color={state[5]}
+              color={report[5]}
             />
           </TouchableOpacity>
         </View>
         {/* reports */}
-        {showReport()}
+        {screen}
       </View>
     </ScrollView>
   );

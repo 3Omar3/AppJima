@@ -44,7 +44,7 @@ function CardPreview({ data, textButton }) {
               size={18}
               color={Colors.text}
             />
-            <Text style={styles.features}>{t("age")}</Text>
+            <Text style={styles.features}>{t("age")}:</Text>
           </View>
           <Text style={styles.textNumber}>{data.age}</Text>
         </View>
@@ -56,7 +56,7 @@ function CardPreview({ data, textButton }) {
               size={18}
               color={Colors.text}
             />
-            <Text style={styles.features}>{t("solar")}</Text>
+            <Text style={styles.features}>{t("solar")}:</Text>
           </View>
           <Text style={styles.textNumber}>{data.solares}</Text>
         </View>
@@ -68,7 +68,7 @@ function CardPreview({ data, textButton }) {
               size={18}
               color={Colors.text}
             />
-            <Text style={styles.features}>{t("hectares")}</Text>
+            <Text style={styles.features}>{t("hectares")}:</Text>
           </View>
           <Text style={styles.textNumber}>{data.hectareas}</Text>
         </View>
@@ -81,7 +81,7 @@ function CardPreview({ data, textButton }) {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-            <Text style={styles.subDescribcion}>{t("totalPlant")}</Text>
+            <Text style={styles.subDescribcion}>{t("totalPlant")}:</Text>
           </View>
           <View>
             <Text style={styles.textNumber}>{data.totalPlant}</Text>
@@ -96,7 +96,7 @@ function CardPreview({ data, textButton }) {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-            <Text style={styles.subDescribcion}>{t("avaiblePlants")}</Text>
+            <Text style={styles.subDescribcion}>{t("avaiblePlants")}:</Text>
           </View>
           <View>
             <Text style={styles.avaibleText}>{data.avaiblePlants}</Text>
@@ -112,11 +112,11 @@ function CardPreview({ data, textButton }) {
           <View style={styles.containerHorizontal}>
             <MaterialCommunityIcons
               style={{ marginRight: 4 }}
-              name="coin"
+              name="coins"
               size={18}
               color={Colors.text}
             />
-            <Text style={styles.subDescribcion}>{t("price")}</Text>
+            <Text style={styles.subDescribcion}>{t("price")}:</Text>
           </View>
           <Text
             style={[

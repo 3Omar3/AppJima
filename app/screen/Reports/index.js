@@ -1,6 +1,6 @@
-export { default as ReportPlant } from "./ReportPlant";
-export { default as ReportPurchase } from "./ReportPurchase";
-export { default as ReportProjection } from "./ReportProjection";
-export { default as ReportSale } from "./ReportSale";
-export { default as ReportWithDraw } from "./ReportWithDraw";
-export { default as ReportPrice } from "./ReportPrice";
+export { default as Plant } from "./Plant";
+export { default as Purchase } from "./Purchase";
+export { default as Projection } from "./Projection";
+export { default as Sale } from "./Sale";
+export { default as WithDraw } from "./WithDraw";
+export { default as Price } from "./Price";
