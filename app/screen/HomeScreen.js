@@ -5,7 +5,6 @@ import { PieChart } from "react-native-chart-kit";
 // source
 import { t } from "../config/locales";
 import Colors from "../config/colors";
-import Routes from "../navigation/routes";
 
 // components
 import ScreenScroll from "../components/ScreenScroll";

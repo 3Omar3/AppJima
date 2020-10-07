@@ -36,13 +36,13 @@ const btnRegister = require("../assets/png/btnDegradado.png");
 // validation
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(t("require")).label(),
-  middlename: Yup.string().required(t("require")).label(),
-  lastname: Yup.string().label(),
+  lastname1: Yup.string().required(t("require")).label(),
+  lastname2: Yup.string().label(),
   email: Yup.string().required(t("require")).email(t("invalidEmail")).label(),
   password: Yup.string().required(t("require")).label(),
   passwordConfirm: Yup.string()
     .required(t("require"))
-    .oneOf([Yup.ref("password"), null], "Las contraseñas no coinciden")
+    .oneOf([Yup.ref("password"), null], t("passwordMatch"))
     .label(),
 });
 
@@ -52,16 +52,9 @@ function RegisterScreen({ navigation }) {
 
   // registro
   const handleSubmit = async (info) => {
-    if (checked === false) {
-      Alert.alert(t("error"), t("warningTerms"));
-      return;
-    }
+    if (checked === false) return Alert.alert(t("error"), t("warningTerms"));
 
-    // language
-    info["language"] = t("language");
-    info["coin"] = t("coin");
-
-    const result = await userApi.register({ ...info });
+    const result = await userApi.register({ ...info }); // inserta el usuario
 
     if (!result.ok) {
       if (result.data.auth === false)
@@ -88,15 +81,13 @@ function RegisterScreen({ navigation }) {
               <Form
                 initialValues={{
                   name: "",
-                  middlename: "",
-                  lastname: "",
+                  lastname1: "",
+                  lastname2: "",
                   email: "",
                   password: "",
                   passwordConfirm: "",
-                  foto: "",
                   fk_referido: 0,
                   tipo_login: 1,
-                  puesto: "",
                 }}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
@@ -107,15 +98,17 @@ function RegisterScreen({ navigation }) {
                   autoCorrect={false}
                 />
                 <FormField
-                  name="middlename"
-                  placeholder={t("middlename")}
+                  name="lastname1"
+                  placeholder={t("lastname")}
                   autoCorrect={false}
                 />
-                <FormField
-                  name="lastname"
-                  placeholder={t("secondLastname")}
-                  autoCorrect={false}
-                />
+                {t("language") === "espanol" ? (
+                  <FormField
+                    name="lastname2"
+                    placeholder={t("secondLastname")}
+                    autoCorrect={false}
+                  />
+                ) : null}
                 <FormField
                   name="email"
                   placeholder={t("emailAddress")}

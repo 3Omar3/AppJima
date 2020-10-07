@@ -11,6 +11,7 @@
   "emailDuplicate": "El correo ya ha sido registrado",
   "errorRegister": "Ha ocurrido un error inesperado",
   "error": "Error",
+  "passwordMatch": "Las contraseñas no coinciden",
   "warningTerms": "Debe aceptar y estar de acuerdo con los términos y condiciones",
 
   "welcome": "Bienvenido",
@@ -24,7 +25,7 @@
   "submit": "Enviar",
 
   "name": "Nombre",
-  "middlename": "Primer apellido",
+  "firstLastname": "Primer apellido",
   "secondLastname": "Segundo apellido",
   "password": "Contraseña",
   "passwordConfirm": "Confirmar contraseña",

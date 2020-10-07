@@ -3,7 +3,6 @@
   "coin": "usd",
   "user": "User",
   "email": "Email",
-  "lastname": "Lastname",
   "require": "This field is required",
   "invalidUser": "User must be a valid email",
   "invalidEmail": "Email must be a valid email",
@@ -11,6 +10,7 @@
   "emailDuplicate": "Email address already registered",
   "errorRegister": "an unexpected error has occurred",
   "error": "Error",
+  "passwordMatch": "Passwords do not match",
   "warningTerms": "You must accept and agree to terms and conditions",
 
   "welcome": "Welcome",
@@ -23,9 +23,8 @@
   "cancel": "Cancel",
   "submit": "Send",
 
-  "name": "First name",
-  "middlename": "Middle name",
-  "secondLastname": "Last name",
+  "name": "Name",
+  "lastname": "Last name",
   "emailAddress": "Email address",
   "password": "Password",
   "passwordConfirm": "Confirm Password",

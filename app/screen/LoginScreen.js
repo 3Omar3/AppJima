@@ -34,6 +34,7 @@ import {
 
 // api
 import authApi from "../api/auth";
+import userApi from "../api/users";
 import AuthContext from "../auth/context";
 
 // Images
@@ -68,7 +69,7 @@ async function logInFacebook() {
       const response = await fetch(
         `https://graph.facebook.com/me?access_token=${token}`
       );
-      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+      Alert.alert(t("welcome") + "!", `Hi ${await response.json()}!`);
     } else {
       return { cancelled: true };
     }
@@ -80,17 +81,24 @@ async function logInFacebook() {
 // login google
 async function signInWithGoogleAsync() {
   try {
-    const result = await Google.logInAsync({
+    const res = await Google.logInAsync({
       androidClientId: `900903839512-slau4q9aeqte0bbs00qihn6757dr4qb4.apps.googleusercontent.com`,
       iosClientId: `900903839512-ml04hdcj09fetddm8f7h3l56u4s41du8.apps.googleusercontent.com`,
       scopes: ["profile", "email"],
     });
 
-    if (result.type === "success") {
-      return result.accessToken;
-    } else {
-      return { cancelled: true };
-    }
+    if (res.type === "success") {
+      const info = {
+        email: res.user.email,
+        name: res.user.givenName,
+        lastname: res.user.familyName,
+        tipo_login: 4,
+      };
+
+      // inserta el usuario
+      const result = await userApi.register({ ...info });
+      console.log(result + "dadasdasdsd");
+    } else return { cancelled: true };
   } catch (e) {
     return { error: true };
   }
@@ -101,17 +109,35 @@ function LoginScreen({ navigation }) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
+  // autentificacion
   const handleSubmit = async ({ email, password }) => {
     const result = await authApi.login(email, password);
 
     if (!result.ok) return setLoginFailed(true);
     setLoginFailed(false);
+
     const token = result.data.token;
     authContext.setUser(token);
   };
 
+  // recovery account
+  const sendMail = async (email) => {
+    const result = await userApi.recoveryMail(email);
+
+    if (!result.ok) {
+      if (result.data.send) return alert("Se ha enviado el correo!");
+      else
+        return alert(
+          "hubo un problema al enviar el correo, verifica tu direccion de email"
+        );
+    }
+
+    Alert.alert(
+      "hubo un problema al enviar el correo, verifica tu direccion de email"
+    );
+  };
+
   // dialog
-  const [recover, setRecover] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
 
   return (
@@ -133,8 +159,8 @@ function LoginScreen({ navigation }) {
             keyboardType: "email-address",
           }}
           submitText={t("submit")}
-          submitInput={(text) => {
-            setRecover(text), setDialogVisible(!dialogVisible);
+          submitInput={(email) => {
+            sendMail(email), setDialogVisible(!dialogVisible);
           }}
           cancelText={t("cancel")}
           closeDialog={() => {
