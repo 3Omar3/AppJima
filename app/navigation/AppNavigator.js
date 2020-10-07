@@ -10,6 +10,7 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Menu, Provider, TouchableRipple } from "react-native-paper";
+// import { createStackNavigator } from "@react-navigation/stack";
 
 // Screens
 import HomeScreen from "../screen/HomeScreen";
@@ -28,7 +29,7 @@ const logo = require("../assets/png/blanco.png");
 
 // component
 const Tab = createMaterialTopTabNavigator();
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   const [visible, setVisible] = React.useState(false);
@@ -51,63 +52,60 @@ const AppNavigator = () => {
               <Text style={styles.textTitle}>$27.00 {t("coin")}</Text>
               <Text style={styles.textSub}>{t("pricePerKg")}</Text>
             </View>
-            <Stack.Navigator>
-              <Stack.Screen name="Profile" component={ProfileScreen} />
-              <Menu
-                visible={visible}
-                onDismiss={closeMenu}
-                statusBarHeight={0}
-                anchor={
-                  <MaterialCommunityIcons
-                    style={styles.btnMenu}
-                    name="dots-vertical"
-                    size={25}
-                    color={Colors.white}
-                    onPress={openMenu}
-                  />
-                }
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              statusBarHeight={0}
+              anchor={
+                <MaterialCommunityIcons
+                  style={styles.btnMenu}
+                  name="dots-vertical"
+                  size={25}
+                  color={Colors.white}
+                  onPress={openMenu}
+                />
+              }
+            >
+              <TouchableRipple
+                style={styles.containerButton}
+                onPress={() => {}}
               >
-                <TouchableRipple
-                  style={styles.containerButton}
-                  onPress={() => {}}
-                >
-                  <View style={styles.containerFunding}>
-                    <MaterialIcons
-                      style={{ marginRight: 3 }}
-                      name="attach-money"
-                      size={20}
-                      color={Colors.green}
-                    />
-                    <Text style={styles.textButton}>{t("funding")}</Text>
-                  </View>
-                </TouchableRipple>
-                <Menu.Item
-                  onPress={() => {}}
-                  title={t("profile")}
-                  titleStyle={{ color: Colors.text }}
-                />
-                <Menu.Item
-                  onPress={() => {}}
-                  title={t("retirementsAcconts")}
-                  titleStyle={{ color: Colors.text }}
-                />
-                <Menu.Item
-                  onPress={() => {}}
-                  title={t("account")}
-                  titleStyle={{ color: Colors.text }}
-                />
-                <Menu.Item
-                  onPress={() => {}}
-                  title={t("settings")}
-                  titleStyle={{ color: Colors.text }}
-                />
-                <Menu.Item
-                  onPress={() => {}}
-                  title={t("logout")}
-                  titleStyle={{ color: Colors.text }}
-                />
-              </Menu>
-            </Stack.Navigator>
+                <View style={styles.containerFunding}>
+                  <MaterialIcons
+                    style={{ marginRight: 3 }}
+                    name="attach-money"
+                    size={20}
+                    color={Colors.green}
+                  />
+                  <Text style={styles.textButton}>{t("funding")}</Text>
+                </View>
+              </TouchableRipple>
+              <Menu.Item
+                onPress={() => {}}
+                title={t("profile")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("retirementsAcconts")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("account")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("settings")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("logout")}
+                titleStyle={{ color: Colors.text }}
+              />
+            </Menu>
           </View>
         </View>
         <Tab.Navigator
