@@ -3,10 +3,10 @@ import { TouchableOpacity, Text } from "react-native";
 
 import Colors from "../config/colors";
 
-function TouchableText({ title, style, onPress }) {
+function TouchableText({ title, styleContainer, styleText, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Text style={style}>{title}</Text>
+    <TouchableOpacity style={styleContainer} onPress={onPress}>
+      <Text style={styleText}>{title}</Text>
     </TouchableOpacity>
   );
 }

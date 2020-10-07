@@ -197,7 +197,7 @@ function LoginScreen({ navigation }) {
                 />
                 <TouchableText
                   title={t("forgetPassword")}
-                  style={styles.textForget}
+                  styleText={styles.textForget}
                   onPress={() => {
                     setDialogVisible(!dialogVisible);
                   }}

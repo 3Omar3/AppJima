@@ -18,156 +18,227 @@ function CardPreview({ data, textButton }) {
     <View style={styles.card}>
       <Image style={styles.previewMap} source={map} />
       <View style={{ padding: 10 }}>
-        <View style={styles.horizontalView}>
+        <View style={styles.containerTitle}>
+          <TouchableOpacity style={styles.button}>
+            <MaterialCommunityIcons
+              name="map-marker"
+              size={25}
+              color={Colors.chi}
+            />
+          </TouchableOpacity>
           <Text style={styles.title}>{data.title}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity style={{ borderRadius: 3 }}>
-              <MaterialCommunityIcons
-                name="map-marker-radius"
-                size={23}
-                color="black"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={{ marginLeft: 7, borderRadius: 3 }}>
-              <MaterialCommunityIcons name="camera" size={23} color="black" />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.button}>
+            <MaterialCommunityIcons
+              name="camera-burst"
+              size={28}
+              color={Colors.chi}
+            />
+          </TouchableOpacity>
         </View>
         <Separator />
-        <View style={[styles.horizontalView, { marginBottom: 10 }]}>
-          <View style={{ flexDirection: "row" }}>
+        <View style={[styles.containerIconText, { marginTop: 10 }]}>
+          <View style={styles.containerHorizontal}>
             <MaterialCommunityIcons
               style={{ marginRight: 4 }}
-              name="clock"
-              size={15}
-              color="black"
+              name="timer-sand"
+              size={18}
+              color={Colors.text}
             />
-            <Text style={styles.features}>{t("age")}</Text>
-            <Text style={{ fontSize: 13 }}>{data.age}</Text>
+            <Text style={styles.features}>{t("age")}:</Text>
           </View>
-          <View style={{ flexDirection: "row" }}>
+          <Text style={styles.textNumber}>{data.age}</Text>
+        </View>
+        <View style={styles.containerIconText}>
+          <View style={styles.containerHorizontal}>
             <MaterialCommunityIcons
-              style={{ marginRight: 3 }}
-              name="camera-control"
-              size={16.5}
-              color="black"
+              style={{ marginRight: 4 }}
+              name="solar-panel"
+              size={18}
+              color={Colors.text}
             />
-            <Text style={styles.features}>{t("solar")}</Text>
-            <Text style={{ fontSize: 13 }}>{data.solares}</Text>
+            <Text style={styles.features}>{t("solar")}:</Text>
+          </View>
+          <Text style={styles.textNumber}>{data.solares}</Text>
+        </View>
+        <View style={styles.containerIconText}>
+          <View style={styles.containerHorizontal}>
+            <MaterialCommunityIcons
+              style={{ marginRight: 4 }}
+              name="signal-distance-variant"
+              size={18}
+              color={Colors.text}
+            />
+            <Text style={styles.features}>{t("hectares")}:</Text>
+          </View>
+          <Text style={styles.textNumber}>{data.hectareas}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image source={jima} style={styles.iconJima} resizeMode="contain" />
+            <Text style={styles.subDescribcion}>{t("totalPlant")}:</Text>
+          </View>
+          <View>
+            <Text style={styles.textNumber}>{data.totalPlant}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", marginBottom: 6 }}>
-          <MaterialCommunityIcons
-            style={{ marginRight: 3 }}
-            name="camera-control"
-            size={16.5}
-            color="black"
-          />
-          <Text style={styles.features}>{t("hectares")}</Text>
-          <Text style={{ fontSize: 13 }}>{data.hectareas}</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 9 }}>
-          <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-          <View style={styles.containerDescripcion}>
-            <Text style={styles.subDescribcion}>{t("totalPlant")}</Text>
-            <Text style={styles.subDescribcion}>{data.totalPlant}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Image source={jima} style={styles.iconJima} resizeMode="contain" />
+            <Text style={styles.subDescribcion}>{t("avaiblePlants")}:</Text>
           </View>
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 9 }}>
-          <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-          <View style={styles.containerDescripcion}>
-            <Text style={styles.subDescribcion}>{t("avaiblePlants")}</Text>
+          <View>
             <Text style={styles.avaibleText}>{data.avaiblePlants}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", marginTop: 9 }}>
-          <MaterialCommunityIcons
-            style={{ marginRight: 2 }}
-            name="currency-usd"
-            size={18}
-            color="black"
-          />
-          <View style={styles.containerDescripcion}>
-            <Text style={styles.subDescribcion}>{t("price")}</Text>
-            <Text
-              style={[styles.subDescribcion, { textTransform: "uppercase" }]}
-            >
-              ${data.price} {t("coin")}
-            </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={styles.containerHorizontal}>
+            <MaterialCommunityIcons
+              style={{ marginRight: 4 }}
+              name="coins"
+              size={18}
+              color={Colors.text}
+            />
+            <Text style={styles.subDescribcion}>{t("price")}:</Text>
           </View>
+          <Text
+            style={[
+              styles.subDescribcion,
+              {
+                textTransform: "uppercase",
+                letterSpacing: 0.6,
+              },
+            ]}
+          >
+            ${data.price} {t("coin")}
+          </Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.cardButton}>
-        <Text style={styles.textButton}>{textButton}</Text>
-      </TouchableOpacity>
+      <View style={styles.containerButton}>
+        <TouchableOpacity style={styles.cardButton}>
+          <Text style={styles.textButton}>{textButton}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  horizontalView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   card: {
-    width: "92%",
     backgroundColor: Colors.white,
-    borderRadius: 15,
+    borderRadius: 10,
     marginTop: 10,
     marginBottom: 15,
     overflow: "hidden",
-    shadowColor: Colors.liteGray,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-
-    elevation: 1,
   },
   previewMap: {
     width: "100%",
-    height: 200,
+    height: 250,
+  },
+  containerTitle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    alignItems: "center",
+    padding: 5,
+    width: 60,
+    justifyContent: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 22,
     letterSpacing: 0.6,
+    color: Colors.text,
+    textAlign: "center",
+  },
+  containerIconText: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  containerHorizontal: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   features: {
-    fontWeight: "bold",
-    fontSize: 13,
+    fontSize: 18,
     marginRight: 4,
+    color: Colors.text,
+    letterSpacing: 0.6,
+  },
+  textNumber: {
+    fontSize: 18,
+    color: Colors.text,
+    letterSpacing: 0.6,
   },
   containerDescripcion: {
     flex: 1,
-    flexDirection: "row",
     justifyContent: "space-between",
   },
   iconJima: {
-    height: 20,
-    width: 20,
+    height: 22,
+    width: 22,
   },
   subDescribcion: {
-    fontWeight: "bold",
-    fontSize: 13,
+    letterSpacing: 0.6,
+    fontSize: 18,
+    color: Colors.text,
   },
   avaibleText: {
     fontWeight: "bold",
-    fontSize: 13,
+    fontSize: 18,
     color: Colors.chi,
+    letterSpacing: 0.6,
   },
   cardButton: {
     backgroundColor: Colors.chi,
     alignItems: "center",
-    padding: 5,
+    justifyContent: "center",
+    height: 28,
+    borderRadius: 10,
+    width: "93%",
+    marginBottom: 10,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  containerButton: {
+    marginTop: 5,
+    alignItems: "center",
   },
   textButton: {
-    fontSize: 14,
+    fontSize: 18,
     color: Colors.white,
     fontWeight: "bold",
-    letterSpacing: 0.6,
+    letterSpacing: 0.8,
   },
 });
 

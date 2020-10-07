@@ -1,24 +1,74 @@
-import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
 import {
-  FontAwesome5,
-  Entypo,
-  MaterialCommunityIcons,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // source
 import { t } from "../config/locales";
 import Colors from "../config/colors";
-import Routes from "../navigation/routes";
 
-// components
+// screens
+import { Plant, Purchase, Sale, Projection, WithDraw, Price } from "./Reports";
 
-// API
-import userApi from "../api/users";
-import Separator from "../components/Separator";
+// variables
+var button = 0; // reporte seleccionado por defecto
 
-function ReportScreen({ navigation }) {
+function ReportScreen() {
+  // estados de los botones
+  const off = Colors.gray;
+  const on = Colors.chi;
+
+  // React Hooks declarations
+  var [screen, setScreen] = useState(<Plant />);
+  var [report, setReport] = useState([on, off, off, off, off, off]);
+  var [title, setTitle] = useState("Mi Planta");
+
+  function selectReport(index, name) {
+    // cambio de seleccion
+    (report[button] = off), (report[index] = on);
+    button = index;
+
+    // titulo del report
+    setTitle((title = name));
+
+    switch (index) {
+      case 0:
+        setScreen(<Plant />);
+        break;
+
+      case 1:
+        setScreen(<Purchase />);
+        break;
+
+      case 2:
+        setScreen(<Sale />);
+        break;
+
+      case 3:
+        setScreen(<Projection />);
+        break;
+
+      case 4:
+        setScreen(<WithDraw />);
+        break;
+
+      case 5:
+        setScreen(<Sale />);
+        break;
+
+      default:
+        console.log("error 301");
+        break;
+    }
+
+    return report;
+  }
+
   return (
     <ScrollView
       enableOnAndroid={true}
@@ -27,209 +77,109 @@ function ReportScreen({ navigation }) {
         justifyContent: "flex-start",
       }}
     >
-      <View style={{ padding: 15 }}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 10,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 22,
-              fontWeight: "bold",
-              color: Colors.text,
-              letterSpacing: 0.8,
-              textAlign: "center",
-            }}
-          >
-            Reportes
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              letterSpacing: 0.6,
-              color: Colors.gray,
-              marginVertical: 5,
-            }}
-          >
-            Mi Planta | MXN
+      {/* top */}
+      <View style={{ padding: 15, paddingTop: 10 }}>
+        <View style={styles.containerTitle}>
+          <Text style={styles.textTitle}>Reportes</Text>
+          <Text style={styles.textSubTitle}>
+            {title} |{" "}
+            <Text style={{ textTransform: "uppercase" }}>{t("coin")}</Text>
           </Text>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            marginVertical: 10,
-          }}
-        >
-          <View
-            style={{
-              alignItems: "center",
-              flex: 1,
-              marginRight: 10,
-              backgroundColor: Colors.white,
-              borderRadius: 10,
-              padding: 20,
-            }}
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setReport(selectReport(0, t("myPlant")))}
           >
-            <View style={{ padding: 15 }}>
-              <MaterialCommunityIcons
-                name={"coins"}
-                size={60}
-                color={Colors.chi}
-              />
-            </View>
-            <Text
-              style={{
-                fontSize: 22,
-                color: Colors.text,
-                fontWeight: "bold",
-                letterSpacing: 0.6,
-              }}
-            >
-              $0.00
-            </Text>
-            <Text
-              style={{
-                color: Colors.gray,
-                fontSize: 20,
-              }}
-            >
-              Saldo
-            </Text>
-          </View>
-          <View
-            style={{
-              alignSelf: "center",
-              alignItems: "center",
-              flex: 1,
-              marginLeft: 10,
-              backgroundColor: Colors.white,
-              borderRadius: 10,
-              padding: 20,
-            }}
-          >
-            <View style={{ padding: 15 }}>
-              <MaterialCommunityIcons
-                name="bank-outline"
-                size={60}
-                color="#0ABB87"
-              />
-            </View>
-            <Text
-              style={{ fontSize: 22, color: Colors.text, fontWeight: "bold" }}
-            >
-              $0.00
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-                textAlign: "center",
-              }}
-            >
-              Total Saldo
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 20,
-          }}
-        >
-          <View style={{ padding: 15 }}>
             <MaterialCommunityIcons
-              name={"seed-outline"}
-              size={60}
-              color={"#0ABB87"}
+              name="chart-donut"
+              size={25}
+              color={report[0]}
             />
-          </View>
-          <Text
-            style={{ fontSize: 22, color: Colors.text, fontWeight: "bold" }}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setReport(selectReport(1, t("myShopping")))}
           >
-            $0.00
-          </Text>
-          <View style={{ width: 200, alignItems: "center" }}>
-            <Text
-              style={{
-                color: Colors.text,
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-              }}
-            >
-              Cantidad: 0
-            </Text>
-            <Text
-              style={{
-                color: Colors.text,
-                fontSize: 20,
-                letterSpacing: 0.6,
-                color: Colors.gray,
-                textAlign: "center",
-              }}
-            >
-              Saldo Plantas
-            </Text>
-          </View>
+            <MaterialCommunityIcons
+              name="cart-minus"
+              size={25}
+              color={report[1]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setReport(selectReport(2, t("mySales")))}
+          >
+            <MaterialCommunityIcons
+              name="currency-usd"
+              size={25}
+              color={report[2]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setReport(selectReport(3, t("projections")))}
+          >
+            <MaterialCommunityIcons
+              name="clock-outline"
+              size={25}
+              color={report[3]}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.containerIcon}
+            onPress={() => setReport(selectReport(4, t("withdrawalsFunding")))}
+          >
+            <MaterialCommunityIcons name="coin" size={25} color={report[4]} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.containerIcon, { marginRight: 0 }]}
+            onPress={() => setReport(selectReport(5, t("prices")))}
+          >
+            <MaterialCommunityIcons
+              name="chart-bell-curve"
+              size={25}
+              color={report[5]}
+            />
+          </TouchableOpacity>
         </View>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            borderRadius: 10,
-            padding: 15,
-            marginVertical: 20,
-          }}
-        >
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Predio</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>0</Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Cantidad</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>
-              0 plantas
-            </Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Valor</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>0</Text>
-          </View>
-          <Separator />
-          <View style={styles.tableSum}>
-            <Text style={styles.totalSum}>Total</Text>
-            <Text style={[styles.totalSum, { fontWeight: "normal" }]}>
-              $0.00
-            </Text>
-          </View>
-        </View>
+        {/* reports */}
+        {screen}
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  totalSum: {
-    fontSize: 22,
-    color: Colors.text,
-    letterSpacing: 0.6,
-    fontWeight: "bold",
+  containerTitle: {
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  tableSum: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  textTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: Colors.text,
+    letterSpacing: 0.8,
+    textAlign: "center",
+  },
+  textSubTitle: {
+    fontSize: 18,
+    letterSpacing: 0.6,
+    color: Colors.gray,
+    marginVertical: 5,
+  },
+  containerIcon: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    marginTop: 10,
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 10,
+    alignItems: "center",
   },
 });
 

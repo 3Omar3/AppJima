@@ -1,24 +1,35 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-// component
-import Radio from "../components/Radio";
-
-function RadioText({ color, title, marginVertical = 5 }) {
+function RadioText({ color, text, marginVertical = 5, styleText, styleRadio }) {
   return (
     <View style={[styles.container, { marginVertical: marginVertical }]}>
-      <Radio color={color} />
-      <Text style={styles.text}>{title}</Text>
+      <View
+        style={[
+          styles.radioContainer,
+          { backgroundColor: color },
+          { styleRadio },
+        ]}
+      />
+      <Text style={[styles.text, styleText]}>{text}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  radioContainer: {
+    height: 15,
+    width: 15,
+    borderRadius: 100,
+    marginRight: 7,
+  },
   container: {
     flexDirection: "row",
+    alignItems: "center",
   },
   text: {
-    fontSize: 11,
+    fontSize: 16,
+    letterSpacing: 0.8,
   },
 });
 

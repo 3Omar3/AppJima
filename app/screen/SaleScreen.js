@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 
 // API
@@ -23,37 +23,46 @@ function SaleScreen({ navigation }) {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{
         justifyContent: "flex-start",
-        alignItems: "center",
       }}
     >
-      <ButtonGroup
-        buttons={buttons}
-        containerStyle={{
-          height: 25,
-          marginTop: 10,
-          width: "92%",
-          borderRadius: 5,
-        }}
-        onPress={setSelectedIndex}
-        selectedIndex={index}
-        textStyle={{ fontSize: 13 }}
-      />
-      <CardPreview
-        data={{
-          title: "Maravillas",
-          age: "6 meses y 1 dia",
-          solares: "270.60",
-          hectareas: "47.51",
-          totalPlant: "189,420",
-          avaiblePlants: "93,568",
-          price: "120.00",
-        }}
-        textButton={t("sell")}
-      />
+      <View style={{ padding: 15, paddingTop: 10 }}>
+        <ButtonGroup
+          buttons={buttons}
+          containerStyle={styles.buttonGroupContainer}
+          onPress={setSelectedIndex}
+          selectedIndex={index}
+          textStyle={styles.textButtonGroup}
+          selectedButtonStyle={{ backgroundColor: Colors.chi }}
+        />
+        <CardPreview
+          data={{
+            title: "Maravillas",
+            age: "6 meses y 1 dia",
+            solares: "270.60",
+            hectareas: "47.51",
+            totalPlant: "189,420",
+            avaiblePlants: "93,568",
+            price: "120.00",
+          }}
+          textButton={t("sell")}
+        />
+      </View>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttonGroupContainer: {
+    height: 27,
+    borderRadius: 5,
+    marginTop: 0,
+    marginHorizontal: 0,
+    borderColor: Colors.white,
+  },
+  textButtonGroup: {
+    fontSize: 14,
+    color: Colors.gray,
+  },
+});
 
 export default SaleScreen;

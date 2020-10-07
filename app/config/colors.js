@@ -2,9 +2,11 @@ export default {
   // genericos
   white: "white",
   black: "black",
-  gray: "gray",
+  shadow: "#31303d",
+  gray: "#86939E",
   green: "#00778A",
   liteGray: "#ECECEC",
+  red: "#E74C3C",
   chi: "#0ABB87",
 
   // diseño

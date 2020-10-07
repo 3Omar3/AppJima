@@ -4,11 +4,11 @@ import { TextInput } from "react-native-paper";
 
 import Colors from "../config/colors";
 
-function AppTextInput({ width = "100%", ...otherProps }) {
+function AppTextInput({ width = "100%", style, theme, ...otherProps }) {
   return (
     <TextInput
       dense={true}
-      style={[styles.input, { width: width }]}
+      style={[styles.input, { width: width }, style]}
       theme={inputTheme}
       {...otherProps}
     />

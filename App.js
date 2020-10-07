@@ -5,14 +5,18 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthContext from "./app/auth/context";
 
-export default function App() {
+// Before rendering any navigation stack, perfomance
+import { enableScreens } from "react-native-screens";
+enableScreens();
+
+export default function App({ navigation }) {
   const [user, setUser] = useState();
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer theme={navigationTheme}>
-        {/* {user ? <AppNavigator /> : <AuthNavigator />} */}
-        <AppNavigator></AppNavigator>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+        {/* <AppNavigator></AppNavigator> */}
       </NavigationContainer>
     </AuthContext.Provider>
   );

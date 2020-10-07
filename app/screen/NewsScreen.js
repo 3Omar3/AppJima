@@ -1,22 +1,12 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
-
-// source
-import { t } from "../config/locales";
-import Colors from "../config/colors";
-import Routes from "../navigation/routes";
-
-// components
-import ScreenScroll from "../components/ScreenScroll";
-
-// API
-import userApi from "../api/users";
+import { StyleSheet, View } from "react-native";
+import { WebView } from "react-native-webview";
 
 function NewsScreen({ navigation }) {
   return (
-    <ScreenScroll justify="flex-start">
-      <Text>NEWS SCREEN</Text>
-    </ScreenScroll>
+    <View style={{ flex: 1 }}>
+      <WebView source={{ uri: "https://blog.jima.mx" }} />
+    </View>
   );
 }
 

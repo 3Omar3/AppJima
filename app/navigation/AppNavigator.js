@@ -1,7 +1,16 @@
-import React from "react";
-import { StatusBar, Text, View, Image, StyleSheet } from "react-native";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+  StatusBar,
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Menu, Provider, TouchableRipple } from "react-native-paper";
+// import { createStackNavigator } from "@react-navigation/stack";
 
 // Screens
 import HomeScreen from "../screen/HomeScreen";
@@ -18,108 +27,174 @@ import { t } from "../config/locales";
 // images
 const logo = require("../assets/png/blanco.png");
 
+// component
 const Tab = createMaterialTopTabNavigator();
+// const Stack = createStackNavigator();
 
-const AppNavigator = () => (
-  <>
-    <StatusBar backgroundColor={Colors.secondary} />
-    <View style={styles.topLayer}>
-      <Image source={logo} resizeMode="contain" style={styles.logo} />
-      <View style={styles.contentTop}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.textTitle}>$112.00 {t("coin")}</Text>
-          <Text style={styles.textSub}>{t("pricePerPlant")}</Text>
+const AppNavigator = () => {
+  const [visible, setVisible] = React.useState(false);
+
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar backgroundColor={Colors.secondary} />
+      <Provider>
+        <View style={styles.topLayer}>
+          <Image source={logo} resizeMode="contain" style={styles.logo} />
+          <View style={styles.contentTop}>
+            <View style={{ alignItems: "center" }}>
+              <Text style={styles.textTitle}>$112.00 {t("coin")}</Text>
+              <Text style={styles.textSub}>{t("pricePerPlant")}</Text>
+            </View>
+            <View style={styles.rightPrice}>
+              <Text style={styles.textTitle}>$27.00 {t("coin")}</Text>
+              <Text style={styles.textSub}>{t("pricePerKg")}</Text>
+            </View>
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              statusBarHeight={0}
+              anchor={
+                <MaterialCommunityIcons
+                  style={styles.btnMenu}
+                  name="dots-vertical"
+                  size={25}
+                  color={Colors.white}
+                  onPress={openMenu}
+                />
+              }
+            >
+              <TouchableRipple
+                style={styles.containerButton}
+                onPress={() => {}}
+              >
+                <View style={styles.containerFunding}>
+                  <MaterialIcons
+                    style={{ marginRight: 3 }}
+                    name="attach-money"
+                    size={20}
+                    color={Colors.green}
+                  />
+                  <Text style={styles.textButton}>{t("funding")}</Text>
+                </View>
+              </TouchableRipple>
+              <Menu.Item
+                onPress={() => {}}
+                title={t("profile")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("retirementsAcconts")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("account")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("settings")}
+                titleStyle={{ color: Colors.text }}
+              />
+              <Menu.Item
+                onPress={() => {}}
+                title={t("logout")}
+                titleStyle={{ color: Colors.text }}
+              />
+            </Menu>
+          </View>
         </View>
-        <View style={styles.rightPrice}>
-          <Text style={styles.textTitle}>$27.00 {t("coin")}</Text>
-          <Text style={styles.textSub}>{t("pricePerKg")}</Text>
-        </View>
-        <MaterialCommunityIcons
-          style={styles.btnMenu}
-          name="dots-vertical"
-          size={25}
-          color={Colors.white}
-          onPress={() => {}}
-        />
-      </View>
-    </View>
-    <Tab.Navigator
-      initialRouteName={t("home")}
-      tabBarOptions={{
-        showIcon: true,
-        showLabel: false,
-        iconStyle: { alignItems: "center" },
-        activeTintColor: Colors.white,
-        inactiveTintColor: Colors.gray,
-        indicatorStyle: { backgroundColor: Colors.white },
-        style: { backgroundColor: Colors.primary },
-      }}
-    >
-      <Tab.Screen
-        name={t("home")}
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" size={20} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={t("purchase")}
-        component={PurchaseScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-cart" size={20} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={t("sale")}
-        component={SaleScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="currency-usd"
-              size={20}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={t("simulation")}
-        component={SimulationScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="scale-balance"
-              size={20}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={t("report")}
-        component={ReportScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="chart-pie" size={20} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={t("news")}
-        component={NewsScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="newspaper" size={20} color={color} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  </>
-);
+        <Tab.Navigator
+          initialRouteName={t("home")}
+          tabBarOptions={{
+            showIcon: true,
+            showLabel: false,
+            iconStyle: { alignItems: "center" },
+            activeTintColor: Colors.white,
+            inactiveTintColor: Colors.shadow,
+            indicatorStyle: { backgroundColor: Colors.white },
+            style: { backgroundColor: Colors.primary },
+          }}
+        >
+          <Tab.Screen
+            name={t("home")}
+            component={HomeScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="home" size={20} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name={t("purchase")}
+            component={PurchaseScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="cart" size={20} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name={t("sale")}
+            component={SaleScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="currency-usd"
+                  size={20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name={t("simulation")}
+            component={SimulationScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="scale-balance"
+                  size={20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name={t("report")}
+            component={ReportScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="chart-pie"
+                  size={20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name={t("news")}
+            component={NewsScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="newspaper"
+                  size={20}
+                  color={color}
+                />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </Provider>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   topLayer: {
@@ -141,13 +216,13 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     color: Colors.white,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "bold",
     textTransform: "uppercase",
   },
   textSub: {
     color: Colors.white,
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: "bold",
   },
   rightPrice: {
@@ -157,6 +232,23 @@ const styles = StyleSheet.create({
   btnMenu: {
     marginHorizontal: 15,
     top: 2.5,
+  },
+  containerButton: {
+    backgroundColor: "#E5F0F2",
+    padding: 10,
+    marginHorizontal: 8,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  textButton: {
+    color: Colors.green,
+    fontWeight: "bold",
+    letterSpacing: 0.6,
+    fontSize: 15,
+  },
+  containerFunding: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 
