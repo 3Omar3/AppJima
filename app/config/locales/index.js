@@ -6,7 +6,7 @@ import en from "./en.json";
 import es from "./es.json";
 
 // default
-I18n.defaultLocale = "en";
+I18n.defaultLocale = "es";
 
 I18n.translations = {
   en,

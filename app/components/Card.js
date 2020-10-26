@@ -1,12 +1,9 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 
-function Card({ children, paddingBottom = 0 }) {
-  return (
-    <View style={[styles.container, { paddingBottom: paddingBottom }]}>
-      {children}
-    </View>
-  );
+function Card({ children, styleContainer }) {
+  return <View style={[styles.container, styleContainer]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -14,7 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: 270,
     height: null, // auto height dependiendo de los componentes
-    padding: 30,
+    padding: 10 * vw(1),
     paddingBottom: 19,
     borderRadius: 16,
     shadowColor: "#000",

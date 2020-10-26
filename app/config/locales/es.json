@@ -1,6 +1,13 @@
 {
   "language": "espanol",
   "coin": "mxn",
+
+  "loading": "Cargando...",
+  "errorRecoveryMail": "hubo un problema al enviar el correo, verifica tu direccion de email",
+  "errorLogGoogle": "no se ha podido establecer la conexion con google, revise su conexion",
+  "errorLogFacebook": "no se ha podido establecer la conexion con facebook, revise su conexion",
+  "errorEmailUse": "¡Ya hay una cuenta asociada a su correo!",
+
   "user": "Usuario",
   "email": "Email",
   "lastname": "Apellido",
@@ -13,6 +20,7 @@
   "error": "Error",
   "passwordMatch": "Las contraseñas no coinciden",
   "warningTerms": "Debe aceptar y estar de acuerdo con los términos y condiciones",
+  "success": "Exito",
 
   "welcome": "Bienvenido",
   "welcomeMessage": "No te preocupes, solo invierte y ve como tu dinero aumenta, Jima se hará cargo de todas las operaciones que requiera la plantación, cultivo y venta de tus plantas de agave.",
@@ -25,6 +33,7 @@
   "submit": "Enviar",
 
   "name": "Nombre",
+  "emailAddress": "Correo electrónico",
   "firstLastname": "Primer apellido",
   "secondLastname": "Segundo apellido",
   "password": "Contraseña",
@@ -108,7 +117,7 @@
   "mySales": "Mis Ventas",
   "withdrawalsFunding": "Retiros y Fondeos",
   "prices": "Precios",
-
+  
   "funding": "Fondear",
   "profile": "Perfil",
   "retirementsAcconts": "Cuentas de retiro",

@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { PieChart } from "react-native-chart-kit";
+import SocketIOClient from "socket.io-client/dist/socket.io.js";
 
-// source
+// Source
 import { t } from "../config/locales";
 import Colors from "../config/colors";
 
-// components
+// Components
 import RadioText from "../components/RadioText";
 import StatusBalance from "../components/StatusBalance";
 import TableApp from "../components/TableApp";
@@ -21,6 +16,9 @@ import TableApp from "../components/TableApp";
 import userApi from "../api/users";
 
 function HomeScreen({ navigation }) {
+  // Socket
+  const socket = SocketIOClient("http://192.168.56.1:3000/");
+
   const dataBalance = [
     {
       // saldo en plantas

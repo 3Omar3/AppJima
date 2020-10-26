@@ -1,6 +1,13 @@
 {
   "language": "ingles",
   "coin": "usd",
+  
+  "loading": "Loading...",
+  "errorRecoveryMail": "there was a problem sending mail, check your email address",
+  "errorLogGoogle": "Unable to establish connection with google, check your connection",
+  "errorLogFacebook": "no se ha podido establecer la conexion con facebook, revise su conexion",
+  "errorEmailUse": "There is already an account associated with your email!",
+  
   "user": "User",
   "email": "Email",
   "require": "This field is required",
@@ -12,6 +19,7 @@
   "error": "Error",
   "passwordMatch": "Passwords do not match",
   "warningTerms": "You must accept and agree to terms and conditions",
+  "success": "Success",
 
   "welcome": "Welcome",
   "welcomeMessage": "Don't worry, just invest and see how your money increases, Jima will take care of all the operations that the planting, cultivation and sale of your agave plants requires.",

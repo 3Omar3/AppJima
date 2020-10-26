@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, StatusBar, Image, View, Text } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 
 // source
 import { t } from "../config/locales";
@@ -9,7 +10,6 @@ import Colors from "../config/colors";
 import Button from "../components/Button";
 import ScreenScroll from "../components/ScreenScroll";
 import Routes from "../navigation/routes";
-import Card from "../components/Card";
 
 // images
 const logo = require("../assets/png/Logo.png");
@@ -25,14 +25,14 @@ function WelcomeScreen({ navigation }) {
       <Button
         title={t("logIn")}
         onPress={() => navigation.navigate(Routes.LOGIN)}
-        styleContainer={{ marginBottom: 10 }}
+        styleContainer={{ height: vh(6.8) }}
       />
       <Button
         title={t("registerMe")}
         color="liteGray"
         textColor="text"
         onPress={() => navigation.navigate(Routes.REGISTER)}
-        styleContainer={{ marginBottom: 10 }}
+        styleContainer={{ height: vh(6.8) }}
       />
       <StatusBar hidden={true} />
     </ScreenScroll>
@@ -41,31 +41,30 @@ function WelcomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   logo: {
-    height: 170,
-    width: 285,
+    height: vh(24),
+    width: vw(74),
     position: "absolute",
-    top: 5,
+    top: 1,
   },
   containerWelcome: {
     position: "absolute",
-    top: "33.5%",
+    top: vh(32),
     justifyContent: "center",
     alignItems: "center",
   },
   title: {
-    fontSize: 23,
-    letterSpacing: 2, // 2.6
-    marginBottom: 20,
+    fontSize: vw(6.2),
+    letterSpacing: 2,
+    marginBottom: vh(2.2),
     fontWeight: "bold",
     color: Colors.text,
   },
   text: {
-    fontSize: 19, // 18
-    letterSpacing: 0.6,
+    fontSize: vw(5.3),
+    letterSpacing: 0.8,
     textAlign: "center",
-    lineHeight: 30,
+    lineHeight: vh(5.5),
     fontWeight: "200",
-    marginBottom: 40,
     marginLeft: "10%",
     marginRight: "10%",
     color: Colors.text,

@@ -16,7 +16,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.omarnuel.Jima"
     },
@@ -25,6 +27,7 @@
     },
     "android": {
       "package": "com.omarnuel.Jima"
-    }
+    },
+    "description": ""
   }
 }

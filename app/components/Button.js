@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 
 import Colors from "../config/colors";
 
@@ -26,11 +27,10 @@ function AppButton({
 
 const styles = StyleSheet.create({
   button: {
-    width: "85%",
+    width: "100%",
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
     shadowColor: Colors.liteGray,
     shadowOffset: {
       width: 0,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
     color: Colors.white,
     position: "absolute",
-    fontSize: 17,
+    fontSize: vw(4.5),
   },
 });
 

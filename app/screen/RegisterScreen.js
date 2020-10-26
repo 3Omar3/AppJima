@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { WebView } from "react-native-webview";
-import { Checkbox } from "react-native-paper";
+import { CheckBox } from "react-native-elements";
+import { vh, vw } from "react-native-css-vh-vw";
 import * as Yup from "yup"; // validacion
 import {
   StyleSheet,
@@ -11,12 +12,12 @@ import {
   ImageBackground,
   Text,
   Modal,
-  TouchableOpacity,
   Alert,
 } from "react-native";
 
 // components
 import KeyScroll from "../components/KeyScroll";
+import Loading from "../components/Loading";
 import Card from "../components/Card";
 import TouchableText from "../components/TouchableText";
 import { Form, FormField, SubmitButton } from "../components/forms";
@@ -50,21 +51,28 @@ const validationSchema = Yup.object().shape({
 function RegisterScreen({ navigation }) {
   const [checked, setChecked] = useState(false); // checkbox
   const [modalVisible, setModalVisible] = useState(false); // modal
+  const [loading, setLoading] = useState(false);
 
   // registro
   const handleSubmit = async (info) => {
     if (checked === false) return Alert.alert(t("error"), t("warningTerms"));
 
+    setLoading(true);
     const result = await userApi.register({ ...info }); // inserta el usuario
+    setLoading(false);
 
-    if (!result.ok) {
-      if (result.data.auth === false)
-        return Alert.alert(t("error"), t("emailDuplicate"));
-      else return alert(t("errorRegister"));
+    switch (result.status) {
+      case 200:
+        Alert.alert(t("success"), t("registerSuccessMessage"));
+        navigation.navigate(Routes.LOGIN);
+        break;
+      case 400:
+        Alert.alert(t("error"), t("emailDuplicate"));
+        break;
+      default:
+        Alert.alert(t("error"), t("errorRegister"));
+        break;
     }
-
-    Alert.alert(t("registerSuccessTitle"), t("registerSuccessMessage"));
-    navigation.navigate(Routes.LOGIN);
   };
 
   function modalTerms() {
@@ -103,13 +111,14 @@ function RegisterScreen({ navigation }) {
       <ImageBackground source={background} style={styles.imgBackground}>
         <KeyScroll>
           <View style={{ alignItems: "center" }}>
+            <Loading loading={loading} />
             <Image
               style={styles.logo}
               resizeMode="contain"
               source={logo}
               fadeDuration={0}
             />
-            <Card>
+            <Card styleContainer={styles.container}>
               <Form
                 initialValues={{
                   name: "",
@@ -128,17 +137,20 @@ function RegisterScreen({ navigation }) {
                   name="name"
                   placeholder={t("name")}
                   autoCorrect={false}
+                  textError={styles.textError}
                 />
                 <FormField
                   name="lastname1"
                   placeholder={t("lastname")}
                   autoCorrect={false}
+                  textError={styles.textError}
                 />
                 {t("language") === "espanol" ? (
                   <FormField
                     name="lastname2"
                     placeholder={t("secondLastname")}
                     autoCorrect={false}
+                    textError={styles.textError}
                   />
                 ) : null}
                 <FormField
@@ -149,6 +161,7 @@ function RegisterScreen({ navigation }) {
                   autoCompleteType="email"
                   keyboardType="email-address"
                   textContentType="emailAddress"
+                  textError={styles.textError}
                 />
                 <FormField
                   name="password"
@@ -157,6 +170,7 @@ function RegisterScreen({ navigation }) {
                   autoCorrect={false}
                   secureTextEntry
                   textContentType="password"
+                  textError={styles.textError}
                 />
                 <FormField
                   name="passwordConfirm"
@@ -165,13 +179,16 @@ function RegisterScreen({ navigation }) {
                   autoCorrect={false}
                   secureTextEntry
                   textContentType="password"
+                  textError={styles.textError}
                 />
                 <View style={styles.containerTerms}>
                   {/* terminos y condiciones */}
                   {modalTerms()}
-                  <Checkbox
-                    color={Colors.green}
-                    status={checked ? "checked" : "unchecked"}
+                  <CheckBox
+                    containerStyle={styles.containerCheckbox}
+                    checkedColor={Colors.green}
+                    size={5.5 * vw(1)}
+                    checked={checked}
                     onPress={() => {
                       setChecked(!checked);
                     }}
@@ -187,7 +204,14 @@ function RegisterScreen({ navigation }) {
                   />
                 </View>
                 {/* button register */}
-                <SubmitButton title={t("register")} source={btnRegister} />
+                <View style={{ marginTop: vh(2) }}>
+                  <SubmitButton
+                    title={t("register")}
+                    source={btnRegister}
+                    styleContainer={styles.containerButton}
+                    styleText={styles.textButton}
+                  />
+                </View>
               </Form>
             </Card>
           </View>
@@ -209,41 +233,48 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   logo: {
-    height: 110,
-    width: 250,
+    height: vw(31),
+    width: vw(76),
     marginTop: 20,
-    marginBottom: 8,
+    marginBottom: 5,
+  },
+  textError: {
+    fontSize: vw(4.3),
   },
   containerTerms: {
+    marginTop: 5,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
   },
   textAccept: {
-    fontSize: 12,
+    fontSize: vw(3.4),
     color: Colors.gray,
   },
   textTerms: {
-    fontSize: 12,
+    fontSize: vw(3.4),
     color: Colors.text,
     fontWeight: "bold",
     textDecorationLine: "underline",
     marginLeft: 5,
   },
-  card: {
-    backgroundColor: "white",
-    width: 270,
-    height: 460,
-    padding: 30,
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginBottom: 10,
+  containerCheckbox: {
+    marginRight: 2,
+    marginLeft: 0,
+    marginBottom: 0,
+    marginTop: vw(0.5),
+    padding: 0,
+  },
+  container: {
+    width: vw(72),
+    paddingBottom: vh(2),
+    padding: vw(8),
+  },
+  containerButton: {
+    height: vh(6),
+  },
+  textButton: {
+    fontSize: vw(4.2),
   },
 
   // modal

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
+import { vh, vw } from "react-native-css-vh-vw";
 
 import Colors from "../config/colors";
 
@@ -8,7 +9,7 @@ function AppTextInput({ width = "100%", style, theme, ...otherProps }) {
   return (
     <TextInput
       dense={true}
-      style={[styles.input, { width: width }, style]}
+      style={[styles.input, style, { width: width }]}
       theme={inputTheme}
       {...otherProps}
     />
@@ -27,8 +28,10 @@ const inputTheme = {
 
 const styles = StyleSheet.create({
   input: {
+    fontSize: vw(4.9),
     backgroundColor: Colors.white,
-    marginBottom: 15,
+    marginBottom: vh(1.8),
+    height: vh(7),
   },
 });
 

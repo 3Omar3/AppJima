@@ -15,8 +15,8 @@ export default function App({ navigation }) {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer theme={navigationTheme}>
-        {user ? <AppNavigator /> : <AuthNavigator />}
-        {/* <AppNavigator></AppNavigator> */}
+        {/* {user ? <AppNavigator /> : <AuthNavigator />} */}
+        <AppNavigator></AppNavigator>
       </NavigationContainer>
     </AuthContext.Provider>
   );
