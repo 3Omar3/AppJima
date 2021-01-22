@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 import { Table, Row } from "react-native-table-component";
 import { SearchBar } from "react-native-elements";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -15,80 +16,87 @@ import RNPickerSelect from "react-native-picker-select";
 import { t } from "../config/locales";
 import Colors from "../config/colors";
 
-function TableApp({ config, data }) {
+function TableApp({
+  title,
+  config,
+  data,
+  items,
+  selectChange,
+  onSearch,
+  showPicker = true,
+  maxHeight = 457,
+  styleTitle,
+}) {
   // search table
   const [search, setSearch] = useState("");
+
+  function usePicker() {
+    if (showPicker)
+      return (
+        <View style={styles.containerSelector}>
+          <RNPickerSelect
+            placeholder={{}}
+            onValueChange={selectChange}
+            style={pickerSelect}
+            Icon={() => {
+              return (
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={vh(3.5)}
+                  color={Colors.gray}
+                  style={{ marginTop: "16%", marginRight: 2 }}
+                />
+              );
+            }}
+            items={items}
+            useNativeAndroidPickerStyle={false}
+          />
+        </View>
+      );
+  }
 
   return (
     <>
       {/* table transacciones */}
       <View style={styles.containerTransactions}>
-        <Text style={styles.textTitle}>{t("lastestTransacions")}</Text>
-        <View style={styles.containerSelector}>
-          <RNPickerSelect
-            placeholder={{}}
-            onValueChange={(value) => console.log(value)}
-            style={pickerSelect}
-            items={[
-              { label: t("generalTransactions"), value: 0 },
-              { label: t("myTransactions"), value: 1 },
-            ]}
-          />
-        </View>
-        <View style={{ flexDirection: "row", marginTop: 5 }}>
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity style={styles.buttonLeft}>
-              <MaterialCommunityIcons
-                name="file-pdf"
-                size={22}
-                color={Colors.red}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity style={styles.buttonRight}>
-              <MaterialCommunityIcons
-                name="file-excel"
-                size={22}
-                color={Colors.chi}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Text style={[styles.textTitle, styleTitle]}>{title}</Text>
+        {usePicker()}
         {/* search and selector */}
-        <View style={styles.containerOption}>
+        {/* <View style={styles.containerOption}>
           <View style={styles.containerSearch}>
             <SearchBar
               placeholder={t("search")}
-              onChangeText={(text) => setSearch(text)}
+              onChangeText={onSearch}
               value={search}
               inputStyle={{
                 backgroundColor: Colors.white,
+                fontSize: vw(4.2),
               }}
               inputContainerStyle={styles.inputSearch}
               containerStyle={styles.styleSearch}
+              searchIcon={() => {
+                return (
+                  <MaterialCommunityIcons
+                    name="magnify"
+                    size={vw(4.5)}
+                    color={Colors.gray}
+                    style={{ marginLeft: -10, marginRight: -10 }}
+                  />
+                );
+              }}
+              clearIcon={false}
             />
           </View>
-          <View style={styles.containerPicker}>
-            <RNPickerSelect
-              placeholder={{}}
-              onValueChange={(value) => console.log(value)}
-              style={pickerResults}
-              items={[
-                { label: "10", value: 10 },
-                { label: "25", value: 25 },
-                { label: "50", value: 50 },
-                { label: "100", value: 100 },
-              ]}
-            />
-          </View>
-        </View>
+        </View> */}
       </View>
-      <View style={styles.containerTable}>
+      <View style={[styles.containerTable, { maxHeight: maxHeight }]}>
         <ScrollView horizontal={true} persistentScrollbar={true}>
-          <View style={{ marginBottom: 10 }}>
+          <View>
             <Table
-              borderStyle={{ borderWidth: 2, borderColor: Colors.liteGray }}
+              borderStyle={{
+                borderWidth: 1,
+                borderColor: Colors.liteGray,
+              }}
             >
               <Row
                 data={config.tableHead}
@@ -97,38 +105,24 @@ function TableApp({ config, data }) {
                 textStyle={styles.textHeader}
               />
             </Table>
-            <Table borderStyle={{ borderWidth: 0 }}>
-              {data.map((rowData, index) => (
-                <Row
-                  key={index}
-                  data={rowData}
-                  widthArr={config.widthArr}
-                  style={[
-                    styles.row,
-                    index % 2 && { backgroundColor: Colors.white },
-                  ]}
-                  textStyle={styles.textTable}
-                />
-              ))}
-            </Table>
+            <ScrollView style={styles.dataWrapper} nestedScrollEnabled={true}>
+              <Table borderStyle={{ borderWidth: 0 }}>
+                {data.map((rowData, index) => (
+                  <Row
+                    key={index}
+                    data={rowData}
+                    widthArr={config.widthArr}
+                    style={[
+                      styles.row,
+                      index % 2 && { backgroundColor: Colors.white },
+                    ]}
+                    textStyle={styles.textTable}
+                  />
+                ))}
+              </Table>
+            </ScrollView>
           </View>
         </ScrollView>
-      </View>
-      <View style={styles.containerPagination}>
-        <View style={styles.SearchSelector}>
-          <MaterialCommunityIcons
-            name="chevron-left"
-            size={25}
-            color={Colors.text}
-          />
-        </View>
-        <View style={styles.SearchSelector}>
-          <MaterialCommunityIcons
-            name="chevron-right"
-            size={25}
-            color={Colors.text}
-          />
-        </View>
       </View>
     </>
   );
@@ -136,7 +130,7 @@ function TableApp({ config, data }) {
 
 const styles = StyleSheet.create({
   textTitle: {
-    fontSize: 20,
+    fontSize: vw(5),
     color: Colors.text,
     fontWeight: "bold",
     letterSpacing: 0.6,
@@ -156,7 +150,9 @@ const styles = StyleSheet.create({
   containerTransactions: {
     backgroundColor: Colors.white,
     borderRadius: 10,
-    padding: 10,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    padding: 15,
     marginTop: 15,
   },
   buttonLeft: {
@@ -182,21 +178,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
 
-  // search, selector
+  // search
   containerOption: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     borderRadius: 10,
-    flex: 1,
-    marginTop: 15,
+    marginTop: 10,
+    alignSelf: "flex-end",
   },
   containerSearch: {
     borderRadius: 10,
-    width: 200,
-    height: 35,
+    width: vw(43),
+    height: vh(5.2),
     borderColor: Colors.liteGray,
     borderWidth: 1,
-    marginRight: 10,
     overflow: "hidden",
   },
   styleSearch: {
@@ -204,14 +197,14 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.white,
     borderBottomColor: Colors.white,
     borderRadius: 10,
-    height: 30,
-    width: 198,
+    height: vh(5.2),
+    width: vw(41),
     justifyContent: "center",
   },
   inputSearch: {
     backgroundColor: Colors.white,
-    height: 25,
-    width: 189,
+    height: vh(5.2),
+    width: vw(41),
   },
   containerSelector: {
     alignSelf: "flex-end",
@@ -229,8 +222,10 @@ const styles = StyleSheet.create({
   containerTable: {
     overflow: "hidden",
     backgroundColor: Colors.white,
-    marginTop: 15,
     marginBottom: 10,
+    borderRadius: 15,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
   header: {
     height: 50,
@@ -239,57 +234,59 @@ const styles = StyleSheet.create({
   textHeader: {
     textAlign: "center",
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(4.3),
     letterSpacing: 0.8,
   },
   textTable: {
     textAlign: "center",
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(4),
     letterSpacing: 0.6,
   },
   dataWrapper: {
     marginTop: -1,
   },
   row: {
-    height: 40,
+    height: vh(7),
     backgroundColor: Colors.liteGray,
-  },
-
-  // buttons back, next
-  containerPagination: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-
-  SearchSelector: {
-    backgroundColor: Colors.white,
-    borderRadius: 5,
-    marginRight: 10,
-    padding: 6,
-    borderRadius: 100,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 
 const pickerSelect = StyleSheet.create({
   inputIOS: {
-    width: 215,
     color: Colors.text,
+    fontSize: vw(4),
+    paddingLeft: 8,
+    paddingRight: 25,
+    alignSelf: "center",
+    letterSpacing: 0.6,
   },
   inputAndroid: {
-    width: 215,
     color: Colors.text,
+    fontSize: vw(4),
+    paddingLeft: 8,
+    paddingRight: 25,
+    alignSelf: "center",
+    letterSpacing: 0.6,
   },
 });
 
 const pickerResults = StyleSheet.create({
   inputIOS: {
-    width: 91,
+    color: Colors.text,
+    fontSize: vw(4),
+    paddingLeft: 8,
+    paddingRight: 25,
+    alignSelf: "center",
+    letterSpacing: 0.6,
   },
   inputAndroid: {
-    width: 91,
+    color: Colors.text,
+    fontSize: vw(4),
+    paddingLeft: 8,
+    paddingRight: 25,
+    alignSelf: "center",
+    letterSpacing: 0.6,
   },
 });
 

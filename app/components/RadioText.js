@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 
 function RadioText({ color, text, marginVertical = 5, styleText, styleRadio }) {
   return (
@@ -18,8 +19,8 @@ function RadioText({ color, text, marginVertical = 5, styleText, styleRadio }) {
 
 const styles = StyleSheet.create({
   radioContainer: {
-    height: 15,
-    width: 15,
+    height: vw(4),
+    width: vw(4),
     borderRadius: 100,
     marginRight: 7,
   },
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 16,
-    letterSpacing: 0.8,
+    fontSize: vw(4.5),
+    letterSpacing: 0.6,
   },
 });
 

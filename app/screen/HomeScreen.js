@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 import { PieChart } from "react-native-chart-kit";
-import SocketIOClient from "socket.io-client/dist/socket.io.js";
 
 // Source
 import { t } from "../config/locales";
@@ -13,26 +13,97 @@ import StatusBalance from "../components/StatusBalance";
 import TableApp from "../components/TableApp";
 
 // API
-import userApi from "../api/users";
+import modelApi from "../api/model";
 
-function HomeScreen({ navigation }) {
-  // Socket
-  const socket = SocketIOClient("http://192.168.56.1:3000/");
+function HomeScreen({ route }) {
+  const data = route.params.data;
+  const [dataTable, setDataTable] = useState([]);
+
+  // load data
+  useEffect(() => {
+    loadTransacciones();
+  }, []);
+
+  function styleStatus(status) {
+    if (status == "completada")
+      return <Text style={styles.textCompleted}>{t(status)}</Text>;
+
+    return <Text style={styles.textInSale}>{t(status)}</Text>;
+  }
+
+  function styleTipo(tipo) {
+    if (tipo == "compra")
+      return <Text style={styles.textPurchase}>{t(tipo)}</Text>;
+
+    return <Text style={styles.textSale}>{t(tipo)}</Text>;
+  }
+
+  async function loadTransacciones(tipo = 2) {
+    const res = await modelApi.getTransacciones(tipo);
+    let arr = [];
+
+    for (let r of res.data.transacciones) {
+      arr.push([
+        r.fecha,
+        styleTipo(r.tipo),
+        styleStatus(r.estatus),
+        r.predio,
+        r.edad,
+        r.cantidad,
+        `$${r.precio}`,
+        `$${r.total}`,
+      ]);
+    }
+
+    setDataTable(arr);
+  }
+
+  function graphicBalance(saldos) {
+    this.plants = setNumber(
+      saldos.total_dinero_planta - saldos.total_dinero_ventas
+    );
+    this.total = setNumber(saldos.total_dinero);
+    this.sale = setNumber(saldos.total_dinero_ventas);
+
+    this.validateGraphic = function (n) {
+      return Number(n == null || n == 0 ? 1 : n);
+    };
+
+    function setNumber(n) {
+      return Number(n ? n : 0).toFixed(2);
+    }
+  }
+
+  function graphicProjection(totales) {
+    this.totalInvertido = setNumber(totales.totalCompras);
+    this.utilidadTotal = setNumber(totales.utilidadTotal);
+
+    this.validateGraphic = function (n) {
+      return Number(n == null || n == 0 ? 1 : n);
+    };
+
+    function setNumber(n) {
+      return Number(n ? n : 0).toFixed(2);
+    }
+  }
+
+  const balance = new graphicBalance(data.saldos.totales);
+  const proyecciones = new graphicProjection(data.proyecciones.totales);
 
   const dataBalance = [
     {
-      // saldo en plantas
-      population: 100,
+      // saldo plantas en venta
+      population: balance.validateGraphic(balance.plants),
       color: Colors.liteGray,
     },
     {
-      // saldo
-      population: 100,
-      color: Colors.placeholder,
+      // saldo total
+      population: balance.validateGraphic(balance.total),
+      color: "#909090",
     },
     {
-      // saldo en planta en venta
-      population: 100,
+      // saldo en plantas
+      population: balance.validateGraphic(balance.sale),
       color: Colors.chi,
     },
   ];
@@ -40,14 +111,14 @@ function HomeScreen({ navigation }) {
   const dataProjection = [
     {
       // total invertido,
-      population: 100,
+      population: proyecciones.validateGraphic(proyecciones.totalInvertido),
       color: Colors.liteGray,
       legendFontColor: Colors.gray,
       legendFontSize: 15,
     },
     {
       // utilidad total,
-      population: 100,
+      population: proyecciones.validateGraphic(proyecciones.utilidadTotal),
       color: Colors.chi,
       legendFontColor: Colors.gray,
       legendFontSize: 15,
@@ -66,16 +137,13 @@ function HomeScreen({ navigation }) {
       t("price"),
       t("total"),
     ],
-    widthArr: [120, 110, 110, 110, 130, 110, 110, 110],
+    widthArr: [vw(30), vw(25), vw(30), vw(30), vw(40), vw(30), vw(25), vw(35)],
   };
-  const data = [
-    ["Maravillas", "3000 plantas", "", "$1000000.00", "", "2", "", ""],
-    ["Maravillas", "3000 plantas", "", "$1000000.00", "", "2", "", ""],
-  ];
 
   return (
     <ScrollView
       enableOnAndroid={true}
+      nestedScrollEnabled={true}
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{
         justifyContent: "flex-start",
@@ -88,7 +156,7 @@ function HomeScreen({ navigation }) {
             <Text style={styles.textTopSub}> | {t("coin")}</Text>
           </Text>
         </View>
-        <StatusBalance />
+        <StatusBalance data={{ totales: data.balance.totales }} />
         <View style={styles.container}>
           <View style={{ alignItems: "center" }}>
             <Text style={styles.textTitle}>{t("balanceInCoins")}</Text>
@@ -97,8 +165,8 @@ function HomeScreen({ navigation }) {
           <View style={styles.containerGraphic}>
             <PieChart
               data={dataBalance}
-              width={145}
-              height={145}
+              width={vw(38)}
+              height={vh(22)}
               chartConfig={{
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -106,33 +174,33 @@ function HomeScreen({ navigation }) {
               accessor="population"
               backgroundColor="transparent"
               hasLegend={false}
-              paddingLeft={37}
+              paddingLeft={vw(8.5)}
             />
           </View>
-          <View style={{ marginTop: 5 }}>
+          <View style={{ marginTop: 10 }}>
             <View style={[styles.containerDot, { marginBottom: 5 }]}>
               <RadioText
                 text={t("balanceInPlants")}
                 color={Colors.liteGray}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>7052.23</Text>
+              <Text style={styles.textNumber}>{balance.plants}</Text>
             </View>
             <View style={[styles.containerDot, { marginBottom: 5 }]}>
-              <RadioText
-                text={t("balanceIn")}
-                color={Colors.gray}
-                styleText={styles.radioText}
-              />
-              <Text style={styles.textNumber}>520.21</Text>
-            </View>
-            <View style={styles.containerDot}>
               <RadioText
                 text={t("balancePlantInSale")}
                 color={Colors.chi}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>1000.21</Text>
+              <Text style={styles.textNumber}>{balance.sale}</Text>
+            </View>
+            <View style={styles.containerDot}>
+              <RadioText
+                text={t("balanceTotal")}
+                color={"#909090"}
+                styleText={styles.radioText}
+              />
+              <Text style={styles.textNumber}>{balance.total}</Text>
             </View>
           </View>
         </View>
@@ -144,8 +212,8 @@ function HomeScreen({ navigation }) {
           <View style={styles.containerGraphic}>
             <PieChart
               data={dataProjection}
-              width={150}
-              height={150}
+              width={vw(38)}
+              height={vh(22)}
               chartConfig={{
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -153,7 +221,7 @@ function HomeScreen({ navigation }) {
               accessor="population"
               backgroundColor="transparent"
               hasLegend={false}
-              paddingLeft={37}
+              paddingLeft={vw(9)}
             />
           </View>
           <View style={{ marginTop: 5 }}>
@@ -163,19 +231,35 @@ function HomeScreen({ navigation }) {
                 color={Colors.liteGray}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>$7052.23</Text>
+              <Text style={styles.textNumber}>
+                ${proyecciones.totalInvertido}
+              </Text>
             </View>
-            <View style={[styles.containerDot, { marginBottom: 5 }]}>
+            <View style={[styles.containerDot]}>
               <RadioText
                 text={t("totalProfit")}
                 color={Colors.chi}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>$520.21</Text>
+              <Text style={styles.textNumber}>
+                ${proyecciones.utilidadTotal}
+              </Text>
             </View>
           </View>
         </View>
-        <TableApp data={data} config={configTable} />
+        <TableApp
+          title={t("lastestTransacions")}
+          data={dataTable}
+          config={configTable}
+          items={[
+            { label: t("generalTransactions"), value: 2 },
+            { label: t("myTransactions"), value: 1 },
+          ]}
+          selectChange={(value) => {
+            loadTransacciones(value);
+          }}
+          maxHeight={vh(78.1)}
+        />
       </View>
     </ScrollView>
   );
@@ -185,21 +269,20 @@ const styles = StyleSheet.create({
   // status
   containerTop: {
     backgroundColor: Colors.white,
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   textTopTitle: {
-    fontSize: 22,
+    fontSize: vw(5.1),
     fontWeight: "bold",
     color: Colors.text,
-    letterSpacing: 0.8,
     textAlign: "center",
+    letterSpacing: 0.6,
   },
   textTopSub: {
-    fontSize: 18,
-    letterSpacing: 0.6,
+    fontSize: vw(4.8),
     color: Colors.gray,
     marginVertical: 5,
     fontWeight: "normal",
@@ -209,20 +292,20 @@ const styles = StyleSheet.create({
   // card graphics
   container: {
     backgroundColor: Colors.white,
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 15,
+    padding: 15,
     marginTop: 15,
   },
   textTitle: {
-    fontSize: 20,
+    fontSize: vw(4.8),
     color: Colors.text,
     fontWeight: "bold",
-    letterSpacing: 0.8,
+    letterSpacing: 0.6,
     textAlign: "center",
   },
   textSub: {
-    fontSize: 19,
-    letterSpacing: 0.8,
+    fontSize: vw(4.8),
+    letterSpacing: 0.6,
     color: Colors.gray,
     marginTop: 5,
   },
@@ -239,13 +322,45 @@ const styles = StyleSheet.create({
   },
   textNumber: {
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(4.3),
     fontWeight: "bold",
     letterSpacing: 0.6,
   },
   radioText: {
-    fontSize: 17,
+    fontSize: vw(4.3),
     color: Colors.gray,
+  },
+
+  // report
+  textCompleted: {
+    color: Colors.white,
+    alignSelf: "center",
+    backgroundColor: Colors.chi,
+    padding: 2.5,
+    paddingHorizontal: 8,
+    borderRadius: 50,
+    fontSize: vw(3.5),
+  },
+  textInSale: {
+    color: Colors.white,
+    alignSelf: "center",
+    backgroundColor: Colors.red,
+    padding: 2.5,
+    paddingHorizontal: 8,
+    borderRadius: 50,
+    fontSize: vw(3.5),
+  },
+
+  textPurchase: {
+    color: Colors.chi,
+    alignSelf: "center",
+    fontSize: vw(3.5),
+  },
+
+  textSale: {
+    color: Colors.red,
+    alignSelf: "center",
+    fontSize: vw(3.5),
   },
 });
 

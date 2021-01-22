@@ -31,3 +31,7 @@ getLanguage();
 export function t(name) {
   return I18n.t(name);
 }
+
+export const changeLaguage = (language) => {
+  I18n.locale = language;
+};

@@ -11,12 +11,8 @@ import SettingScreen from "../screen/SettingScreen";
 const Stack = createStackNavigator();
 
 const AccountNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Funding" component={FundingScreen} />
+  <Stack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Profile" component={ProfileScreen} />
-    <Stack.Screen name="Retirement" component={RetirementScreen} />
-    <Stack.Screen name="Account" component={AccountScreen} />
-    <Stack.Screen name="Setting" component={SettingScreen} />
   </Stack.Navigator>
 );
 

@@ -28,7 +28,7 @@ const inputTheme = {
 
 const styles = StyleSheet.create({
   input: {
-    fontSize: vw(4.9),
+    fontSize: vw(4.5),
     backgroundColor: Colors.white,
     marginBottom: vh(1.8),
     height: vh(7),

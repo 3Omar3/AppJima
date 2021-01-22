@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   separator: {
     marginVertical: 8,
     borderBottomColor: Colors.liteGray,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderRadius: 50,
   },
 });

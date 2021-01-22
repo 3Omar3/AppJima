@@ -23,16 +23,9 @@ function WelcomeScreen({ navigation }) {
         <Text style={styles.text}>{t("welcomeMessage")}</Text>
       </View>
       <Button
-        title={t("logIn")}
+        title={t("get started")}
         onPress={() => navigation.navigate(Routes.LOGIN)}
-        styleContainer={{ height: vh(6.8) }}
-      />
-      <Button
-        title={t("registerMe")}
-        color="liteGray"
-        textColor="text"
-        onPress={() => navigation.navigate(Routes.REGISTER)}
-        styleContainer={{ height: vh(6.8) }}
+        styleContainer={{ height: 45 }}
       />
       <StatusBar hidden={true} />
     </ScreenScroll>
@@ -41,26 +34,26 @@ function WelcomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   logo: {
-    height: vh(24),
-    width: vw(74),
+    height: vh(22),
+    width: vw(72),
     position: "absolute",
-    top: 1,
+    top: 10,
   },
   containerWelcome: {
     position: "absolute",
-    top: vh(32),
+    top: vh(35),
     justifyContent: "center",
     alignItems: "center",
   },
   title: {
-    fontSize: vw(6.2),
+    fontSize: vw(5.5),
     letterSpacing: 2,
     marginBottom: vh(2.2),
     fontWeight: "bold",
     color: Colors.text,
   },
   text: {
-    fontSize: vw(5.3),
+    fontSize: vw(5),
     letterSpacing: 0.8,
     textAlign: "center",
     lineHeight: vh(5.5),

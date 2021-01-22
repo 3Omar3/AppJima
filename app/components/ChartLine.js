@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { vh, vw } from "react-native-css-vh-vw";
 
 // source
 import Colors from "../config/colors";
@@ -17,11 +17,11 @@ function ChartLine({ data }) {
       borderRadius: 16,
     },
     propsForLabels: {
-      fontSize: 14,
+      fontSize: vw(3),
       // fontWeight: "bold",
     },
     propsForVerticalLabels: {
-      fontSize: 15,
+      fontSize: vw(3.5),
     },
     propsForBackgroundLines: {
       stroke: Colors.gray,
@@ -38,10 +38,9 @@ function ChartLine({ data }) {
     <>
       <LineChart
         data={data}
-        width={Dimensions.get("window").width - 30} // from react-native
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
+        width={vw(90)} // from react-native
+        height={vh(35)}
+        // yAxisLabel="$"
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={chartConfig}
         bezier // smoth lines

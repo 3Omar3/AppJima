@@ -38,7 +38,7 @@ const btnRegister = require("../assets/png/btnDegradado.png");
 // validation
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(t("require")).label(),
-  lastname1: Yup.string().required(t("require")).label(),
+  lastname: Yup.string().required(t("require")).label(),
   lastname2: Yup.string().label(),
   email: Yup.string().required(t("require")).email(t("invalidEmail")).label(),
   password: Yup.string().required(t("require")).label(),
@@ -54,7 +54,7 @@ function RegisterScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   // registro
-  const handleSubmit = async (info) => {
+  const handleSubmit = async (info, { resetForm }) => {
     if (checked === false) return Alert.alert(t("error"), t("warningTerms"));
 
     setLoading(true);
@@ -63,6 +63,7 @@ function RegisterScreen({ navigation }) {
 
     switch (result.status) {
       case 200:
+        resetForm();
         Alert.alert(t("success"), t("registerSuccessMessage"));
         navigation.navigate(Routes.LOGIN);
         break;
@@ -75,43 +76,12 @@ function RegisterScreen({ navigation }) {
     }
   };
 
-  function modalTerms() {
-    return (
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalView}>
-          <WebView
-            scalesPageToFit={false}
-            bounces={false}
-            scrollEnabled={false}
-            style={{ flex: 1 }}
-            source={{ html: t("document") }}
-          />
-          <TouchableText
-            title={t("close")}
-            styleContainer={styles.containerCloseButton}
-            styleText={styles.closeButton}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          />
-        </View>
-      </Modal>
-    );
-  }
-
   return (
     <SafeAreaView style={styles.background}>
+      <Loading loading={loading} />
       <ImageBackground source={background} style={styles.imgBackground}>
         <KeyScroll>
           <View style={{ alignItems: "center" }}>
-            <Loading loading={loading} />
             <Image
               style={styles.logo}
               resizeMode="contain"
@@ -122,7 +92,7 @@ function RegisterScreen({ navigation }) {
               <Form
                 initialValues={{
                   name: "",
-                  lastname1: "",
+                  lastname: "",
                   lastname2: "",
                   email: "",
                   password: "",
@@ -140,8 +110,8 @@ function RegisterScreen({ navigation }) {
                   textError={styles.textError}
                 />
                 <FormField
-                  name="lastname1"
-                  placeholder={t("lastname")}
+                  name="lastname"
+                  placeholder={t("firstLastname")}
                   autoCorrect={false}
                   textError={styles.textError}
                 />
@@ -182,8 +152,6 @@ function RegisterScreen({ navigation }) {
                   textError={styles.textError}
                 />
                 <View style={styles.containerTerms}>
-                  {/* terminos y condiciones */}
-                  {modalTerms()}
                   <CheckBox
                     containerStyle={styles.containerCheckbox}
                     checkedColor={Colors.green}
@@ -194,6 +162,7 @@ function RegisterScreen({ navigation }) {
                     }}
                   />
                   <Text style={styles.textAccept}>{t("accept")}</Text>
+                  {/* terminos y condiciones */}
                   <TouchableText
                     title={t("terms")}
                     textColor={"text"}
@@ -202,6 +171,32 @@ function RegisterScreen({ navigation }) {
                       setModalVisible(!modalVisible);
                     }}
                   />
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <View style={styles.modalView}>
+                      <WebView
+                        scalesPageToFit={false}
+                        bounces={false}
+                        scrollEnabled={false}
+                        style={{ flex: 1 }}
+                        source={{ html: t("document") }}
+                      />
+                      <TouchableText
+                        title={t("close")}
+                        styleContainer={styles.containerCloseButton}
+                        styleText={styles.closeButton}
+                        onPress={() => {
+                          setModalVisible(!modalVisible);
+                        }}
+                      />
+                    </View>
+                  </Modal>
                 </View>
                 {/* button register */}
                 <View style={{ marginTop: vh(2) }}>
@@ -266,7 +261,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   container: {
-    width: vw(72),
+    width: vw(70),
     paddingBottom: vh(2),
     padding: vw(8),
   },
@@ -274,7 +269,7 @@ const styles = StyleSheet.create({
     height: vh(6),
   },
   textButton: {
-    fontSize: vw(4.2),
+    fontSize: vw(4),
   },
 
   // modal

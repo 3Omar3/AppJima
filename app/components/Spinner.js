@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 import InputSpinner from "react-native-input-spinner";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -9,14 +10,14 @@ import Colors from "../config/colors";
 function Spinner({
   text,
   config,
-  buttonSize = 22,
+  buttonSize = vw(5),
   icon,
-  iconSize = 25,
+  iconSize = vw(5),
   onChange,
 }) {
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: "flex-start" }}>
+      <View>
         <Text style={styles.text}>{text}</Text>
         <InputSpinner
           prepend={
@@ -34,14 +35,10 @@ function Spinner({
           buttonStyle={styles.buttonStyle}
           buttonTextColor={Colors.gray}
           colorPress={Colors.chi}
-          max={config.max}
-          step={config.step}
-          precision={config.precision}
-          value={config.value}
-          type={config.type}
           onChange={onChange}
           rounded={false}
           width={"85%"}
+          {...config}
         />
       </View>
     </View>
@@ -50,22 +47,20 @@ function Spinner({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
     marginVertical: 10,
   },
   containerSpinner: {
+    marginTop: 5,
     backgroundColor: Colors.white,
-    elevation: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 50,
-    borderRadius: 5,
+    borderColor: Colors.liteGray,
+    borderRadius: 15,
     overflow: "hidden",
   },
   text: {
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(3.5),
     letterSpacing: 0.8,
     marginBottom: 5,
   },
@@ -76,15 +71,15 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   inputSpinner: {
-    height: 40,
-    fontSize: 18,
+    height: vh(4.5),
+    fontSize: vw(4.5),
     color: Colors.text,
     marginRight: 25,
     letterSpacing: 0.6,
   },
   buttonStyle: {
-    height: 40,
-    width: 40,
+    height: vh(4.5),
+    width: vw(11),
     backgroundColor: Colors.background,
     borderRadius: 5,
   },

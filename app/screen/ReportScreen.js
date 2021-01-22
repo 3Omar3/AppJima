@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { vh, vw } from "react-native-css-vh-vw";
 
 // source
 import { t } from "../config/locales";
@@ -93,7 +94,7 @@ function ReportScreen() {
           >
             <MaterialCommunityIcons
               name="chart-donut"
-              size={25}
+              size={vw(5.5)}
               color={report[0]}
             />
           </TouchableOpacity>
@@ -103,7 +104,7 @@ function ReportScreen() {
           >
             <MaterialCommunityIcons
               name="cart-minus"
-              size={25}
+              size={vw(5.5)}
               color={report[1]}
             />
           </TouchableOpacity>
@@ -113,7 +114,7 @@ function ReportScreen() {
           >
             <MaterialCommunityIcons
               name="currency-usd"
-              size={25}
+              size={vw(5.5)}
               color={report[2]}
             />
           </TouchableOpacity>
@@ -123,7 +124,7 @@ function ReportScreen() {
           >
             <MaterialCommunityIcons
               name="clock-outline"
-              size={25}
+              size={vw(5.5)}
               color={report[3]}
             />
           </TouchableOpacity>
@@ -131,7 +132,11 @@ function ReportScreen() {
             style={styles.containerIcon}
             onPress={() => setReport(selectReport(4, t("withdrawalsFunding")))}
           >
-            <MaterialCommunityIcons name="coin" size={25} color={report[4]} />
+            <MaterialCommunityIcons
+              name="coin"
+              size={vw(5.5)}
+              color={report[4]}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.containerIcon, { marginRight: 0 }]}
@@ -139,7 +144,7 @@ function ReportScreen() {
           >
             <MaterialCommunityIcons
               name="chart-bell-curve"
-              size={25}
+              size={vw(5)}
               color={report[5]}
             />
           </TouchableOpacity>
@@ -160,14 +165,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textTitle: {
-    fontSize: 22,
+    fontSize: vw(5),
     fontWeight: "bold",
     color: Colors.text,
     letterSpacing: 0.8,
     textAlign: "center",
   },
   textSubTitle: {
-    fontSize: 18,
+    fontSize: vw(4.5),
     letterSpacing: 0.6,
     color: Colors.gray,
     marginVertical: 5,
@@ -177,9 +182,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     marginTop: 10,
     borderRadius: 10,
-    padding: 10,
+    padding: 5,
     marginRight: 10,
     alignItems: "center",
+    justifyContent: "center",
   },
 });
 

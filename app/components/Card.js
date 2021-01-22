@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     height: null, // auto height dependiendo de los componentes
     padding: 10 * vw(1),
     paddingBottom: 19,
-    borderRadius: 16,
+    borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

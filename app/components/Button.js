@@ -28,7 +28,6 @@ function AppButton({
 const styles = StyleSheet.create({
   button: {
     width: "100%",
-    height: 40,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: Colors.liteGray,
@@ -38,14 +37,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
   },
   text: {
     letterSpacing: 0.6,
     color: Colors.white,
     position: "absolute",
-    fontSize: vw(4.5),
+    fontSize: vw(4.4),
   },
 });
 

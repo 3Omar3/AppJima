@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { vh, vw } from "react-native-css-vh-vw";
 
 import Colors from "../config/colors";
 
@@ -13,7 +14,7 @@ function AlertLabel({ children, styleContainer }) {
         <MaterialCommunityIcons
           style={styles.warningIcon}
           name="alert-circle-outline"
-          size={24}
+          size={vw(5.5)}
           color={Colors.gray}
         />
         <View style={styles.containerChildren}>{children}</View>
@@ -26,9 +27,9 @@ function AlertLabel({ children, styleContainer }) {
           }}
         >
           <MaterialCommunityIcons
-            style={{ marginRight: 1 }}
+            style={{ marginRight: 4 }}
             name="close"
-            size={24}
+            size={vw(5.5)}
             color={Colors.gray}
           />
         </TouchableOpacity>
@@ -47,8 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   warningIcon: {
-    marginRight: 1,
-    marginLeft: 3,
+    marginRight: 4,
+    marginLeft: 4,
     alignSelf: "center",
   },
   containerChildren: {

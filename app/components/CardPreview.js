@@ -1,6 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { vh, vw } from "react-native-css-vh-vw";
+import MapView, { Marker, Polygon } from "react-native-maps";
 
 // source
 import { t } from "../config/locales";
@@ -10,132 +19,190 @@ import Colors from "../config/colors";
 import Separator from "../components/Separator";
 
 // images
-const map = require("../assets/png/tiger.jpg");
 const jima = require("../assets/png/iconoJima.png");
 
-function CardPreview({ data, textButton }) {
+function CardPreview({ data, textButton, onPress, onPhotoPress }) {
+  function setNumber(n) {
+    return Number(n ? n : (0 * 100) / 100).toFixed(2);
+  }
+
+  function comprobarBoton() {
+    if (data.plantasDisponibles)
+      return (
+        <View style={styles.containerButton}>
+          <TouchableOpacity style={styles.cardButton} onPress={onPress}>
+            <Text style={styles.textButton}>{textButton}</Text>
+          </TouchableOpacity>
+        </View>
+      );
+  }
+
   return (
     <View style={styles.card}>
-      <Image style={styles.previewMap} source={map} />
+      <MapView
+        region={{
+          latitude: data.ubicacion.latitude,
+          longitude: data.ubicacion.longitude,
+          latitudeDelta:
+            Math.sqrt(
+              Math.pow(
+                data.coordenadas[2].latitude - data.coordenadas[0].latitude,
+                2
+              ) +
+                Math.pow(
+                  data.coordenadas[2].longitude - data.coordenadas[0].longitude,
+                  2
+                )
+            ) + 0.0039,
+          longitudeDelta: 0.01,
+        }}
+        mapType="hybrid"
+        style={styles.previewMap}
+      >
+        <Marker
+          coordinate={{
+            latitude: data.ubicacion.latitude,
+            longitude: data.ubicacion.longitude,
+          }}
+        />
+        <Polygon
+          coordinates={data.coordenadas}
+          strokeColor={Colors.red}
+          fillColor={"#ff000050"}
+        />
+      </MapView>
       <View style={{ padding: 10 }}>
         <View style={styles.containerTitle}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              Linking.openURL(
+                `https://www.google.com/maps/dir//'${data.ubicacion.latitude},${data.ubicacion.longitude}'/@'${data.ubicacion.latitude},${data.ubicacion.longitude}'800m/data=!3m1!1e3!4m7!4m6!1m0!1m3!2m2!1d-102.459814!2d20.899354!3e0?hl=es-ES`
+              );
+            }}
+          >
             <MaterialCommunityIcons
               name="map-marker"
-              size={25}
+              size={vw(5)}
               color={Colors.chi}
             />
           </TouchableOpacity>
-          <Text style={styles.title}>{data.title}</Text>
-          <TouchableOpacity style={styles.button}>
+          <Text style={styles.title}>{data.nombre}</Text>
+          <TouchableOpacity style={styles.button} onPress={onPhotoPress}>
             <MaterialCommunityIcons
               name="camera-burst"
-              size={28}
+              size={vw(5)}
               color={Colors.chi}
             />
           </TouchableOpacity>
         </View>
         <Separator />
-        <View style={[styles.containerIconText, { marginTop: 10 }]}>
-          <View style={styles.containerHorizontal}>
-            <MaterialCommunityIcons
-              style={{ marginRight: 4 }}
-              name="timer-sand"
-              size={18}
-              color={Colors.text}
-            />
-            <Text style={styles.features}>{t("age")}:</Text>
+        <View style={{ padding: 3 }}>
+          <View style={[styles.containerIconText, { marginTop: 10 }]}>
+            <View style={styles.containerHorizontal}>
+              <MaterialCommunityIcons
+                style={{ marginRight: 4 }}
+                name="timer-sand"
+                size={vw(5)}
+                color={Colors.text}
+              />
+              <Text style={styles.features}>{t("age")}</Text>
+            </View>
+            <Text style={styles.textNumber}>{data.edad}</Text>
           </View>
-          <Text style={styles.textNumber}>{data.age}</Text>
-        </View>
-        <View style={styles.containerIconText}>
-          <View style={styles.containerHorizontal}>
-            <MaterialCommunityIcons
-              style={{ marginRight: 4 }}
-              name="solar-panel"
-              size={18}
-              color={Colors.text}
-            />
-            <Text style={styles.features}>{t("solar")}:</Text>
+          <View style={styles.containerIconText}>
+            <View style={styles.containerHorizontal}>
+              <MaterialCommunityIcons
+                style={{ marginRight: 4 }}
+                name="solar-panel"
+                size={vw(5)}
+                color={Colors.text}
+              />
+              <Text style={styles.features}>{t("solar")}:</Text>
+            </View>
+            <Text style={styles.textNumber}>{setNumber(data.solares)}</Text>
           </View>
-          <Text style={styles.textNumber}>{data.solares}</Text>
-        </View>
-        <View style={styles.containerIconText}>
-          <View style={styles.containerHorizontal}>
-            <MaterialCommunityIcons
-              style={{ marginRight: 4 }}
-              name="signal-distance-variant"
-              size={18}
-              color={Colors.text}
-            />
-            <Text style={styles.features}>{t("hectares")}:</Text>
+          <View style={styles.containerIconText}>
+            <View style={styles.containerHorizontal}>
+              <MaterialCommunityIcons
+                style={{ marginRight: 4 }}
+                name="signal-distance-variant"
+                size={vw(5)}
+                color={Colors.text}
+              />
+              <Text style={styles.features}>{t("hectares")}:</Text>
+            </View>
+            <Text style={styles.textNumber}>{setNumber(data.hectareas)}</Text>
           </View>
-          <Text style={styles.textNumber}>{data.hectareas}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-            <Text style={styles.subDescribcion}>{t("totalPlant")}:</Text>
-          </View>
-          <View>
-            <Text style={styles.textNumber}>{data.totalPlant}</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Image source={jima} style={styles.iconJima} resizeMode="contain" />
-            <Text style={styles.subDescribcion}>{t("avaiblePlants")}:</Text>
-          </View>
-          <View>
-            <Text style={styles.avaibleText}>{data.avaiblePlants}</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={styles.containerHorizontal}>
-            <MaterialCommunityIcons
-              style={{ marginRight: 4 }}
-              name="coins"
-              size={18}
-              color={Colors.text}
-            />
-            <Text style={styles.subDescribcion}>{t("price")}:</Text>
-          </View>
-          <Text
-            style={[
-              styles.subDescribcion,
-              {
-                textTransform: "uppercase",
-                letterSpacing: 0.6,
-              },
-            ]}
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              justifyContent: "space-between",
+            }}
           >
-            ${data.price} {t("coin")}
-          </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={jima}
+                style={styles.iconJima}
+                resizeMode="contain"
+              />
+              <Text style={styles.subDescribcion}>{t("totalPlant")}:</Text>
+            </View>
+            <View>
+              <Text style={styles.textNumber}>{data.total_planta}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={jima}
+                style={styles.iconJima}
+                resizeMode="contain"
+              />
+              <Text style={styles.subDescribcion}>{t("avaiblePlants")}:</Text>
+            </View>
+            <View>
+              <Text style={styles.avaibleText}>{data.plantasDisponibles}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={styles.containerHorizontal}>
+              <MaterialCommunityIcons
+                style={{ marginRight: 4 }}
+                name="coins"
+                size={vw(5)}
+                color={Colors.text}
+              />
+              <Text style={styles.subDescribcion}>{t("price")}:</Text>
+            </View>
+            <Text
+              style={[
+                styles.subDescribcion,
+                {
+                  textTransform: "uppercase",
+                  letterSpacing: 0.6,
+                },
+              ]}
+            >
+              ${setNumber(data.precio)} {t("coin")}
+            </Text>
+          </View>
         </View>
       </View>
-      <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.cardButton}>
-          <Text style={styles.textButton}>{textButton}</Text>
-        </TouchableOpacity>
-      </View>
+      {comprobarBoton()}
     </View>
   );
 }
@@ -150,7 +217,7 @@ const styles = StyleSheet.create({
   },
   previewMap: {
     width: "100%",
-    height: 250,
+    height: 190,
   },
   containerTitle: {
     flexDirection: "row",
@@ -172,7 +239,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   title: {
-    fontSize: 22,
+    fontSize: vw(4.8),
     letterSpacing: 0.6,
     color: Colors.text,
     textAlign: "center",
@@ -187,13 +254,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   features: {
-    fontSize: 18,
+    fontSize: vw(4),
     marginRight: 4,
     color: Colors.text,
     letterSpacing: 0.6,
   },
   textNumber: {
-    fontSize: 18,
+    fontSize: vw(4),
     color: Colors.text,
     letterSpacing: 0.6,
   },
@@ -207,12 +274,12 @@ const styles = StyleSheet.create({
   },
   subDescribcion: {
     letterSpacing: 0.6,
-    fontSize: 18,
+    fontSize: vw(4),
     color: Colors.text,
   },
   avaibleText: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: vw(4),
     color: Colors.chi,
     letterSpacing: 0.6,
   },
@@ -220,10 +287,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.chi,
     alignItems: "center",
     justifyContent: "center",
-    height: 28,
-    borderRadius: 10,
-    width: "93%",
-    marginBottom: 10,
+    height: 30,
+    width: "100%",
     elevation: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
@@ -235,10 +300,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textButton: {
-    fontSize: 18,
+    fontSize: vw(4.3),
     color: Colors.white,
     fontWeight: "bold",
-    letterSpacing: 0.8,
+    letterSpacing: 0.6,
   },
 });
 

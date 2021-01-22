@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Dimensions, ScrollView } from "react-native";
 import { Table, Row } from "react-native-table-component";
+import { vh, vw } from "react-native-css-vh-vw";
 
 // resource
 import { t } from "../../config/locales";
@@ -36,7 +37,7 @@ function Plant() {
 
   return (
     <>
-      <StatusBalance />
+      {/* <StatusBalance /> */}
       <View style={styles.containerGraphic}>
         <Text style={styles.graphicTitle}>
           Crecimiento saldo en plantas por predio
@@ -49,7 +50,7 @@ function Plant() {
         <ScrollView horizontal={true} persistentScrollbar={true}>
           <View style={{ marginBottom: 10 }}>
             <Table
-              borderStyle={{ borderWidth: 2, borderColor: Colors.liteGray }}
+              borderStyle={{ borderWidth: 1, borderColor: Colors.liteGray }}
             >
               <Row
                 data={state.tableHead}
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
   graphicTitle: {
     marginBottom: 10,
     padding: 10,
-    fontSize: 18,
+    fontSize: vw(4),
+    marginTop: 5,
     color: Colors.text,
     letterSpacing: 0.6,
     textAlign: "center",
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     marginTop: 15,
     marginBottom: 10,
+    borderRadius: 15,
   },
   header: {
     height: 50,
@@ -111,13 +114,13 @@ const styles = StyleSheet.create({
   textHeader: {
     textAlign: "center",
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(4.3),
     letterSpacing: 0.8,
   },
   textTable: {
     textAlign: "center",
     color: Colors.text,
-    fontSize: 17,
+    fontSize: vw(4),
     letterSpacing: 0.6,
   },
   dataWrapper: {

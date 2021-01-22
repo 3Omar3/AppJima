@@ -1,31 +1,31 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { vh, vw } from "react-native-css-vh-vw";
-import Spinner from "react-native-loading-spinner-overlay";
+import { StyleSheet, View } from "react-native";
+import LottieView from "lottie-react-native";
 
 // resource
 import Colors from "../config/colors";
-import { t } from "../config/locales";
 
-function Loading({ loading }) {
+// animation
+const loader = require("../assets/animation/loader.json");
+
+function Loading({ loading = false, styleContainer }) {
+  if (!loading) return null;
+
   return (
-    <Spinner
-      visible={loading}
-      textContent={t("loading")}
-      textStyle={styles.spinnerTextStyle}
-    />
+    <View style={[styles.overlay, styleContainer]}>
+      <LottieView source={loader} autoPlay loop />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  spinnerTextStyle: {
-    backgroundColor: Colors.white,
-    borderRadius: 10,
-    padding: 10,
-    height: "6.8%",
-    letterSpacing: 0.6,
-    color: Colors.text,
-    fontSize: vw(5),
+  overlay: {
+    position: "absolute",
+    backgroundColor: Colors.black,
+    height: "100%",
+    width: "100%",
+    zIndex: 1,
+    opacity: 0.5,
   },
 });
 

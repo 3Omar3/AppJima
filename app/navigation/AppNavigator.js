@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StatusBar,
   Text,
@@ -7,202 +7,259 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
+import { vh, vw } from "react-native-css-vh-vw";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Menu, Provider, TouchableRipple } from "react-native-paper";
-// import { createStackNavigator } from "@react-navigation/stack";
+import * as ScreenOrientation from "expo-screen-orientation";
+import RNPickerSelect from "react-native-picker-select";
 
 // Screens
 import HomeScreen from "../screen/HomeScreen";
-import PurchaseScreen from "../screen/PurchaseScreen";
 import SaleScreen from "../screen/SaleScreen";
 import SimulationScreen from "../screen/SimulationScreen";
 import ReportScreen from "../screen/ReportScreen";
 import NewsScreen from "../screen/NewsScreen";
+import FeedPurchaseNavigator from "./FeedPurchaseNavigator";
 
-// resource
+// Resource
 import Colors from "../config/colors";
-import { t } from "../config/locales";
+import { changeLaguage, t } from "../config/locales";
 
-// images
+// API
+import useAuth from "../auth/useAuth";
+import modelApi from "../api/model";
+
+// Images
 const logo = require("../assets/png/blanco.png");
 
-// component
+// Component
+import Loading from "../components/Loading";
 const Tab = createMaterialTopTabNavigator();
-// const Stack = createStackNavigator();
 
-const AppNavigator = () => {
-  const [visible, setVisible] = React.useState(false);
+// Screen orientation
+ScreenOrientation.unlockAsync();
 
+const AppNavigator = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const { logOut } = useAuth(); // logout
+  const [data, setData] = useState({}); // data info
+  const [ready, setReady] = useState(false);
+
+  // menu
+  const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor={Colors.secondary} />
-      <Provider>
-        <View style={styles.topLayer}>
-          <Image source={logo} resizeMode="contain" style={styles.logo} />
-          <View style={styles.contentTop}>
-            <View style={{ alignItems: "center" }}>
-              <Text style={styles.textTitle}>$112.00 {t("coin")}</Text>
-              <Text style={styles.textSub}>{t("pricePerPlant")}</Text>
-            </View>
-            <View style={styles.rightPrice}>
-              <Text style={styles.textTitle}>$27.00 {t("coin")}</Text>
-              <Text style={styles.textSub}>{t("pricePerKg")}</Text>
-            </View>
-            <Menu
-              visible={visible}
-              onDismiss={closeMenu}
-              statusBarHeight={0}
-              anchor={
-                <MaterialCommunityIcons
-                  style={styles.btnMenu}
-                  name="dots-vertical"
-                  size={25}
-                  color={Colors.white}
-                  onPress={openMenu}
-                />
-              }
-            >
-              <TouchableRipple
-                style={styles.containerButton}
-                onPress={() => {}}
-              >
-                <View style={styles.containerFunding}>
-                  <MaterialIcons
-                    style={{ marginRight: 3 }}
-                    name="attach-money"
-                    size={20}
-                    color={Colors.green}
+  // load data
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function loadData() {
+    const res = await modelApi.getData();
+    setData(res.data);
+    setReady(true);
+  }
+
+  if (!ready)
+    return (
+      <Loading
+        styleContainer={{ backgroundColor: Colors.white, opacity: 1 }}
+        loading={true}
+      />
+    );
+  else
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar backgroundColor={Colors.secondary} />
+        <Loading loading={loading} />
+        <Provider>
+          <View style={styles.topLayer}>
+            <Image source={logo} resizeMode="contain" style={styles.logo} />
+            <View style={styles.contentTop}>
+              <View style={{ alignItems: "center" }}>
+                <Text style={styles.textTitle}>
+                  ${Number.parseFloat(data.precios.plant).toFixed(2)}{" "}
+                  {t("coin")}
+                </Text>
+                <Text style={styles.textSub}>{t("pricePerPlant")}</Text>
+              </View>
+              <View style={styles.rightPrice}>
+                <Text style={styles.textTitle}>
+                  ${Number.parseFloat(data.precios.kg).toFixed(2)} {t("coin")}
+                </Text>
+                <Text style={styles.textSub}>{t("pricePerKg")}</Text>
+              </View>
+              <Menu
+                visible={visible}
+                onDismiss={closeMenu}
+                statusBarHeight={0}
+                anchor={
+                  <MaterialCommunityIcons
+                    style={styles.btnMenu}
+                    name="dots-vertical"
+                    size={vh(1.8) + vw(3.5)}
+                    color={Colors.white}
+                    onPress={openMenu}
                   />
-                  <Text style={styles.textButton}>{t("funding")}</Text>
-                </View>
-              </TouchableRipple>
-              <Menu.Item
-                onPress={() => {}}
-                title={t("profile")}
-                titleStyle={{ color: Colors.text }}
-              />
-              <Menu.Item
-                onPress={() => {}}
-                title={t("retirementsAcconts")}
-                titleStyle={{ color: Colors.text }}
-              />
-              <Menu.Item
-                onPress={() => {}}
-                title={t("account")}
-                titleStyle={{ color: Colors.text }}
-              />
-              <Menu.Item
-                onPress={() => {}}
-                title={t("settings")}
-                titleStyle={{ color: Colors.text }}
-              />
-              <Menu.Item
-                onPress={() => {}}
-                title={t("logout")}
-                titleStyle={{ color: Colors.text }}
-              />
-            </Menu>
+                }
+              >
+                <TouchableRipple
+                  style={styles.containerButton}
+                  onPress={() => {}}
+                >
+                  <View style={styles.containerFunding}>
+                    <MaterialIcons
+                      style={{ marginRight: 3 }}
+                      name="attach-money"
+                      size={20}
+                      color={Colors.green}
+                    />
+                    <Text style={styles.textButton}>{t("funding")}</Text>
+                  </View>
+                </TouchableRipple>
+                <Menu.Item
+                  onPress={() => navigation.navigate("Profile")}
+                  title={t("profile")}
+                  titleStyle={{ color: Colors.text }}
+                />
+                <RNPickerSelect
+                  placeholder={{}}
+                  onValueChange={(value) => {
+                    if (value == 0) return;
+                    changeLaguage(value);
+                  }}
+                  style={pickerSelect}
+                  Icon={() => {
+                    return (
+                      <MaterialCommunityIcons
+                        name="chevron-down"
+                        size={vh(3.5)}
+                        color={Colors.gray}
+                        style={{ marginTop: "40%", marginRight: 10 }}
+                      />
+                    );
+                  }}
+                  items={[
+                    { label: t("labelLanguage"), value: 0 },
+                    { label: t("spanish"), value: "es" },
+                    { label: t("english"), value: "en" },
+                  ]}
+                  useNativeAndroidPickerStyle={false}
+                />
+                <Menu.Item
+                  onPress={() => logOut()}
+                  title={t("logout")}
+                  titleStyle={{ color: Colors.text }}
+                />
+              </Menu>
+            </View>
           </View>
-        </View>
-        <Tab.Navigator
-          initialRouteName={t("home")}
-          tabBarOptions={{
-            showIcon: true,
-            showLabel: false,
-            iconStyle: { alignItems: "center" },
-            activeTintColor: Colors.white,
-            inactiveTintColor: Colors.shadow,
-            indicatorStyle: { backgroundColor: Colors.white },
-            style: { backgroundColor: Colors.primary },
-          }}
-        >
-          <Tab.Screen
-            name={t("home")}
-            component={HomeScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home" size={20} color={color} />
-              ),
+          <Tab.Navigator
+            initialRouteName={t("home")}
+            tabBarOptions={{
+              showIcon: true,
+              showLabel: false,
+              iconStyle: { alignItems: "center" },
+              activeTintColor: Colors.white,
+              inactiveTintColor: Colors.shadow,
+              indicatorStyle: { backgroundColor: Colors.white },
+              style: { backgroundColor: Colors.primary },
             }}
-          />
-          <Tab.Screen
-            name={t("purchase")}
-            component={PurchaseScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="cart" size={20} color={color} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name={t("sale")}
-            component={SaleScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="currency-usd"
-                  size={20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name={t("simulation")}
-            component={SimulationScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="scale-balance"
-                  size={20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name={t("report")}
-            component={ReportScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="chart-pie"
-                  size={20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name={t("news")}
-            component={NewsScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="newspaper"
-                  size={20}
-                  color={color}
-                />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </Provider>
-    </SafeAreaView>
-  );
+          >
+            <Tab.Screen
+              name={t("home")}
+              component={HomeScreen}
+              initialParams={{ data }}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="home"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name={t("purchase")}
+              component={FeedPurchaseNavigator}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="cart"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name={t("sale")}
+              component={SaleScreen}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="currency-usd"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name={t("simulation")}
+              component={SimulationScreen}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="scale-balance"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+            {/* <Tab.Screen
+              name={t("report")}
+              component={ReportScreen}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="chart-pie"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            /> */}
+            <Tab.Screen
+              name={t("news")}
+              component={NewsScreen}
+              options={{
+                tabBarIcon: ({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="newspaper"
+                    size={vh(2) + vw(2)}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        </Provider>
+      </SafeAreaView>
+    );
 };
 
 const styles = StyleSheet.create({
   topLayer: {
     paddingTop: 5,
     flexDirection: "row",
-    backgroundColor: Colors.primary, // #1F1E2E
+    backgroundColor: Colors.primary,
     alignItems: "center",
-    height: 50, // pensar
+    height: vh(6.5) + vw(2),
   },
   contentTop: {
     flexDirection: "row",
@@ -210,20 +267,22 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   logo: {
-    height: 65,
-    width: 85,
+    top: 1.1,
+    height: vh(10),
+    width: vw(22.5),
     marginLeft: 15,
   },
   textTitle: {
     color: Colors.white,
-    fontSize: 12,
+    fontSize: vh(1.1) + vw(1),
     fontWeight: "bold",
     textTransform: "uppercase",
   },
   textSub: {
     color: Colors.white,
-    fontSize: 11,
+    fontSize: vh(1) + vw(1),
     fontWeight: "bold",
+    letterSpacing: 0.6,
   },
   rightPrice: {
     alignItems: "center",
@@ -249,6 +308,23 @@ const styles = StyleSheet.create({
   containerFunding: {
     flexDirection: "row",
     alignItems: "center",
+  },
+});
+
+const pickerSelect = StyleSheet.create({
+  inputIOS: {
+    color: Colors.text,
+    fontSize: 16.2,
+    paddingLeft: 16,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  inputAndroid: {
+    color: Colors.text,
+    fontSize: 16.2,
+    paddingLeft: 16,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 

@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 function KeyScroll({ children }) {
   return (
     <KeyboardAwareScrollView
-      extraScrollHeight={50}
       enableOnAndroid={true}
       keyboardShouldPersistTaps="handled"
     >
