@@ -42,9 +42,9 @@ function TableApp({
               return (
                 <MaterialCommunityIcons
                   name="chevron-down"
-                  size={vh(3.5)}
+                  size={25}
                   color={Colors.gray}
-                  style={{ marginTop: "16%", marginRight: 2 }}
+                  style={{ top: 2, marginLeft: 4, marginRight: 2 }}
                 />
               );
             }}

@@ -92,15 +92,7 @@ function ConfirmPurchase({ navigation, route }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            padding: 20,
-            paddingTop: 25,
-            margin: 20,
-            borderRadius: 15,
-          }}
-        >
+        <View style={styles.card}>
           <Text style={styles.txtTitle}>{data.nombre}</Text>
           <View style={{ marginHorizontal: 10, marginTop: 10 }}>
             <View style={styles.containerHorizontal}>
@@ -211,6 +203,13 @@ function ConfirmPurchase({ navigation, route }) {
 
 // default styles
 const styles = StyleSheet.create({
+  card: {
+    backgroundColor: Colors.white,
+    padding: 20,
+    paddingTop: 25,
+    margin: 20,
+    borderRadius: 15,
+  },
   containerHorizontal: {
     flexDirection: "row",
     justifyContent: "space-between",

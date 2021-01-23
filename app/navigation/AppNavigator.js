@@ -20,7 +20,7 @@ import SaleScreen from "../screen/SaleScreen";
 import SimulationScreen from "../screen/SimulationScreen";
 import ReportScreen from "../screen/ReportScreen";
 import NewsScreen from "../screen/NewsScreen";
-import FeedPurchaseNavigator from "./FeedPurchaseNavigator";
+import PurchaseScreen from "../screen/PurchaseScreen";
 
 // Resource
 import Colors from "../config/colors";
@@ -39,6 +39,7 @@ const Tab = createMaterialTopTabNavigator();
 
 // Screen orientation
 ScreenOrientation.unlockAsync();
+ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL);
 
 const AppNavigator = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -107,13 +108,14 @@ const AppNavigator = ({ navigation }) => {
               >
                 <TouchableRipple
                   style={styles.containerButton}
-                  onPress={() => {}}
+                  onPress={() => {
+                    navigation.navigate("Funding");
+                  }}
                 >
                   <View style={styles.containerFunding}>
                     <MaterialIcons
-                      style={{ marginRight: 3 }}
                       name="attach-money"
-                      size={20}
+                      size={18.5}
                       color={Colors.green}
                     />
                     <Text style={styles.textButton}>{t("funding")}</Text>
@@ -135,9 +137,9 @@ const AppNavigator = ({ navigation }) => {
                     return (
                       <MaterialCommunityIcons
                         name="chevron-down"
-                        size={vh(3.5)}
+                        size={25}
                         color={Colors.gray}
-                        style={{ marginTop: "40%", marginRight: 10 }}
+                        style={{ top: 12, marginLeft: 4, marginRight: 10 }}
                       />
                     );
                   }}
@@ -184,7 +186,7 @@ const AppNavigator = ({ navigation }) => {
             />
             <Tab.Screen
               name={t("purchase")}
-              component={FeedPurchaseNavigator}
+              component={PurchaseScreen}
               options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
