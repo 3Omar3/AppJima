@@ -6,7 +6,6 @@ import * as Yup from "yup"; // validacion
 import {
   StyleSheet,
   View,
-  SafeAreaView,
   StatusBar,
   Image,
   ImageBackground,
@@ -77,7 +76,7 @@ function RegisterScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.background}>
+    <View style={styles.background}>
       <Loading loading={loading} />
       <ImageBackground source={background} style={styles.imgBackground}>
         <KeyScroll>
@@ -213,7 +212,7 @@ function RegisterScreen({ navigation }) {
         </KeyScroll>
       </ImageBackground>
       <StatusBar hidden={true} />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
   logo: {
     height: vw(31),
     width: vw(76),
-    marginTop: 20,
+    marginTop: Platform.OS === "ios" ? 50 : 20,
     marginBottom: 5,
   },
   textError: {

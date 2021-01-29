@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 import * as Facebook from "expo-facebook"; // faceboock api
 import * as Google from "expo-google-app-auth"; // google api
+import Constants from "expo-constants";
 
 // source
 import { t } from "../config/locales";
@@ -82,14 +83,12 @@ export default Login = ({ setLoading, setLoginFailed }) => {
   // login Facebook
   async function facebook() {
     try {
-      setLoading(true);
-      await Facebook.initializeAsync("380315140060022"); // must be erase the key when upload the app, because its already declared in app.json
+      await Facebook.initializeAsync(Constants.manifest.facebookAppId); // must be erase the key when upload the app, because its already declared in app.json
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile", "email"],
       });
 
       if (type !== "success") {
-        setLoading(false);
         return { cancelled: true };
       }
 
@@ -112,9 +111,7 @@ export default Login = ({ setLoading, setLoginFailed }) => {
 
       // registro y login
       register(info, t("errorLogFacebook"));
-      setLoading(false);
     } catch ({ message }) {
-      setLoading(false);
       Alert.alert("Facebook Login Error", message);
     }
   }

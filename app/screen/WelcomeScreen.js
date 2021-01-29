@@ -8,7 +8,6 @@ import Colors from "../config/colors";
 
 // components
 import Button from "../components/Button";
-import ScreenScroll from "../components/ScreenScroll";
 import Routes from "../navigation/routes";
 
 // images
@@ -16,7 +15,7 @@ const logo = require("../assets/png/Logo.png");
 
 function WelcomeScreen({ navigation }) {
   return (
-    <ScreenScroll justify={"flex-end"}>
+    <View style={styles.container}>
       <Image style={styles.logo} resizeMode="contain" source={logo} />
       <View style={styles.containerWelcome}>
         <Text style={styles.title}>{t("welcome")}</Text>
@@ -25,19 +24,24 @@ function WelcomeScreen({ navigation }) {
       <Button
         title={t("get started")}
         onPress={() => navigation.navigate(Routes.LOGIN)}
-        styleContainer={{ height: 45 }}
+        styleContainer={styles.button}
       />
       <StatusBar hidden={true} />
-    </ScreenScroll>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   logo: {
-    height: vh(22),
-    width: vw(72),
+    height: vh(20),
+    width: vw(70),
     position: "absolute",
-    top: 10,
+    top: 20,
   },
   containerWelcome: {
     position: "absolute",
@@ -47,20 +51,25 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: vw(5.5),
-    letterSpacing: 2,
+    letterSpacing: 0.6,
     marginBottom: vh(2.2),
     fontWeight: "bold",
     color: Colors.text,
   },
   text: {
     fontSize: vw(5),
-    letterSpacing: 0.8,
+    letterSpacing: 0.6,
     textAlign: "center",
     lineHeight: vh(5.5),
-    fontWeight: "200",
-    marginLeft: "10%",
-    marginRight: "10%",
+    marginLeft: vw(10.5),
+    marginRight: vw(10.5),
     color: Colors.text,
+  },
+  button: {
+    height: vh(5.5),
+    width: "65%",
+    marginBottom: vh(6),
+    borderRadius: 50,
   },
 });
 

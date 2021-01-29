@@ -25,13 +25,13 @@ import Loading from "../components/Loading";
 
 // predios images
 const images = {
-  predio1: require("../assets/ImagenesTerrenos/1.png"),
-  predio2: require("../assets/ImagenesTerrenos/2.png"),
-  predio3: require("../assets/ImagenesTerrenos/3.png"),
-  predio4: require("../assets/ImagenesTerrenos/4.png"),
-  predio6: require("../assets/ImagenesTerrenos/6.png"),
-  predio7: require("../assets/ImagenesTerrenos/7.png"),
-  predio9: require("../assets/ImagenesTerrenos/9.png"),
+  predio1: require("../assets/terrenos/1.png"),
+  predio2: require("../assets/terrenos/2.png"),
+  predio3: require("../assets/terrenos/3.png"),
+  predio4: require("../assets/terrenos/4.png"),
+  predio6: require("../assets/terrenos/6.png"),
+  predio7: require("../assets/terrenos/7.png"),
+  predio9: require("../assets/terrenos/9.png"),
 };
 
 function SaleScreen({ navigation }) {

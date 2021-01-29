@@ -113,7 +113,10 @@ function ConfirmPurchase({ navigation, route }) {
           <View style={{ alignItems: "center", marginBottom: 15 }}>
             <TableApp
               title={t("discount table")}
-              styleTitle={{ fontSize: vw(4), fontWeight: "normal" }}
+              styleTitle={{
+                fontSize: vw(4),
+                fontWeight: "normal",
+              }}
               config={configTable}
               showPicker={false}
               data={dataTable}
@@ -121,6 +124,7 @@ function ConfirmPurchase({ navigation, route }) {
             />
           </View>
           <Spinner
+            styleText={{ fontSize: vw(3.8), textAlign: "center" }}
             text={t("plants to buy")}
             icon="flower-outline"
             config={{
@@ -138,6 +142,7 @@ function ConfirmPurchase({ navigation, route }) {
             }}
           />
           <Spinner
+            styleText={{ fontSize: vw(3.8), textAlign: "center", marginTop: 5 }}
             text={t("money to invest")}
             config={{
               step: 1,

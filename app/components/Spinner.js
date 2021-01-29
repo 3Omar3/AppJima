@@ -9,6 +9,7 @@ import Colors from "../config/colors";
 
 function Spinner({
   text,
+  styleText,
   config,
   buttonSize = vw(5),
   icon,
@@ -18,7 +19,7 @@ function Spinner({
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>{text}</Text>
+        <Text style={[styles.text, styleText]}>{text}</Text>
         <InputSpinner
           prepend={
             <View style={styles.icon}>

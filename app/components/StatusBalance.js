@@ -31,10 +31,10 @@ function StatusBalance({ data }) {
     <>
       <View style={styles.containerStatus}>
         <View style={[styles.status, { marginRight: 15 }]}>
-          <View style={{ padding: 5 }}>
+          <View style={{ margin: vw(1.5) }}>
             <MaterialCommunityIcons
               name={"coins"}
-              size={vw(13.5)}
+              size={vw(13)}
               color={Colors.chi}
             />
           </View>
@@ -42,10 +42,10 @@ function StatusBalance({ data }) {
           <Text style={styles.statusSubTile}>{t("balance")}</Text>
         </View>
         <View style={styles.status}>
-          <View style={{ padding: 5 }}>
+          <View style={{ margin: vw(1.5) }}>
             <MaterialCommunityIcons
               name="bank-outline"
-              size={vw(13.5)}
+              size={vw(13)}
               color={Colors.chi}
             />
           </View>
@@ -54,17 +54,17 @@ function StatusBalance({ data }) {
         </View>
       </View>
       <View style={styles.statusFull}>
-        <View style={{ padding: 5 }}>
+        <View style={{ margin: vw(1.5) }}>
           <MaterialCommunityIcons
             name={"seed-outline"}
-            size={vw(13.5)}
+            size={vw(13)}
             color={Colors.chi}
           />
         </View>
         <Text style={styles.statusTitle}>${balance.total_saldo_planta}</Text>
         <View style={{ width: 200, alignItems: "center" }}>
           <Text style={[styles.statusSubTile]}>
-            {t("quantity")} {balance.total_planta}
+            {t("quantity")}: {balance.total_planta}
           </Text>
           <Text style={styles.statusSubTile}>{t("balancePlants")}</Text>
         </View>
@@ -78,14 +78,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: vh(1.5),
   },
   status: {
     alignItems: "center",
     flex: 1,
     backgroundColor: Colors.white,
     borderRadius: 15,
-    padding: 15,
+    padding: vw(4.2),
   },
   statusFull: {
     alignItems: "center",

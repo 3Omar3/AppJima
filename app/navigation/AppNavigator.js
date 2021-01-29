@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  StatusBar,
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { StatusBar, Text, View, Image, StyleSheet } from "react-native";
 import { vh, vw } from "react-native-css-vh-vw";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Menu, Provider, TouchableRipple } from "react-native-paper";
-import * as ScreenOrientation from "expo-screen-orientation";
 import RNPickerSelect from "react-native-picker-select";
 
 // Screens
@@ -36,10 +28,6 @@ const logo = require("../assets/png/blanco.png");
 // Component
 import Loading from "../components/Loading";
 const Tab = createMaterialTopTabNavigator();
-
-// Screen orientation
-ScreenOrientation.unlockAsync();
-ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.ALL);
 
 const AppNavigator = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -72,8 +60,8 @@ const AppNavigator = ({ navigation }) => {
     );
   else
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar backgroundColor={Colors.secondary} />
+      <View style={{ flex: 1 }}>
+        <StatusBar backgroundColor={Colors.primary} />
         <Loading loading={loading} />
         <Provider>
           <View style={styles.topLayer}>
@@ -100,7 +88,7 @@ const AppNavigator = ({ navigation }) => {
                   <MaterialCommunityIcons
                     style={styles.btnMenu}
                     name="dots-vertical"
-                    size={vh(1.8) + vw(3.5)}
+                    size={13 + vw(3.5)}
                     color={Colors.white}
                     onPress={openMenu}
                   />
@@ -115,7 +103,7 @@ const AppNavigator = ({ navigation }) => {
                   <View style={styles.containerFunding}>
                     <MaterialIcons
                       name="attach-money"
-                      size={18.5}
+                      size={18}
                       color={Colors.green}
                     />
                     <Text style={styles.textButton}>{t("funding")}</Text>
@@ -137,9 +125,9 @@ const AppNavigator = ({ navigation }) => {
                     return (
                       <MaterialCommunityIcons
                         name="chevron-down"
-                        size={25}
+                        size={22}
                         color={Colors.gray}
-                        style={{ top: 12, marginLeft: 4, marginRight: 10 }}
+                        style={{ top: 4, marginLeft: 4, marginRight: 2 }}
                       />
                     );
                   }}
@@ -178,7 +166,7 @@ const AppNavigator = ({ navigation }) => {
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
                     name="home"
-                    size={vh(2) + vw(2)}
+                    size={2 + vw(5)}
                     color={color}
                   />
                 ),
@@ -190,8 +178,8 @@ const AppNavigator = ({ navigation }) => {
               options={{
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
-                    name="cart"
-                    size={vh(2) + vw(2)}
+                    name="shopping"
+                    size={2 + vw(4.8)}
                     color={color}
                   />
                 ),
@@ -204,7 +192,7 @@ const AppNavigator = ({ navigation }) => {
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
                     name="currency-usd"
-                    size={vh(2) + vw(2)}
+                    size={2 + vw(5)}
                     color={color}
                   />
                 ),
@@ -217,7 +205,7 @@ const AppNavigator = ({ navigation }) => {
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
                     name="scale-balance"
-                    size={vh(2) + vw(2)}
+                    size={2 + vw(4.8)}
                     color={color}
                   />
                 ),
@@ -230,7 +218,7 @@ const AppNavigator = ({ navigation }) => {
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
                     name="chart-pie"
-                    size={vh(2) + vw(2)}
+                      size={2 + vw(4.8)}
                     color={color}
                   />
                 ),
@@ -243,7 +231,7 @@ const AppNavigator = ({ navigation }) => {
                 tabBarIcon: ({ color, size }) => (
                   <MaterialCommunityIcons
                     name="newspaper"
-                    size={vh(2) + vw(2)}
+                    size={2 + vw(4.8)}
                     color={color}
                   />
                 ),
@@ -251,38 +239,38 @@ const AppNavigator = ({ navigation }) => {
             />
           </Tab.Navigator>
         </Provider>
-      </SafeAreaView>
+      </View>
     );
 };
 
 const styles = StyleSheet.create({
   topLayer: {
-    paddingTop: 5,
+    paddingTop: Platform.OS === "ios" ? 45 : 5,
+    height: Platform.OS === "ios" ? 85 : 35,
     flexDirection: "row",
     backgroundColor: Colors.primary,
     alignItems: "center",
-    height: vh(6.5) + vw(2),
   },
   contentTop: {
-    flexDirection: "row",
     flex: 1,
+    flexDirection: "row",
     justifyContent: "flex-end",
   },
   logo: {
     top: 1.1,
-    height: vh(10),
-    width: vw(22.5),
+    height: 40,
+    width: vw(20),
     marginLeft: 15,
   },
   textTitle: {
     color: Colors.white,
-    fontSize: vh(1.1) + vw(1),
+    fontSize: 2 + vw(2.5),
     fontWeight: "bold",
     textTransform: "uppercase",
   },
   textSub: {
     color: Colors.white,
-    fontSize: vh(1) + vw(1),
+    fontSize: vw(2.8),
     fontWeight: "bold",
     letterSpacing: 0.6,
   },

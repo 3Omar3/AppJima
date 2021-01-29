@@ -31,6 +31,7 @@ import { t } from "../config/locales";
 import Colors from "../config/colors";
 import Routes from "../navigation/routes";
 import Login from "../controllers/Login";
+import { Platform } from "react-native";
 
 // Images
 const background = require("../assets/png/background.png");
@@ -54,7 +55,7 @@ function LoginScreen({ navigation }) {
   const [dialogVisible, setDialogVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.background}>
+    <View style={styles.background}>
       <Loading loading={loading} />
       <ImageBackground
         source={background}
@@ -77,7 +78,7 @@ function LoginScreen({ navigation }) {
                 />
                 <FormField
                   name="email"
-                  placeholder={t("user")}
+                  placeholder={t("email")}
                   autoCapitalize="none"
                   autoCorrect={false}
                   autoCompleteType="email"
@@ -151,7 +152,7 @@ function LoginScreen({ navigation }) {
         </KeyScroll>
       </ImageBackground>
       <StatusBar hidden={true} />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   logo: {
     height: vw(31),
     width: vw(76),
-    marginTop: 20,
+    marginTop: Platform.OS === "ios" ? 50 : 20,
     marginBottom: 5,
   },
   container: {

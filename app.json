@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "facebookScheme": "fb380315140060022",
-    "facebookAppId": "380315140060022",
     "facebookDisplayName": "JIMA",
+    "facebookAppId": "380315140060022",
     "icon": "./app/assets/icon.png",
     "splash": {
       "image": "./app/assets/splash.png",
@@ -21,14 +21,16 @@
     ],
     "ios": {
       "bundleIdentifier": "com.omarnuel.Jima",
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "usesIcloudStorage": true
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
     "android": {
-      "package": "com.omarnuel.Jima"
+      "package": "com.omarnuel.Jima",
+      "versionCode": 1
     },
-    "description": ""
+    "description": "jima-application"
   }
 }

@@ -42,9 +42,9 @@ function TableApp({
               return (
                 <MaterialCommunityIcons
                   name="chevron-down"
-                  size={25}
+                  size={22}
                   color={Colors.gray}
-                  style={{ top: 2, marginLeft: 4, marginRight: 2 }}
+                  style={{ top: 4, marginLeft: 4, marginRight: 2 }}
                 />
               );
             }}
@@ -207,15 +207,15 @@ const styles = StyleSheet.create({
     width: vw(41),
   },
   containerSelector: {
-    alignSelf: "flex-end",
+    alignSelf: "center",
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.liteGray,
     borderRadius: 10,
     height: 35,
     justifyContent: "center",
-    marginTop: 15,
-    marginBottom: 5,
+    marginTop: 20,
+    marginBottom: 10,
   },
 
   // table

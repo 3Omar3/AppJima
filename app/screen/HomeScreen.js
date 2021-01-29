@@ -165,8 +165,8 @@ function HomeScreen({ route }) {
           <View style={styles.containerGraphic}>
             <PieChart
               data={dataBalance}
-              width={vw(38)}
-              height={vh(22)}
+              width={vw(36)}
+              height={vh(21.8)}
               chartConfig={{
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -174,7 +174,7 @@ function HomeScreen({ route }) {
               accessor="population"
               backgroundColor="transparent"
               hasLegend={false}
-              paddingLeft={vw(8.5)}
+              paddingLeft={vw(8.8)}
             />
           </View>
           <View style={{ marginTop: 10 }}>
@@ -184,7 +184,7 @@ function HomeScreen({ route }) {
                 color={Colors.liteGray}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>{balance.plants}</Text>
+              <Text style={styles.textNumber}>${balance.plants}</Text>
             </View>
             <View style={[styles.containerDot, { marginBottom: 5 }]}>
               <RadioText
@@ -192,7 +192,7 @@ function HomeScreen({ route }) {
                 color={Colors.chi}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>{balance.sale}</Text>
+              <Text style={styles.textNumber}>${balance.sale}</Text>
             </View>
             <View style={styles.containerDot}>
               <RadioText
@@ -200,7 +200,7 @@ function HomeScreen({ route }) {
                 color={"#909090"}
                 styleText={styles.radioText}
               />
-              <Text style={styles.textNumber}>{balance.total}</Text>
+              <Text style={styles.textNumber}>${balance.total}</Text>
             </View>
           </View>
         </View>
@@ -212,8 +212,8 @@ function HomeScreen({ route }) {
           <View style={styles.containerGraphic}>
             <PieChart
               data={dataProjection}
-              width={vw(38)}
-              height={vh(22)}
+              width={vw(36)}
+              height={vh(21.3)}
               chartConfig={{
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -221,7 +221,7 @@ function HomeScreen({ route }) {
               accessor="population"
               backgroundColor="transparent"
               hasLegend={false}
-              paddingLeft={vw(9)}
+              paddingLeft={vw(8.8)}
             />
           </View>
           <View style={{ marginTop: 5 }}>
@@ -312,8 +312,8 @@ const styles = StyleSheet.create({
   // graphic
   containerGraphic: {
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 5,
+    marginTop: vh(2),
+    marginBottom: vh(1),
   },
   containerDot: {
     flexDirection: "row",
