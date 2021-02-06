@@ -13,5 +13,6 @@
 
 ## INICIAR EL PROYECTO
 
-- npm start
-- si no puedes iniciar la app trata de actualizar nodejs, npm upgrade
+si no puedes iniciar trata de actualizar nodejs, npm upgrade
+- npm run dev
+- npm run start
